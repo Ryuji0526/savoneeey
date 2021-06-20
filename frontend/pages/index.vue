@@ -97,7 +97,7 @@ export default {
   },
   computed: {
     user() {
-      return this.$auth.user.data
+      return this.$auth.user
     },
     loggedIn() {
       return this.$auth.loggedIn
