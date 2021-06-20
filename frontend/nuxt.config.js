@@ -19,7 +19,43 @@ export default {
 
   buildModules: ['@nuxtjs/eslint-module', '@nuxtjs/vuetify'],
 
-  modules: ['@nuxtjs/axios'],
+  modules: ['@nuxtjs/axios', '@nuxtjs/auth'],
+
+  plugins: [{ src: '~/plugins/axios.js', ssr: false }],
+
+  axios: {
+    baseURL: 'http://localhost:5000',
+  },
+
+  auth: {
+    redirect: {
+      login: '/users/login',
+      logout: '/',
+      callback: false,
+      home: '/users/account',
+    },
+    strategies: {
+      local: {
+        endpoints: {
+          login: {
+            url: '/api/v1/auth/sign_in',
+            method: 'post',
+            propertyName: 'token',
+          },
+          logout: false,
+          user: {
+            url: '/api/v1/auth/sessions',
+            method: 'get',
+            propertyName: false,
+          },
+        },
+      },
+    },
+  },
+
+  router: {
+    middleware: ['auth'],
+  },
 
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
