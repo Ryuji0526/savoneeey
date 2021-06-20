@@ -2,6 +2,11 @@
   <v-row justify="center" align="center">
     <v-col cols="12" sm="8" md="6">
       <div class="text-center">
+        <no-ssr>
+          <p>loggedIn: {{ $auth.loggedIn }}</p>
+          <p v-if="loggedIn">name: {{ user.name }}</p>
+          <p v-if="loggedIn">email: {{ user.email }}</p>
+        </no-ssr>
         <logo />
         <vuetify-logo />
       </div>
@@ -85,9 +90,18 @@ import Logo from '~/components/Logo.vue'
 import VuetifyLogo from '~/components/VuetifyLogo.vue'
 
 export default {
+  auth: false,
   components: {
     Logo,
     VuetifyLogo,
+  },
+  computed: {
+    user() {
+      return this.$auth.user.data
+    },
+    loggedIn() {
+      return this.$auth.loggedIn
+    },
   },
 }
 </script>
