@@ -1,0 +1,104 @@
+require:
+  - rubocop-airbnb
+
+AllCops:
+  Exclude:
+    - 'db/**/*'
+    - 'config/**/*'
+    - 'script/**/*'
+    - 'node_modules/**/*'
+    - 'bin/*'
+    - 'Gemfile'
+    - 'vendor/**/*'
+    - '.git/**/*'
+
+Bundler/OrderedGems:
+  Exclude:
+    - 'Gemfile'
+
+Layout/EmptyLines:
+  Exclude:
+    - 'db/seeds.rb'
+
+Layout/EmptyLinesAroundBlockBody:
+  Exclude:
+    - 'db/schema.rb'
+
+Layout/SpaceInsideArrayLiteralBrackets:
+  Exclude:
+    - 'config/environments/production.rb'
+
+Lint/NonDeterministicRequireOrder:
+  Exclude:
+    - 'config/application.rb'
+
+Lint/UnusedBlockArgument:
+  Exclude:
+    - 'config/application.rb'
+
+Naming/VariableNumber:
+  Exclude:
+    - 'config/routes.rb'
+
+Style/AsciiComments:
+  Exclude:
+    - 'spec/**/*'
+
+Style/BlockComments:
+  Exclude:
+    - 'spec/spec_helper.rb'
+
+Style/StringConcatenation:
+  Exclude:
+  - 'spec/**/*'
+
+Style/Documentation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/GlobalStdStream:
+  Exclude:
+    - 'config/environments/production.rb'
+
+Style/HashSyntax:
+  Enabled: false
+
+Style/MixinUsage:
+  Exclude:
+    - 'bin/setup'
+    - 'bin/update'
+
+Style/NumericLiterals:
+  Exclude:
+    - 'db/schema.rb'
+
+Style/RedundantBegin:
+  Exclude:
+    - 'bin/yarn'
+
+Style/RedundantFetchBlock:
+  Exclude:
+    - 'config/puma.rb'
+
+Style/StderrPuts:
+  Exclude:
+    - 'bin/yarn'
+
+Style/StringLiterals:
+  Enabled: false
+
+Style/SymbolArray:
+  EnforcedStyle: brackets
+
+Style/TrailingCommaInArrayLiteral:
+  Exclude:
+    - 'db/seeds/potepan_suggest.rb'
+
+Style/WordArray:
+  EnforcedStyle: percent
+  MinSize: 5
+
+Layout/LineLength:
+  Max: 163
