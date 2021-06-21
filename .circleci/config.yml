@@ -72,6 +72,10 @@ jobs:
           command: bundle exec rails db:create db:migrate
           working_directory: ~/repo/backend
       - run:
+          name: Create database
+          command: bundle exec rails db:migrate
+          working_directory: ~/repo/backend
+      - run:
           name: Create directory to store test results
           command: mkdir /tmp/test-results
           working_directory: ~/repo/backend
