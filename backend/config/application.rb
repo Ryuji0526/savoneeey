@@ -19,12 +19,11 @@ module App
   class Application < Rails::Application
     config.load_defaults 6.1
     config.api_only = true
-
     config.generators do |g|
       g.test_framework :rspec,
-      view_specs: false,
+      view_spacs: false,
       helper_specs: false,
-      routing_specs: false,
+      routing_specs: false
     end
   end
 end
