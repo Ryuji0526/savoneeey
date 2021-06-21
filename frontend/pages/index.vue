@@ -2,11 +2,11 @@
   <v-row justify="center" align="center">
     <v-col cols="12" sm="8" md="6">
       <div class="text-center">
-        <no-ssr>
+        <client-only>
           <p>loggedIn: {{ $auth.loggedIn }}</p>
           <p v-if="loggedIn">name: {{ user.name }}</p>
           <p v-if="loggedIn">email: {{ user.email }}</p>
-        </no-ssr>
+        </client-only>
         <logo />
         <vuetify-logo />
       </div>
@@ -97,7 +97,7 @@ export default {
   },
   computed: {
     user() {
-      return this.$auth.user.data
+      return this.$auth.user
     },
     loggedIn() {
       return this.$auth.loggedIn
