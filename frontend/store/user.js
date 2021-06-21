@@ -1,5 +1,6 @@
 export const actions = {
   signUp({ commit }, Data) {
+    console.log('Data' + Data)
     this.$axios
       .post('/api/v1/auth', Data)
       .then((res) => {
