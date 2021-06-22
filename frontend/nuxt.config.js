@@ -28,7 +28,10 @@ export default {
   plugins: [{ src: '~/plugins/axios.js', ssr: false }],
 
   axios: {
-    baseURL: process.env.NODE_ENV === "production" ? process.env.BASE_URL : 'http://localhost:5000',
+    baseURL:
+      process.env.NODE_ENV === 'production'
+        ? process.env.BASE_URL
+        : 'http://localhost:5000',
   },
 
   auth: {

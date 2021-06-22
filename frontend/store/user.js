@@ -1,6 +1,5 @@
 export const actions = {
   signUp({ commit }, Data) {
-    console.log(Data)
     this.$axios
       .post('/api/v1/auth', Data)
       .then((res) => {
@@ -15,7 +14,6 @@ export const actions = {
           })
           .then((res) => {
             console.log('登録&&ログイン成功')
-            console.log(this.$auth.user)
             console.log(res)
             this.$router.push('/')
             return res
