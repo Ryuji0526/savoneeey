@@ -8,9 +8,14 @@
         <v-card-text>
           <v-form ref="form" lazy-validation>
             <v-text-field
+              v-model="user.name"
+              prepend-icon="mdi-email"
+              label="名前"
+            />
+            <v-text-field
               v-model="user.email"
               prepend-icon="mdi-email"
-              label="新しいメールアドレス"
+              label="メールアドレス"
             />
             <v-text-field
               v-model="user.password"
@@ -40,8 +45,9 @@ export default {
   data() {
     return {
       user: {
+        name: this.$auth.user.name,
+        email: this.$auth.user.email,
         password: '',
-        email: '',
       },
     }
   },
