@@ -65,7 +65,6 @@ export default {
       signUp: 'user/signUp',
     }),
     registerUser() {
-      console.log(this.user)
       this.signUp(this.user)
     },
   },
