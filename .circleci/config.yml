@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs:
+  aws-ecr: circleci/aws-ecr@6.12.2
+
 executors:
   backend:
     docker:
@@ -132,6 +135,31 @@ jobs:
           command: yarn lint
           working_directory: ~/repo/frontend
 
+  build_and_push_image_backend:
+    machine:
+      image: ubuntu-1604:201903-01
+    steps:
+      - checkout
+      - aws-ecr/build-and-push-image:
+          account-url: AWS_ACCOUNT_URL
+          repo: "savoneeey-backend"
+          region: AWS_REGION
+          tag: "${CIRCLE_SHA1}"
+          path: ./backend/
+
+  build_and_push_image_frontend:
+    machine:
+      image: ubuntu-1604:201903-01
+    steps:
+      - checkout
+      - aws-ecr/build-and-push-image:
+          account-url: AWS_ACCOUNT_URL
+          repo: "savoneeey-frontend"
+          region: AWS_REGION
+          tag: "${CIRCLE_SHA1}"
+          path: ./frontend/
+
+
 workflows:
   version: 2.1
   build:
@@ -140,3 +168,18 @@ workflows:
       - rubocop
       - test_frontend
       - lint
+      - build_and_push_image_backend:
+          requires:
+            - test_backend
+            - rubocop
+            - test_frontend
+            - lint
+          filters:
+            branches:
+              only: main
+      - build_and_push_image_frontend:
+          requires:
+            - build_and_push_image_backend
+          filters:
+            branches:
+              only: main
