@@ -60,7 +60,6 @@ commands:
           name: Install yarn
           command: yarn install
           working_directory: ~/repo/frontend
-
 jobs:
   test_backend:
     executor:
@@ -98,7 +97,6 @@ jobs:
           destination: test-results
       - store_artifacts:
           path: /home/circleci/repo/tmp/screenshots
-
   rubocop:
     executor:
       name: backend
@@ -111,7 +109,6 @@ jobs:
           name: Rubocop
           command: bundle exec rubocop --require rubocop-airbnb
           working_directory: ~/repo/backend
-
   test_frontend:
     executor:
       name: frontend
@@ -124,7 +121,6 @@ jobs:
           name: Jest test
           command: yarn test
           working_directory: ~/repo/frontend
-
   lint:
     executor:
       name: frontend
@@ -137,7 +133,6 @@ jobs:
           name: Lint
           command: yarn lint
           working_directory: ~/repo/frontend
-
   build_and_push_image_backend:
     machine:
       image: ubuntu-1604:201903-01
@@ -149,7 +144,6 @@ jobs:
           region: AWS_REGION
           tag: "${CIRCLE_SHA1}"
           path: ./backend/
-
   build_and_push_image_frontend:
     machine:
       image: ubuntu-1604:201903-01
@@ -157,11 +151,10 @@ jobs:
       - checkout
       - aws-ecr/build-and-push-image:
           account-url: AWS_ACCOUNT_URL
-          repo: "savoneeey_frontend"
+          repo: "savoney_frontend"
           region: AWS_REGION
           tag: "${CIRCLE_SHA1}"
           path: ./frontend/
-
 
 workflows:
   version: 2.1
