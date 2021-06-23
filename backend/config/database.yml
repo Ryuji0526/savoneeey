@@ -10,7 +10,7 @@ development:
   database: app_development
 test:
   <<: *default
-  host: <%= ENV['DB_HOST'] || '127.0.0.1' %>
+  host: <%= ENV['DB_HOST'] || 'db' %>
   database: app_test
 production:
   <<: *default
