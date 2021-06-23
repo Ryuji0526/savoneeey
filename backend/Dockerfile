@@ -12,9 +12,22 @@ ADD Gemfile.lock /app/Gemfile.lock
 RUN apt-get update -qq && \
   apt-get install -y build-essential \
   libpq-dev \
-  sudo
+  sudo \
+  nginx
 
 RUN gem install bundler
 RUN bundle install
 
 ADD . /app
+RUN mkdir -p tmp/sockets
+RUN mkdir tmp/pids
+
+RUN groupadd nginx
+RUN useradd -g nginx nginx
+ADD nginx/nginx.conf /etc/nginx/nginx.conf
+
+EXPOSE 80
+
+RUN chmod +x /app/entrypoint.sh
+
+CMD ["/app/entrypoint.sh"]

@@ -4,7 +4,7 @@ export const actions = {
       .post('/api/v1/auth', Data)
       .then((res) => {
         console.log('新規登録成功')
-        console.log(this.$auth.user)
+        console.log(res)
         this.$auth
           .loginWith('local', {
             data: {
