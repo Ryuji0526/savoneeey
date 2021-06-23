@@ -10,6 +10,7 @@ ADD yarn.lock /app/yarn.lock
 
 RUN apt-get update -y && \
   apt-get upgrade -y && \
+  yarn install && \
   yarn global add ejs && \
   yarn global add nuxt &&\
   yarn global add create-nuxt-app
