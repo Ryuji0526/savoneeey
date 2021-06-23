@@ -5,6 +5,7 @@ Rails.application.routes.draw do
       namespace :auth do
         resources :sessions, only: [:index]
       end
+      get :health_check, to: 'health_check#index'
     end
   end
 end

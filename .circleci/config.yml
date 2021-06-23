@@ -69,11 +69,11 @@ jobs:
       - back_save_cache
       - run:
           name: Create database
-          command: bundle exec rails db:create db:migrate
+          command: bundle exec rails db:create RAILS_ENV=test
           working_directory: ~/repo/backend
       - run:
-          name: Create database
-          command: bundle exec rails db:migrate
+          name: Migrate database
+          command: bundle exec rails db:migrate RAILS_ENV=test
           working_directory: ~/repo/backend
       - run:
           name: Create directory to store test results

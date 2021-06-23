@@ -15,6 +15,10 @@ export default {
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
 
+  devServer: {
+    disableHostCheck: true,
+  },
+
   components: true,
 
   buildModules: ['@nuxtjs/eslint-module', '@nuxtjs/vuetify'],
@@ -24,7 +28,10 @@ export default {
   plugins: [{ src: '~/plugins/axios.js', ssr: false }],
 
   axios: {
-    baseURL: 'http://localhost:5000',
+    baseURL:
+      process.env.NODE_ENV === 'production'
+        ? process.env.BASE_URL
+        : 'http://localhost:5000',
   },
 
   auth: {
