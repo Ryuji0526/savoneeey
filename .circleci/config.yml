@@ -10,7 +10,6 @@ executors:
         environment:
           RAILS_ENV: test
           DB_HOST: 127.0.0.1
-          DB_USER: root
       - image: circleci/mysql:5.7.30
     working_directory: ~/repo
   frontend:
@@ -71,6 +70,9 @@ jobs:
       - back_restore_cache
       - bundle_install
       - back_save_cache
+      - run:
+          name: DB の待機
+          command: dockerize -wait tcp://localhost:3306 -timeout 1m
       - run:
           name: Create database
           command: bundle exec rails db:create RAILS_ENV=test
