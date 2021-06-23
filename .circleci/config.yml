@@ -145,7 +145,7 @@ jobs:
       - checkout
       - aws-ecr/build-and-push-image:
           account-url: AWS_ACCOUNT_URL
-          repo: "savoneeey-backend"
+          repo: "savoneeey_backend"
           region: AWS_REGION
           tag: "${CIRCLE_SHA1}"
           path: ./backend/
@@ -157,7 +157,7 @@ jobs:
       - checkout
       - aws-ecr/build-and-push-image:
           account-url: AWS_ACCOUNT_URL
-          repo: "savoneeey-frontend"
+          repo: "savoneeey_frontend"
           region: AWS_REGION
           tag: "${CIRCLE_SHA1}"
           path: ./frontend/
