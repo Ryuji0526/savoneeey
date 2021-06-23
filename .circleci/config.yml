@@ -68,6 +68,9 @@ jobs:
       - bundle_install
       - back_save_cache
       - run:
+          name: Decode dotenv file
+          command: echo $ENV_FILE | base64 --decode > .env
+      - run:
           name: Create database
           command: bundle exec rails db:create RAILS_ENV=test
           working_directory: ~/repo/backend
