@@ -1,7 +1,8 @@
 version: 2.1
 
 orbs:
-  aws-ecr: circleci/aws-ecr@6.12.2
+  aws-ecr: circleci/aws-ecr@7.0.0
+  aws-ecs: circleci/aws-ecs@2.2.1
 
 executors:
   backend:
@@ -176,6 +177,26 @@ workflows:
       - build_and_push_image_frontend:
           requires:
             - build_and_push_image_backend
+          filters:
+            branches:
+              only: master
+      - aws-ecs/deploy-service-update:
+          requires:
+            - build_and_push_image_frontend
+          family: "savoneeey-task-backend"
+          service-name: "savoneeey-service-backend"
+          cluster-name: "savoneeey-cluster-back"
+          container-image-name-updates: "container=savoneeey-container-backend,tag=${CIRCLE_SHA1}"
+          filters:
+            branches:
+              only: master
+      - aws-ecs/deploy-service-update:
+          requires:
+            - build_and_push_image_frontend
+          family: "savoneeey-task-frontend"
+          service-name: "savoneeey-service-frontend"
+          cluster-name: "savoneeey-cluster-front"
+          container-image-name-updates: "container=savoneeey-container-frontend,tag=${CIRCLE_SHA1}"
           filters:
             branches:
               only: master

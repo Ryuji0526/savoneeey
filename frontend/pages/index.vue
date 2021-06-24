@@ -3,6 +3,7 @@
     <v-col cols="12" sm="8" md="6">
       <div class="text-center">
         <client-only>
+          <p>デプロイ成功</p>
           <p>loggedIn: {{ $auth.loggedIn }}</p>
           <p v-if="loggedIn">name: {{ user.name }}</p>
           <p v-if="loggedIn">email: {{ user.email }}</p>
