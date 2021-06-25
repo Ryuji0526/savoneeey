@@ -1,10 +1,8 @@
 export const actions = {
-  signUp({ commit }, Data) {
+  signUp({ dispatch }, Data) {
     this.$axios
       .post('/api/v1/auth', Data)
       .then((res) => {
-        console.log('新規登録成功')
-        console.log(res)
         this.$auth
           .loginWith('local', {
             data: {
@@ -13,8 +11,16 @@ export const actions = {
             },
           })
           .then((res) => {
-            console.log('登録&&ログイン成功')
-            console.log(res)
+            dispatch(
+              'message/showFlashMessage',
+              {
+                content: '新規登録しました。ようこそsavoneeyへ！',
+                type: 'success',
+              },
+              {
+                root: true,
+              }
+            )
             this.$router.push('/')
             return res
           })

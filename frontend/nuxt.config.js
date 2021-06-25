@@ -2,7 +2,7 @@ import colors from 'vuetify/es5/util/colors'
 
 export default {
   head: {
-    titleTemplate: '%s - app',
+    titleTemplate: '%s - savoneeey',
     title: 'app',
     htmlAttrs: {
       lang: 'ja',
@@ -67,9 +67,9 @@ export default {
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
     theme: {
-      dark: true,
+      dark: false,
       themes: {
-        dark: {
+        light: {
           primary: colors.blue.darken2,
           accent: colors.grey.darken3,
           secondary: colors.amber.darken3,
