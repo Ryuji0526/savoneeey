@@ -1,20 +1,11 @@
 <template>
   <v-card width="400px" class="mx-auto mt-15 py-7 rounded-xl" elevation="10">
     <v-card-title>
-      <h1 class="mx-auto text-h6 font-weight-bold">まずは登録から</h1>
+      <h1 class="mx-auto text-h6 font-weight-bold">ログイン</h1>
     </v-card-title>
     <v-card-text class="px-12">
       <validation-observer ref="observer" v-slot="{ invalid }">
         <v-form ref="form">
-          <validation-provider v-slot="{ errors }" name="名前" rules="required">
-            <v-text-field
-              v-model="user.name"
-              prepend-icon="mdi-account"
-              label="名前"
-              :error-messages="errors"
-              clearable
-            />
-          </validation-provider>
           <validation-provider
             v-slot="{ errors }"
             name="メールアドレス"
@@ -31,34 +22,16 @@
           <validation-provider
             v-slot="{ errors }"
             name="パスワード"
-            rules="required|min:6"
-            vid="confirmation"
+            rules="required"
           >
             <v-text-field
               v-model="user.password"
-              :type="show ? 'text' : 'password'"
+              type="password"
               prepend-icon="mdi-lock"
-              :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
-              label="パスワード (6文字以上)"
+              append-icon="mdi-eye-off"
+              label="パスワード"
               :error-messages="errors"
               clearable
-              @click:append="show = !show"
-            />
-          </validation-provider>
-          <validation-provider
-            v-slot="{ errors }"
-            name="パスワード確認"
-            rules="required|confirmed:confirmation"
-          >
-            <v-text-field
-              v-model="user.password_confirmation"
-              :type="show ? 'text' : 'password'"
-              prepend-icon="mdi-lock"
-              :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
-              label="パスワード確認"
-              :error-messages="errors"
-              clearable
-              @click:append="show = !show"
             />
           </validation-provider>
           <v-card-actions>
@@ -75,9 +48,9 @@
               outlined
               block
               :disabled="invalid"
-              @click="registerUser"
+              @click="loginUser"
             >
-              登録
+              ログイン
             </v-btn>
           </v-card-actions>
         </v-form>
@@ -94,12 +67,10 @@ import {
   ValidationProvider,
   setInteractionMode,
 } from 'vee-validate'
-import { required, email, confirmed, min } from 'vee-validate/dist/rules'
+import { required, email } from 'vee-validate/dist/rules'
 
 extend('required', required)
 extend('email', email)
-extend('confirmed', confirmed)
-extend('min', min)
 
 setInteractionMode('eager')
 
@@ -111,21 +82,18 @@ export default {
   data() {
     return {
       user: {
-        name: '',
         email: '',
         password: '',
-        password_confirmation: '',
       },
-      show: false,
     }
   },
   methods: {
     ...mapActions({
-      signUp: 'user/signUp',
+      login: 'user/login',
     }),
-    registerUser() {
+    loginUser() {
       this.$refs.observer.validate().then(() => {
-        this.signUp(this.user)
+        this.login(this.user)
       })
     },
   },
