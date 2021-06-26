@@ -25,7 +25,10 @@ export default {
 
   modules: ['@nuxtjs/axios', '@nuxtjs/auth'],
 
-  plugins: [{ src: '~/plugins/axios.js', ssr: false }],
+  plugins: [
+    { src: '~/plugins/axios.js', ssr: false },
+    '~/plugins/vee-validate.js',
+  ],
 
   axios: {
     baseURL:
@@ -80,5 +83,9 @@ export default {
         },
       },
     },
+  },
+
+  build: {
+    transpile: ['vee-validate/dist/rules'],
   },
 }

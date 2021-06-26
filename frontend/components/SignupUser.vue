@@ -1,50 +1,105 @@
 <template>
-  <v-card width="400px" class="mx-auto mt-5">
+  <v-card width="400px" class="mx-auto mt-15 py-7 rounded-xl" elevation="10">
     <v-card-title>
-      <h1 class="display-1">新規登録</h1>
+      <h1 class="mx-auto text-h6 font-weight-bold">まずは登録から</h1>
     </v-card-title>
-    <v-card-text>
-      <v-form ref="form" lazy-validation>
-        <v-text-field
-          v-model="user.name"
-          prepend-icon="mdi-email"
-          label="名前"
-        />
-        <v-text-field
-          v-model="user.email"
-          prepend-icon="mdi-email"
-          label="メールアドレス"
-        />
-        <v-text-field
-          v-model="user.password"
-          prepend-icon="mdi-lock"
-          append-icon="mdi-eye-off"
-          label="パスワード"
-        />
-        <v-text-field
-          v-model="user.password_confirmation"
-          prepend-icon="mdi-lock"
-          append-icon="mdi-eye-off"
-          label="パスワード確認"
-        />
-        <v-card-actions>
-          <v-btn
-            color="light-green darken-1"
-            class="white--text"
-            @click="registerUser"
+    <v-card-text class="px-12">
+      <validation-observer ref="observer" v-slot="{ invalid }">
+        <v-form ref="form">
+          <validation-provider v-slot="{ errors }" name="名前" rules="required">
+            <v-text-field
+              v-model="user.name"
+              prepend-icon="mdi-account"
+              label="名前"
+              :error-messages="errors"
+            />
+          </validation-provider>
+          <validation-provider
+            v-slot="{ errors }"
+            name="メールアドレス"
+            rules="required|email"
           >
-            新規登録
-          </v-btn>
-        </v-card-actions>
-      </v-form>
+            <v-text-field
+              v-model="user.email"
+              prepend-icon="mdi-email"
+              label="メールアドレス"
+              :error-messages="errors"
+            />
+          </validation-provider>
+          <validation-provider
+            v-slot="{ errors }"
+            name="パスワード"
+            rules="required|min:6"
+            vid="confirmation"
+          >
+            <v-text-field
+              v-model="user.password"
+              prepend-icon="mdi-lock"
+              append-icon="mdi-eye-off"
+              label="パスワード (6文字以上)"
+              :error-messages="errors"
+            />
+          </validation-provider>
+          <validation-provider
+            v-slot="{ errors }"
+            name="パスワード確認"
+            rules="required|confirmed:confirmation"
+          >
+            <v-text-field
+              v-model="user.password_confirmation"
+              prepend-icon="mdi-lock"
+              append-icon="mdi-eye-off"
+              label="パスワード確認"
+              :error-messages="errors"
+            />
+          </validation-provider>
+          <v-card-actions>
+            <v-btn
+              color="light-green darken-1"
+              class="
+                white--text
+                mx-auto
+                text-body-1
+                font-weight-bold
+                rounded-lg
+              "
+              elavation="5"
+              outlined
+              block
+              :disabled="invalid"
+              @click="registerUser"
+            >
+              登録
+            </v-btn>
+          </v-card-actions>
+        </v-form>
+      </validation-observer>
     </v-card-text>
   </v-card>
 </template>
 
 <script>
 import { mapActions } from 'vuex'
+import {
+  extend,
+  ValidationObserver,
+  ValidationProvider,
+  setInteractionMode,
+} from 'vee-validate'
+import { required, email, confirmed, min } from 'vee-validate/dist/rules'
+
+extend('required', required)
+extend('email', email)
+extend('confirmed', confirmed)
+extend('min', min)
+
+setInteractionMode('eager')
 
 export default {
+  components: {
+    ValidationProvider,
+    ValidationObserver,
+  },
   data() {
     return {
       user: {
@@ -60,7 +115,9 @@ export default {
       signUp: 'user/signUp',
     }),
     registerUser() {
-      this.signUp(this.user)
+      this.$refs.observer.validate().then(() => {
+        this.signUp(this.user)
+      })
     },
   },
 }
