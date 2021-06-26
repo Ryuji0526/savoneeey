@@ -1,11 +1,20 @@
 <template>
   <v-card width="400px" class="mx-auto mt-15 py-7 rounded-xl" elevation="10">
     <v-card-title>
-      <h1 class="mx-auto text-h6 font-weight-bold">ログイン</h1>
+      <h1 class="mx-auto text-h6 font-weight-bold">ユーザー情報編集</h1>
     </v-card-title>
     <v-card-text class="px-12">
       <validation-observer ref="observer" v-slot="{ invalid }">
         <v-form ref="form">
+          <validation-provider v-slot="{ errors }" name="名前" rules="required">
+            <v-text-field
+              v-model="user.name"
+              prepend-icon="mdi-account"
+              label="名前"
+              :error-messages="errors"
+              clearable
+            />
+          </validation-provider>
           <validation-provider
             v-slot="{ errors }"
             name="メールアドレス"
@@ -17,22 +26,6 @@
               label="メールアドレス"
               :error-messages="errors"
               clearable
-            />
-          </validation-provider>
-          <validation-provider
-            v-slot="{ errors }"
-            name="パスワード"
-            rules="required"
-          >
-            <v-text-field
-              v-model="user.password"
-              :type="show ? 'text' : 'password'"
-              prepend-icon="mdi-lock"
-              :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
-              label="パスワード"
-              :error-messages="errors"
-              clearable
-              @click:append="show = !show"
             />
           </validation-provider>
           <v-card-actions>
@@ -49,9 +42,9 @@
               outlined
               block
               :disabled="invalid"
-              @click="loginUser"
+              @click="editUser"
             >
-              ログイン
+              登録
             </v-btn>
           </v-card-actions>
         </v-form>
@@ -83,20 +76,17 @@ export default {
   data() {
     return {
       user: {
-        email: '',
-        password: '',
+        name: this.$auth.user.name,
+        email: this.$auth.user.email,
       },
-      show: false,
     }
   },
   methods: {
     ...mapActions({
-      login: 'user/login',
+      edit: 'user/editUser',
     }),
-    loginUser() {
-      this.$refs.observer.validate().then(() => {
-        this.login(this.user)
-      })
+    editUser() {
+      this.edit(this.user)
     },
   },
 }

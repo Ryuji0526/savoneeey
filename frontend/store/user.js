@@ -2,7 +2,7 @@ export const actions = {
   signUp({ dispatch }, Data) {
     this.$axios
       .post('/api/v1/auth', Data)
-      .then((res) => {
+      .then(() => {
         this.$auth
           .loginWith('local', {
             data: {
@@ -10,7 +10,7 @@ export const actions = {
               password: Data.password,
             },
           })
-          .then((res) => {
+          .then(() => {
             dispatch(
               'message/showFlashMessage',
               {
@@ -22,7 +22,6 @@ export const actions = {
               }
             )
             this.$router.push('/')
-            console.log(res)
           })
           .catch((error) => {
             console.log(error)
@@ -50,7 +49,7 @@ export const actions = {
           password: Data.password,
         },
       })
-      .then((res) => {
+      .then(() => {
         dispatch(
           'message/showFlashMessage',
           {
@@ -62,13 +61,43 @@ export const actions = {
           }
         )
         this.$router.push('/')
-        return res
       })
       .catch((error) => {
         dispatch(
           'message/showFlashMessage',
           {
             content: 'メールアドレス、またはパスワードが違います。',
+            type: 'error',
+          },
+          {
+            root: true,
+          }
+        )
+        console.log(error)
+      })
+  },
+  editUser({ dispatch }, Data) {
+    this.$axios
+      .put('/api/v1/auth', Data)
+      .then(() => {
+        dispatch(
+          'message/showFlashMessage',
+          {
+            content: 'ユーザー情報を変更しました。',
+            type: 'success',
+          },
+          {
+            root: true,
+          }
+        )
+        this.$router.push('/')
+      })
+      .catch((error) => {
+        dispatch(
+          'message/showFlashMessage',
+          {
+            content:
+              'ユーザー情報の変更に失敗しました。もう一度登録をお願いします',
             type: 'error',
           },
           {
