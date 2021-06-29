@@ -116,7 +116,7 @@ jobs:
       - front_save_cache
       - run:
           name: Jest test
-          command: yarn test
+          command: yarn test --passWithNoTests
           working_directory: ~/repo/frontend
 
   lint:

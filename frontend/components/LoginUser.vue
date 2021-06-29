@@ -17,6 +17,7 @@
               label="メールアドレス"
               :error-messages="errors"
               clearable
+              data-testid="email"
             />
           </validation-provider>
           <validation-provider
@@ -32,6 +33,7 @@
               label="パスワード"
               :error-messages="errors"
               clearable
+              data-testid="password"
               @click:append="show = !show"
             />
           </validation-provider>
@@ -49,6 +51,7 @@
               outlined
               block
               :disabled="invalid"
+              data-testid="login"
               @click="loginUser"
             >
               ログイン
@@ -68,7 +71,7 @@ import {
   ValidationProvider,
   setInteractionMode,
 } from 'vee-validate'
-import { required, email } from 'vee-validate/dist/rules'
+import { required, email } from 'vee-validate/dist/rules.umd'
 
 extend('required', required)
 extend('email', email)

@@ -13,6 +13,7 @@
               label="名前"
               :error-messages="errors"
               clearable
+              data-testid="name"
             />
           </validation-provider>
           <validation-provider
@@ -26,6 +27,7 @@
               label="メールアドレス"
               :error-messages="errors"
               clearable
+              data-testid="email"
             />
           </validation-provider>
           <v-card-actions>
@@ -42,6 +44,7 @@
               outlined
               block
               :disabled="invalid"
+              data-testid="edit"
               @click="editUser"
             >
               登録
@@ -61,7 +64,7 @@ import {
   ValidationProvider,
   setInteractionMode,
 } from 'vee-validate'
-import { required, email } from 'vee-validate/dist/rules'
+import { required, email } from 'vee-validate/dist/rules.umd'
 
 extend('required', required)
 extend('email', email)
@@ -86,6 +89,7 @@ export default {
       edit: 'user/editUser',
     }),
     editUser() {
+      console.log(this.user)
       this.edit(this.user)
     },
   },
