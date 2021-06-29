@@ -1,4 +1,8 @@
 module.exports = {
+  transformIgnorePatterns: [
+    '/node_modules/(?!vee-validate/dist/rules)',
+    '<roodDir>/plugins/vee-validate.js',
+  ],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/$1',
     '^~/(.*)$': '<rootDir>/$1',
@@ -8,6 +12,8 @@ module.exports = {
   transform: {
     '^.+\\.js$': 'babel-jest',
     '.*\\.(vue)$': 'vue-jest',
+    'vee-validate/dist/rules': 'babel-jest',
+    'vee-validate.js': 'babel-jest',
   },
   collectCoverage: true,
   collectCoverageFrom: [

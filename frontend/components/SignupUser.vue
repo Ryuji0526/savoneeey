@@ -18,6 +18,7 @@
                 label="名前"
                 :error-messages="errors"
                 clearable
+                data-testid="name"
               />
             </validation-provider>
             <validation-provider
@@ -31,6 +32,7 @@
                 label="メールアドレス"
                 :error-messages="errors"
                 clearable
+                data-testid="email"
               />
             </validation-provider>
             <validation-provider
@@ -47,6 +49,7 @@
                 label="パスワード (6文字以上)"
                 :error-messages="errors"
                 clearable
+                data-testid="password"
                 @click:append="show = !show"
               />
             </validation-provider>
@@ -63,6 +66,7 @@
                 label="パスワード確認"
                 :error-messages="errors"
                 clearable
+                data-testid="password_confirmation"
                 @click:append="show = !show"
               />
             </validation-provider>
@@ -80,6 +84,7 @@
                 outlined
                 block
                 :disabled="invalid"
+                data-testid="sign-up"
                 @click="registerUser"
               >
                 登録
@@ -100,7 +105,7 @@ import {
   ValidationProvider,
   setInteractionMode,
 } from 'vee-validate'
-import { required, email, confirmed, min } from 'vee-validate/dist/rules'
+import { required, email, confirmed, min } from 'vee-validate/dist/rules.umd'
 
 extend('required', required)
 extend('email', email)

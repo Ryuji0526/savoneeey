@@ -1,13 +1,13 @@
 export const actions = {
-  signUp({ dispatch }, Data) {
+  signUp({ dispatch }, user) {
     this.$axios
-      .post('/api/v1/auth', Data)
+      .post('/api/v1/auth', user)
       .then(() => {
         this.$auth
           .loginWith('local', {
             data: {
-              email: Data.email,
-              password: Data.password,
+              email: user.email,
+              password: user.password,
             },
           })
           .then(() => {
@@ -41,12 +41,12 @@ export const actions = {
         console.log(error)
       })
   },
-  login({ dispatch }, Data) {
+  login({ dispatch }, user) {
     this.$auth
       .loginWith('local', {
         data: {
-          email: Data.email,
-          password: Data.password,
+          email: user.email,
+          password: user.password,
         },
       })
       .then(() => {
@@ -76,10 +76,11 @@ export const actions = {
         console.log(error)
       })
   },
-  editUser({ dispatch }, Data) {
+  editUser({ dispatch }, user) {
     this.$axios
-      .put('/api/v1/auth', Data)
+      .put('/api/v1/auth', user)
       .then(() => {
+        console.log(user)
         dispatch(
           'flash-message/showFlashMessage',
           {
