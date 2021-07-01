@@ -1,5 +1,13 @@
 import { extend } from 'vee-validate'
-import { required, email, confirmed, min } from 'vee-validate/dist/rules'
+import {
+  required,
+  email,
+  confirmed,
+  min,
+  min_value,
+  max,
+  integer,
+} from 'vee-validate/dist/rules'
 
 extend('required', {
   ...required,
@@ -18,5 +26,20 @@ extend('confirmed', {
 
 extend('min', {
   ...min,
-  message: 'パスワードは{length}以上にしてください',
+  message: '{_field_}は{length}文字以上にしてください',
+})
+
+extend('minValue', {
+  ...min_value,
+  message: '{_field_}は0円以上にしてください。',
+})
+
+extend('max', {
+  ...max,
+  message: '{_field_}は{length}文字以下にしてください',
+})
+
+extend('integer', {
+  ...integer,
+  message: '{_field_}は0以上の整数にしてください',
 })
