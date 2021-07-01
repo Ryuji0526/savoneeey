@@ -1,6 +1,6 @@
 export const actions = {
-  signUp({ dispatch }, user) {
-    this.$axios
+  async signUp({ dispatch }, user) {
+    await this.$axios
       .post('/api/v1/auth', user)
       .then(() => {
         this.$auth

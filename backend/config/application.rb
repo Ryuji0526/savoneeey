@@ -25,5 +25,6 @@ module App
       helper_specs: false,
       routing_specs: false
     end
+    config.middleware.use ActionDispatch::Flash
   end
 end

@@ -52,6 +52,11 @@ export default {
           title: 'EditUser',
           to: '/users/edit',
         },
+        {
+          icon: 'mdi-chart-bubble',
+          title: 'MyBank',
+          to: '/my-bank',
+        },
       ],
     }
   },
