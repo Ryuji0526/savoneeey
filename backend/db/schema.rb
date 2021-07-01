@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_29_082726) do
+ActiveRecord::Schema.define(version: 2021_07_01_054821) do
+
+  create_table "account_histories", charset: "utf8mb4", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "action", null: false
+    t.integer "amount", null: false
+    t.datetime "created_at", null: false
+    t.index ["account_id", "created_at"], name: "index_account_histories_on_account_id_and_created_at"
+    t.index ["account_id"], name: "index_account_histories_on_account_id"
+  end
 
   create_table "accounts", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -21,6 +30,18 @@ ActiveRecord::Schema.define(version: 2021_06_29_082726) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_accounts_on_user_id"
+  end
+
+  create_table "trading_histories", charset: "utf8mb4", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "deposit_id"
+    t.bigint "withdrawal_id"
+    t.integer "transaction_amount", null: false
+    t.datetime "created_at", null: false
+    t.index ["created_at"], name: "index_trading_histories_on_created_at"
+    t.index ["deposit_id"], name: "index_trading_histories_on_deposit_id"
+    t.index ["user_id"], name: "index_trading_histories_on_user_id"
+    t.index ["withdrawal_id"], name: "index_trading_histories_on_withdrawal_id"
   end
 
   create_table "users", charset: "utf8mb4", force: :cascade do |t|
@@ -48,5 +69,9 @@ ActiveRecord::Schema.define(version: 2021_06_29_082726) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  add_foreign_key "account_histories", "accounts"
   add_foreign_key "accounts", "users"
+  add_foreign_key "trading_histories", "accounts", column: "deposit_id"
+  add_foreign_key "trading_histories", "accounts", column: "withdrawal_id"
+  add_foreign_key "trading_histories", "users"
 end
