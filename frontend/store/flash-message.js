@@ -1,7 +1,7 @@
-export const state = {
+export const state = () => ({
   content: '',
   type: '',
-}
+})
 
 export const getters = {
   content: (state) => state.content,

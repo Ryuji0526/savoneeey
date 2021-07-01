@@ -8,6 +8,7 @@ Rails.application.routes.draw do
         resources :sessions, only: [:index]
       end
       get :health_check, to: 'health_check#index'
+      resources :accounts, except: [:edit]
     end
   end
 end
