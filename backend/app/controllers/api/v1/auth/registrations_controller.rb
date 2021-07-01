@@ -3,6 +3,7 @@ class Api::V1::Auth::RegistrationsController < DeviseTokenAuth::RegistrationsCon
     super
     Account.create_main_account(current_api_v1_user.id)
   end
+
   private
 
   def sign_up_params

@@ -2,8 +2,8 @@ class Api::V1::AccountsController < ApplicationController
   before_action :set_account, only: [:show, :update, :destroy]
 
   def index
-      accounts = current_api_v1_user.accounts.all
-      render json: { status: :success, data: accounts }
+    accounts = current_api_v1_user.accounts.all
+    render json: { status: :success, data: accounts }
   end
 
   def show
@@ -42,6 +42,6 @@ class Api::V1::AccountsController < ApplicationController
   end
 
   def account_params
-    params.require(:account).permit(:user_id ,:name, :target_amount)
+    params.require(:account).permit(:user_id, :name, :target_amount)
   end
 end
