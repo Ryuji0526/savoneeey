@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { extend } from 'vee-validate'
 import {
   required,
@@ -43,3 +44,4 @@ extend('integer', {
   ...integer,
   message: '{_field_}は0以上の整数にしてください',
 })
+/* eslint-enable camelcase */
