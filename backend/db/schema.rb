@@ -10,13 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_01_054821) do
+ActiveRecord::Schema.define(version: 2021_07_01_142426) do
 
   create_table "account_histories", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.string "action", null: false
     t.integer "amount", null: false
     t.datetime "created_at", null: false
+    t.integer "balance", null: false
     t.index ["account_id", "created_at"], name: "index_account_histories_on_account_id_and_created_at"
     t.index ["account_id"], name: "index_account_histories_on_account_id"
   end
@@ -24,7 +25,6 @@ ActiveRecord::Schema.define(version: 2021_07_01_054821) do
   create_table "accounts", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "name", default: "", null: false
-    t.integer "balance", default: 0, null: false
     t.integer "target_amount", default: 0, null: false
     t.boolean "is_main", default: false
     t.datetime "created_at", precision: 6, null: false

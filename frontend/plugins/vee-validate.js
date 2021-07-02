@@ -44,4 +44,20 @@ extend('integer', {
   ...integer,
   message: '{_field_}は0以上の整数にしてください',
 })
+
+extend('lessThanBalance', {
+  params: ['balance', 'action'],
+  message: '残高以上の金額を出金できません。',
+  validate(value, { balance, action }) {
+    console.log(value)
+    console.log(balance)
+    console.log(action)
+    if (action === '入金' || value <= +balance) {
+      console.log(true)
+      return true
+    } else {
+      console.log(false)
+    }
+  },
+})
 /* eslint-enable camelcase */
