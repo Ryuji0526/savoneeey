@@ -45,7 +45,6 @@ export const actions = {
         commit('setAccount', account.data)
         console.log('get account')
         console.log(account.data)
-        this.$router.push('/my-bank')
       })
       .catch((error) => {
         console.log(error)
@@ -60,7 +59,7 @@ export const actions = {
         dispatch(
           'flash-message/showFlashMessage',
           {
-            content: '新規講座を開設しました',
+            content: '新規口座を開設しました',
             type: 'success',
           },
           {
@@ -69,6 +68,44 @@ export const actions = {
         )
         console.log('create new account')
         console.log(res)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  },
+  async editAccount({ dispatch }, account) {
+    await this.$axios.put(`/api/v1/accounts/${account.id}`).then((res) => {
+      console.log('edited user')
+      console.log(res)
+      dispatch(
+        'flash-message/showFlashMessage',
+        {
+          content: '口座情報を変更しました。',
+          type: 'success',
+        },
+        {
+          root: true,
+        }
+      )
+    })
+  },
+  async createTradingHistory({ dispatch }, amount) {
+    await this.$axios
+      .post('/api/v1/trading_histories', amount)
+      .then((res) => {
+        dispatch('getAccounts')
+        console.log('create trading history succeed!')
+        console.log(res)
+        dispatch(
+          'flash-message/showFlashMessage',
+          {
+            content: '出金/入金が成功しました。',
+            type: 'success',
+          },
+          {
+            root: true,
+          }
+        )
       })
       .catch((error) => {
         console.log(error)

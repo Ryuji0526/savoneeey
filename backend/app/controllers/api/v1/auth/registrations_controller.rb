@@ -1,7 +1,8 @@
 class Api::V1::Auth::RegistrationsController < DeviseTokenAuth::RegistrationsController
   def create
     super
-    Account.create_main_account(current_api_v1_user.id)
+    account = Account.first_account(current_api_v1_user.id)
+    AccountHistory.first_account_history(account)
   end
 
   private
