@@ -14,17 +14,17 @@ class Api::V1::AccountsController < ApplicationController
     account = current_api_v1_user.accounts.new(account_params)
     if account.save
       AccountHistory.first_account_history(account)
-      render json: account, status: :created
+      render json: { data: account, status: :created }
     else
-      render json: { status: :error, data: account.errors }
+      render json: { status: :error, data: account.errors }, status: :unprocessable_entity
     end
   end
 
   def update
     if @account.update(account_params)
-      render json: @account, status: :updated
+      render json: { data: @account, status: :updated }
     else
-      render json: { status: :error, data: account.errors }
+      render json: { status: :error, data: @account.errors }, status: :unprocessable_entity
     end
   end
 
@@ -32,7 +32,7 @@ class Api::V1::AccountsController < ApplicationController
     if @account.destroy
       render json: { status: :success, data: @account }
     else
-      render json: { status: :error, data: @account.errors }
+      render json: { status: :error, data: @account.errors }, status: :unprocessable_entity
     end
   end
 
