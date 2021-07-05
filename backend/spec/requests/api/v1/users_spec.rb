@@ -60,7 +60,7 @@ RSpec.describe "Api::V1::Users", type: :request do
       example "ログインできる" do
         post api_v1_user_session_path, params: {
           email: user.email,
-          password: user.password
+          password: user.password,
         }, as: :json
         expect(response.headers["uid"]).to be_present
         expect(response.headers["access-token"]).to be_present
@@ -73,7 +73,7 @@ RSpec.describe "Api::V1::Users", type: :request do
       it "ログインできない" do
         post api_v1_user_session_path, params: {
           email: "invalid@invalid.com",
-          password: user.password
+          password: user.password,
         }, as: :json
         res = JSON.parse(response.body)
         expect(res["success"]).to be_falsey
@@ -89,7 +89,7 @@ RSpec.describe "Api::V1::Users", type: :request do
       it "ログインできない" do
         post api_v1_user_session_path, params: {
           email: user.email,
-          password: "invalid"
+          password: "invalid",
         }, as: :json
         res = JSON.parse(response.body)
         expect(res["success"]).to be_falsey

@@ -3,8 +3,9 @@ require 'rails_helper'
 RSpec.describe AccountHistory, type: :model do
   let(:account) { create(:account) }
   let(:account2) { create(:account, is_main: true) }
-  let(:account_history) { create(:account_history) }
-  let(:trading_history) { create(:trading_history, withdrawal_id: account2.id) }
+  let!(:account_history) { create(:account_history, :deposit_action, account_id: account.id) }
+  let!(:account_history2) { create(:account_history, :deposit_action, account_id: account2.id) }
+  let(:trading_history) { create(:trading_history, withdrawal_id: account2.id, deposit_id: account.id) }
 
   describe "バリデーション" do
     example "正しいアクション、金額、残高があれば有効" do
@@ -112,12 +113,12 @@ RSpec.describe AccountHistory, type: :model do
         example "action=出金のAccountHistoryが1つ作成される" do
           trading_history.deposit_id = nil
           expect {
-            AccountHistory.add_history(trading_history, 2000)
+            AccountHistory.add_history(trading_history)
           }.to change(AccountHistory, :count).by(1)
           history = AccountHistory.last
           expect(history.action).to eq('出金')
           expect(history.amount).to eq(trading_history.transaction_amount * -1)
-          expect(history.balance).to eq(2000 - trading_history.transaction_amount)
+          expect(history.balance).to eq(account2.account_histories.last.balance)
         end
       end
 
@@ -125,19 +126,19 @@ RSpec.describe AccountHistory, type: :model do
         example "action=出金のAccountHistoryが1つ作成される" do
           trading_history.withdrawal_id = nil
           expect {
-            AccountHistory.add_history(trading_history, 2000)
+            AccountHistory.add_history(trading_history)
           }.to change(AccountHistory, :count).by(1)
           history = AccountHistory.last
           expect(history.action).to eq('入金')
           expect(history.amount).to eq(trading_history.transaction_amount)
-          expect(history.balance).to eq(2000 + trading_history.transaction_amount)
+          expect(history.balance).to eq(account.account_histories.last.balance)
         end
       end
 
       context "deposit_id,withdrawal_idともにnil出ない時" do
         example "AccountHistoryが2つ作成される" do
           expect {
-            AccountHistory.add_history(trading_history, 2000)
+            AccountHistory.add_history(trading_history)
           }.to change(AccountHistory, :count).by(2)
         end
       end

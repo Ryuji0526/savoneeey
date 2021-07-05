@@ -63,8 +63,6 @@ export const actions = {
       .then((res) => {
         accounts.data = res.data
         commit('setAccounts', accounts.data)
-        console.log('get accounts')
-        console.log(accounts.data)
       })
       .catch((error) => {
         console.log(error)
@@ -79,8 +77,6 @@ export const actions = {
       .then((res) => {
         account.data = res.data
         commit('setAccount', account.data)
-        console.log('get account')
-        console.log(account.data)
       })
       .catch((error) => {
         console.log(error)
@@ -102,8 +98,6 @@ export const actions = {
             root: true,
           }
         )
-        console.log('create new account')
-        console.log(res)
       })
       .catch((error) => {
         console.log(error)
@@ -111,8 +105,6 @@ export const actions = {
   },
   async editAccount({ dispatch }, account) {
     await this.$axios.put(`/api/v1/accounts/${account.id}`).then((res) => {
-      console.log('edited user')
-      console.log(res)
       dispatch(
         'flash-message/showFlashMessage',
         {
@@ -126,8 +118,6 @@ export const actions = {
     })
   },
   async createTradingHistory({ dispatch, state }) {
-    console.log(state.transaction.deposit)
-    console.log(state.transaction.withdrawal)
     await this.$axios
       .post('/api/v1/trading_histories', {
         deposit_id: state.transaction.deposit.id,
@@ -136,9 +126,6 @@ export const actions = {
       })
       .then((res) => {
         dispatch('getAccounts')
-        dispatch('clearTransaction')
-        console.log('create trading history succeed!')
-        console.log(res)
         dispatch(
           'flash-message/showFlashMessage',
           {
