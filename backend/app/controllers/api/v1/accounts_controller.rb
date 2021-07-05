@@ -2,8 +2,8 @@ class Api::V1::AccountsController < ApplicationController
   before_action :set_account, only: [:show, :update, :destroy]
 
   def index
-    accounts = current_api_v1_user.accounts.all
-    render json: { status: :success, data: accounts }
+    accounts = current_api_v1_user.accounts.all.includes(:account_histories)
+    render json: { status: :success, data: accounts.as_json(include: :account_histories) }
   end
 
   def show
@@ -13,17 +13,18 @@ class Api::V1::AccountsController < ApplicationController
   def create
     account = current_api_v1_user.accounts.new(account_params)
     if account.save
-      render json: account, status: :created
+      AccountHistory.first_account_history(account)
+      render json: { data: account, status: :created }
     else
-      render json: { status: :error, data: account.errors }
+      render json: { status: :error, data: account.errors }, status: :unprocessable_entity
     end
   end
 
   def update
     if @account.update(account_params)
-      render json: @account, status: :updated
+      render json: { data: @account, status: :updated }
     else
-      render json: { status: :error, data: account.errors }
+      render json: { status: :error, data: @account.errors }, status: :unprocessable_entity
     end
   end
 
@@ -31,7 +32,7 @@ class Api::V1::AccountsController < ApplicationController
     if @account.destroy
       render json: { status: :success, data: @account }
     else
-      render json: { status: :error, data: @account.errors }
+      render json: { status: :error, data: @account.errors }, status: :unprocessable_entity
     end
   end
 
@@ -42,6 +43,6 @@ class Api::V1::AccountsController < ApplicationController
   end
 
   def account_params
-    params.require(:account).permit(:user_id, :name, :target_amount)
+    params.require(:account).permit(:name, :target_amount)
   end
 end
