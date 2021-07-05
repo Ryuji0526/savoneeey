@@ -1,11 +1,24 @@
 export const state = () => ({
   accounts: [],
   account: {},
+  transaction: {
+    deposit: {
+      id: null,
+      name: null,
+    },
+    withdrawal: {
+      id: null,
+      name: null,
+      balance: null,
+    },
+    amount: null,
+  },
 })
 
 export const getters = {
   accounts: (state) => state.accounts,
   account: (state) => state.account,
+  transaction: (state) => state.transaction,
 }
 
 export const mutations = {
@@ -14,6 +27,29 @@ export const mutations = {
   },
   setAccount(state, account) {
     state.account = account.data
+  },
+  setDeposit(state, deposit) {
+    state.transaction.deposit = deposit
+  },
+  setWithdrawal(state, withdrawal) {
+    state.transaction.withdrawal = withdrawal
+  },
+  setAmount(state, amount) {
+    state.transaction.amount = amount
+  },
+  clearTransaction(state) {
+    state.transaction = {
+      deposit: {
+        id: null,
+        name: null,
+      },
+      withdrawal: {
+        id: null,
+        name: null,
+        balance: null,
+      },
+      amount: null,
+    }
   },
 }
 
@@ -89,11 +125,18 @@ export const actions = {
       )
     })
   },
-  async createTradingHistory({ dispatch }, amount) {
+  async createTradingHistory({ dispatch, state }) {
+    console.log(state.transaction.deposit)
+    console.log(state.transaction.withdrawal)
     await this.$axios
-      .post('/api/v1/trading_histories', amount)
+      .post('/api/v1/trading_histories', {
+        deposit_id: state.transaction.deposit.id,
+        withdrawal_id: state.transaction.withdrawal.id,
+        transaction_amount: state.transaction.amount,
+      })
       .then((res) => {
         dispatch('getAccounts')
+        dispatch('clearTransaction')
         console.log('create trading history succeed!')
         console.log(res)
         dispatch(
@@ -110,5 +153,17 @@ export const actions = {
       .catch((error) => {
         console.log(error)
       })
+  },
+  setDeposit({ commit }, deposit) {
+    commit('setDeposit', deposit)
+  },
+  setWithdrawal({ commit }, withdrawal) {
+    commit('setWithdrawal', withdrawal)
+  },
+  setAmount({ commit }, amount) {
+    commit('setAmount', amount)
+  },
+  clearTransaction({ commit }) {
+    commit('clearTransaction')
   },
 }
