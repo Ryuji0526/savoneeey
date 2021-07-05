@@ -33,7 +33,7 @@ export default {
   axios: {
     baseURL:
       process.env.NODE_ENV === 'production'
-        ? process.env.BASE_URL
+        ? 'https://backend.savoneeey.com'
         : 'http://localhost:5000',
   },
 
