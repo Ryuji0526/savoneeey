@@ -1,9 +1,22 @@
 <template>
-  <v-card max-width="300" height="200" class="cursor" @click="selectAccount">
+  <v-card
+    max-width="300"
+    height="200"
+    class="cursor"
+    :class="{ selected: isSelected }"
+    @click="selectAccount"
+  >
     <v-card-text>
       <div>{{ account.name }}</div>
       <div>{{ account.id }}</div>
-      <p>残高: {{ account.account_histories[latestNum].balance }}円</p>
+      <p>{{ account.account_histories.length }}</p>
+      <p>
+        {{
+          account.account_histories[account.account_histories.length - 1]
+            .balance
+        }}
+      </p>
+      <p>残高: {{ currentBalance }}円</p>
       <p>From:{{ transaction.withdrawal }}</p>
       <p>To:{{ transaction.deposit }}</p>
     </v-card-text>
@@ -15,7 +28,13 @@
     <v-dialog v-if="account.is_main === true" v-model="dialog1" width="500">
       <template #activator="{ on, attrs }">
         <v-card-actions>
-          <v-btn text color="teal accent-4" v-bind="attrs" v-on="on">
+          <v-btn
+            text
+            color="teal accent-4"
+            v-bind="attrs"
+            v-on="on"
+            @click="clearTransaction"
+          >
             入金/出金
           </v-btn>
         </v-card-actions>
@@ -47,7 +66,7 @@
                   required: 'required',
                   integer: 'integer',
                   lessThanBalance: {
-                    balance: account.account_histories[latestNum].balance,
+                    balance: currentBalance,
                     action: action,
                   },
                 }"
@@ -140,7 +159,12 @@
       </v-card>
     </v-dialog>
     <v-expand-transition>
-      <v-card v-if="reveal" class="v-card--reveal" style="height: 100%">
+      <v-card
+        v-if="reveal"
+        class="v-card--reveal cursor"
+        :class="{ selected: isSelected }"
+        style="height: 100%"
+      >
         <v-card-text>
           <p class="mb-0">ユーザーID:{{ account.user_id }}</p>
           <p class="mb-0">アカウントID:{{ account.id }}</p>
@@ -159,6 +183,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import anime from 'animejs/lib/anime.es.js'
 import {
   extend,
   ValidationObserver,
@@ -198,7 +223,6 @@ export default {
       reveal: false,
       dialog1: false,
       dialog2: false,
-      latestNum: this.account.account_histories.length - 1,
       actions: ['出金', '入金'],
       action: '',
       transaction_amount: 0,
@@ -208,14 +232,25 @@ export default {
     ...mapGetters({
       transaction: 'bank-account/transaction',
     }),
+    isSelected() {
+      return (
+        this.transaction.withdrawal.id === this.account.id ||
+        this.transaction.deposit.id === this.account.id
+      )
+    },
+    currentBalance() {
+      return this.account.account_histories[
+        this.account.account_histories.length - 1
+      ].balance
+    },
   },
   methods: {
     ...mapActions({
       createTradingHistory: 'bank-account/createTradingHistory',
-      getAccounts: 'bank-account/getAccounts',
       setDeposit: 'bank-account/setDeposit',
       setWithdrawal: 'bank-account/setWithdrawal',
       setAmount: 'bank-account/setAmount',
+      clearTransaction: 'bank-account/clearTransaction',
     }),
     registerTradingHistoryOnlyMain() {
       switch (this.action) {
@@ -232,13 +267,17 @@ export default {
       }
       this.setAmount(this.transaction_amount)
       this.createTradingHistory()
+      this.clearTransaction()
+      this.transaction_amount = 0
       this.dialog1 = false
-      this.getAccounts()
     },
     registerTradingHistory() {
       this.setAmount(this.transaction_amount)
       this.createTradingHistory()
+      this.clearTransaction()
+      this.transaction_amount = 0
       this.dialog2 = false
+      // this.setBalanceAnimation()
     },
     selectAccount() {
       if (this.transaction.withdrawal.id === null) {
@@ -249,7 +288,7 @@ export default {
         this.setWithdrawal({
           id: this.account.id,
           name: this.account.name,
-          balance: this.account.account_histories[this.latestNum].balance,
+          balance: this.currentBalance,
         })
       } else if (this.transaction.withdrawal.id === this.account.id) {
         this.setWithdrawal({
@@ -266,16 +305,31 @@ export default {
       }
     },
     closeDialog2() {
-      this.setWithdrawal({
-        id: null,
-        name: null,
-        balance: null,
-      })
-      this.setDeposit({
-        id: null,
-        name: null,
-      })
+      this.clearTransaction()
       this.dialog2 = false
+    },
+    setCount(val) {
+      const obj = { n: this.count }
+      anime({
+        targets: obj,
+        n: val,
+        round: 1,
+        duration: 500,
+        easing: 'linear',
+        update: () => {
+          this.count = obj.n
+        },
+      })
+    },
+    setBalanceAnimation() {
+      // if (this.transaction.withdrawal.id === this.account.id) {
+      //   this.current_balance -= Number(this.transaction_amount)
+      // }
+      // if (this.transaction.deposit.id === this.account.id) {
+      //   this.current_balance += Number(this.transaction_amount)
+      // }
+      this.transaction_amount = 0
+      this.clearTransaction()
     },
   },
 }
@@ -293,6 +347,9 @@ export default {
   &:hover {
     background: yellow;
   }
+}
+.selected {
+  border: 3px solid yellow;
 }
 p {
   margin: 0;
