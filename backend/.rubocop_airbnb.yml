@@ -2,6 +2,7 @@ require:
   - rubocop-airbnb
 
 AllCops:
+  TargetRubyVersion: 2.3
   Exclude:
     - 'db/**/*'
     - 'config/**/*'
@@ -48,9 +49,13 @@ Style/BlockComments:
   Exclude:
     - 'spec/spec_helper.rb'
 
+Style/BlockDelimiters:
+  Exclude:
+    - 'spec/**/*'
+
 Style/StringConcatenation:
   Exclude:
-  - 'spec/**/*'
+    - 'spec/**/*'
 
 Style/Documentation:
   Enabled: false

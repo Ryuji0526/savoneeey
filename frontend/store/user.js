@@ -41,8 +41,8 @@ export const actions = {
         console.log(error)
       })
   },
-  login({ dispatch }, user) {
-    this.$auth
+  async login({ dispatch }, user) {
+    await this.$auth
       .loginWith('local', {
         data: {
           email: user.email,
@@ -76,11 +76,12 @@ export const actions = {
         console.log(error)
       })
   },
-  editUser({ dispatch }, user) {
-    this.$axios
+  async editUser({ dispatch }, user) {
+    await this.$axios
       .put('/api/v1/auth', user)
-      .then(() => {
-        console.log(user)
+      .then((res) => {
+        console.log('edited user')
+        console.log(res)
         dispatch(
           'flash-message/showFlashMessage',
           {

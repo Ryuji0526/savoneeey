@@ -35,7 +35,6 @@ export default {
   methods: {
     ...mapActions({
       getAccounts: 'bank-account/getAccounts',
-      getAccount: 'bank-account/getAccount',
     }),
   },
   mounted() {

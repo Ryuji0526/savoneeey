@@ -89,7 +89,6 @@ export default {
       edit: 'user/editUser',
     }),
     editUser() {
-      console.log(this.user)
       this.edit(this.user)
     },
   },
