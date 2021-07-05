@@ -97,9 +97,7 @@ export default {
       login: 'user/login',
     }),
     loginUser() {
-      this.$refs.observer.validate().then(() => {
-        this.login(this.user)
-      })
+      this.login(this.user)
     },
   },
 }

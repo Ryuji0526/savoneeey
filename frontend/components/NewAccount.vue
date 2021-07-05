@@ -117,12 +117,10 @@ export default {
       createAccount: 'bank-account/createAccount',
     }),
     registerAccount() {
-      this.$refs.observer.validate().then(() => {
-        this.createAccount(this.account)
-        this.dialog = false
-        this.account.name = ''
-        this.account.target_amount = 10000
-      })
+      this.createAccount(this.account)
+      this.dialog = false
+      this.account.name = ''
+      this.account.target_amount = 10000
     },
   },
 }

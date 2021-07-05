@@ -17,8 +17,9 @@ class AccountHistory < ApplicationRecord
       AccountHistory.create(action: "新規", amount: 0, balance: 0, account_id: account.id)
     end
 
-    def add_history(trading_history, current_balance)
+    def add_history(trading_history)
       if !trading_history.deposit_id.nil?
+        current_balance = Account.find(trading_history.deposit_id).account_histories.last.balance
         AccountHistory.create(
           action: "入金",
           amount: trading_history.transaction_amount,
@@ -27,6 +28,7 @@ class AccountHistory < ApplicationRecord
         )
       end
       if !trading_history.withdrawal_id.nil?
+        current_balance = Account.find(trading_history.withdrawal_id).account_histories.last.balance
         AccountHistory.create(
           action: "出金",
           amount: trading_history.transaction_amount * -1,

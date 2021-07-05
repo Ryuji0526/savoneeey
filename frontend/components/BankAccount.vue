@@ -1,15 +1,18 @@
 <template>
-  <v-card max-width="300" height="200">
+  <v-card max-width="300" height="200" class="cursor" @click="selectAccount">
     <v-card-text>
       <div>{{ account.name }}</div>
+      <div>{{ account.id }}</div>
       <p>残高: {{ account.account_histories[latestNum].balance }}円</p>
+      <p>From:{{ transaction.withdrawal }}</p>
+      <p>To:{{ transaction.deposit }}</p>
     </v-card-text>
     <v-card-actions>
-      <v-btn text color="teal accent-4" @click="reveal = true">
+      <v-btn text color="teal accent-4" @click.stop="reveal = true">
         詳細を見る
       </v-btn>
     </v-card-actions>
-    <v-dialog v-if="account.is_main === true" v-model="dialog" width="500">
+    <v-dialog v-if="account.is_main === true" v-model="dialog1" width="500">
       <template #activator="{ on, attrs }">
         <v-card-actions>
           <v-btn text color="teal accent-4" v-bind="attrs" v-on="on">
@@ -50,7 +53,7 @@
                 }"
               >
                 <v-text-field
-                  v-model="amount.transaction_amount"
+                  v-model="transaction_amount"
                   label="金額"
                   :error-messages="errors"
                   clearble
@@ -59,6 +62,59 @@
                 />
               </validation-provider>
               <v-card-actions>
+                <v-btn
+                  color="light-green darken-1"
+                  class="
+                    white--text
+                    mx-auto
+                    text-body-1
+                    font-weight-bold
+                    rounded-log
+                  "
+                  elavation="5"
+                  outlined
+                  block
+                  :disabled="invalid"
+                  data-testid="register-account-history"
+                  @click="registerTradingHistoryOnlyMain"
+                >
+                  出金/入金する
+                </v-btn>
+              </v-card-actions>
+            </v-form>
+          </validation-observer>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
+    <v-dialog v-model="dialog2" persistent>
+      <v-card>
+        <v-card-title class="text-h5 grey lighten-2">出金/入金</v-card-title>
+        <v-card-text class="px-12">
+          <validation-observer ref="observer" v-slot="{ invalid }">
+            <v-form ref="form">
+              <validation-provider
+                v-slot="{ errors }"
+                name="金額"
+                :rules="{
+                  required: 'required',
+                  integer: 'integer',
+                  lessThanBalance: {
+                    balance: transaction.withdrawal.balance,
+                    action: '出金',
+                  },
+                }"
+              >
+                <v-text-field
+                  v-model="transaction_amount"
+                  label="金額"
+                  :error-messages="errors"
+                  clearble
+                  data-testid="amount"
+                  suffix="円"
+                />
+              </validation-provider>
+              <v-card-actions>
+                <v-btn @click="closeDialog2">閉じる</v-btn>
                 <v-btn
                   color="light-green darken-1"
                   class="
@@ -92,7 +148,9 @@
           <p class="mb-0">メイン?:{{ account.is_main }}</p>
         </v-card-text>
         <v-card-actions class="pt-0">
-          <v-btn text color="accent-4" @click="reveal = false"> 閉じる </v-btn>
+          <v-btn text color="accent-4" @click.stop="reveal = false">
+            閉じる
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-expand-transition>
@@ -100,7 +158,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import {
   extend,
   ValidationObserver,
@@ -138,46 +196,108 @@ export default {
   data() {
     return {
       reveal: false,
-      dialog: false,
+      dialog1: false,
+      dialog2: false,
       latestNum: this.account.account_histories.length - 1,
       actions: ['出金', '入金'],
       action: '',
-      amount: {
-        deposit_id: null,
-        withdrawal_id: null,
-        transaction_amount: 0,
-      },
+      transaction_amount: 0,
     }
+  },
+  computed: {
+    ...mapGetters({
+      transaction: 'bank-account/transaction',
+    }),
   },
   methods: {
     ...mapActions({
       createTradingHistory: 'bank-account/createTradingHistory',
       getAccounts: 'bank-account/getAccounts',
+      setDeposit: 'bank-account/setDeposit',
+      setWithdrawal: 'bank-account/setWithdrawal',
+      setAmount: 'bank-account/setAmount',
     }),
+    registerTradingHistoryOnlyMain() {
+      switch (this.action) {
+        case '出金':
+          this.setWithdrawal({
+            id: this.account.id,
+          })
+          break
+        case '入金':
+          this.setDeposit({
+            id: this.account.id,
+          })
+          break
+      }
+      this.setAmount(this.transaction_amount)
+      this.createTradingHistory()
+      this.dialog1 = false
+      this.getAccounts()
+    },
     registerTradingHistory() {
-      this.$refs.observer.validate().then(() => {
-        switch (this.action) {
-          case '出金':
-            this.amount.withdrawal_id = this.account.id
-            break
-          case '入金':
-            this.amount.deposit_id = this.account.id
-            break
-        }
-        this.createTradingHistory(this.amount)
-        this.dialog = false
-        this.getAccounts()
+      this.setAmount(this.transaction_amount)
+      this.createTradingHistory()
+      this.dialog2 = false
+    },
+    selectAccount() {
+      if (this.transaction.withdrawal.id === null) {
+        this.setDeposit({
+          id: null,
+          name: null,
+        })
+        this.setWithdrawal({
+          id: this.account.id,
+          name: this.account.name,
+          balance: this.account.account_histories[this.latestNum].balance,
+        })
+      } else if (this.transaction.withdrawal.id === this.account.id) {
+        this.setWithdrawal({
+          id: null,
+          name: null,
+          balance: null,
+        })
+      } else {
+        this.setDeposit({
+          id: this.account.id,
+          name: this.account.name,
+        })
+        this.dialog2 = true
+      }
+    },
+    closeDialog2() {
+      this.setWithdrawal({
+        id: null,
+        name: null,
+        balance: null,
       })
+      this.setDeposit({
+        id: null,
+        name: null,
+      })
+      this.dialog2 = false
     },
   },
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .v-card--reveal {
   bottom: 0;
   opacity: 1 !important;
   position: absolute;
   width: 100%;
+}
+.cursor {
+  cursor: pointer;
+  &:hover {
+    background: yellow;
+  }
+}
+p {
+  margin: 0;
+}
+div {
+  padding: 0;
 }
 </style>
