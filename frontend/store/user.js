@@ -1,26 +1,111 @@
 export const actions = {
-  signUp({ commit }, Data) {
-    this.$axios
-      .post('/api/v1/auth', Data)
-      .then((res) => {
-        console.log('新規登録成功')
-        console.log(res)
+  async signUp({ dispatch }, user) {
+    await this.$axios
+      .post('/api/v1/auth', user)
+      .then(() => {
         this.$auth
           .loginWith('local', {
             data: {
-              email: Data.email,
-              password: Data.password,
+              email: user.email,
+              password: user.password,
             },
           })
-          .then((res) => {
-            console.log('登録&&ログイン成功')
-            console.log(res)
+          .then(() => {
+            dispatch(
+              'flash-message/showFlashMessage',
+              {
+                content: '新規登録しました。ようこそsavoneeyへ！',
+                type: 'success',
+              },
+              {
+                root: true,
+              }
+            )
             this.$router.push('/')
-            return res
           })
-        return res
+          .catch((error) => {
+            console.log(error)
+          })
       })
       .catch((error) => {
+        dispatch(
+          'flash-message/showFlashMessage',
+          {
+            content: '新規登録に失敗しました。もう一度登録をお願いします。',
+            type: 'error',
+          },
+          {
+            root: true,
+          }
+        )
+        console.log(error)
+      })
+  },
+  async login({ dispatch }, user) {
+    await this.$auth
+      .loginWith('local', {
+        data: {
+          email: user.email,
+          password: user.password,
+        },
+      })
+      .then(() => {
+        dispatch(
+          'flash-message/showFlashMessage',
+          {
+            content: 'ログインしました。',
+            type: 'success',
+          },
+          {
+            root: true,
+          }
+        )
+        this.$router.push('/')
+      })
+      .catch((error) => {
+        dispatch(
+          'flash-message/showFlashMessage',
+          {
+            content: 'メールアドレス、またはパスワードが違います。',
+            type: 'error',
+          },
+          {
+            root: true,
+          }
+        )
+        console.log(error)
+      })
+  },
+  async editUser({ dispatch }, user) {
+    await this.$axios
+      .put('/api/v1/auth', user)
+      .then((res) => {
+        console.log('edited user')
+        console.log(res)
+        dispatch(
+          'flash-message/showFlashMessage',
+          {
+            content: 'ユーザー情報を変更しました。',
+            type: 'success',
+          },
+          {
+            root: true,
+          }
+        )
+        this.$router.push('/')
+      })
+      .catch((error) => {
+        dispatch(
+          'flash-message/showFlashMessage',
+          {
+            content:
+              'ユーザー情報の変更に失敗しました。もう一度登録をお願いします',
+            type: 'error',
+          },
+          {
+            root: true,
+          }
+        )
         console.log(error)
       })
   },
