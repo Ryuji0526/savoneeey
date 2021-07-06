@@ -1,6 +1,6 @@
 <template>
   <v-card
-    max-width="300"
+    max-width="400"
     height="200"
     class="cursor"
     :class="{ selected: isSelected }"
@@ -9,16 +9,7 @@
     <v-card-text>
       <div>{{ account.name }}</div>
       <div>{{ account.id }}</div>
-      <p>{{ account.account_histories.length }}</p>
-      <p>
-        {{
-          account.account_histories[account.account_histories.length - 1]
-            .balance
-        }}
-      </p>
-      <p>残高: {{ currentBalance }}円</p>
-      <p>From:{{ transaction.withdrawal }}</p>
-      <p>To:{{ transaction.deposit }}</p>
+      <div>count: ¥{{ count }}</div>
     </v-card-text>
     <v-card-actions>
       <v-btn text color="teal accent-4" @click.stop="reveal = true">
@@ -225,6 +216,8 @@ export default {
       dialog2: false,
       actions: ['出金', '入金'],
       action: '',
+      current_balance: this.account.recent_histories[0].balance,
+      count: 0,
       transaction_amount: 0,
     }
   },
@@ -239,9 +232,12 @@ export default {
       )
     },
     currentBalance() {
-      return this.account.account_histories[
-        this.account.account_histories.length - 1
-      ].balance
+      return this.account.recent_histories[0].balance
+    },
+  },
+  watch: {
+    account(newValue) {
+      this.setCount(newValue.recent_histories[0].balance)
     },
   },
   methods: {
@@ -274,10 +270,8 @@ export default {
     registerTradingHistory() {
       this.setAmount(this.transaction_amount)
       this.createTradingHistory()
-      this.clearTransaction()
+      this.closeDialog2()
       this.transaction_amount = 0
-      this.dialog2 = false
-      // this.setBalanceAnimation()
     },
     selectAccount() {
       if (this.transaction.withdrawal.id === null) {
@@ -314,23 +308,16 @@ export default {
         targets: obj,
         n: val,
         round: 1,
-        duration: 500,
+        duration: 800,
         easing: 'linear',
         update: () => {
           this.count = obj.n
         },
       })
     },
-    setBalanceAnimation() {
-      // if (this.transaction.withdrawal.id === this.account.id) {
-      //   this.current_balance -= Number(this.transaction_amount)
-      // }
-      // if (this.transaction.deposit.id === this.account.id) {
-      //   this.current_balance += Number(this.transaction_amount)
-      // }
-      this.transaction_amount = 0
-      this.clearTransaction()
-    },
+  },
+  mounted() {
+    this.setCount(this.current_balance)
   },
 }
 </script>
