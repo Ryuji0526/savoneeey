@@ -24,6 +24,7 @@ export const getters = {
 export const mutations = {
   setAccounts(state, accounts) {
     state.accounts = accounts.data
+    console.log(state.accounts)
   },
   setAccount(state, account) {
     state.account = account.data
@@ -126,16 +127,6 @@ export const actions = {
       })
       .then((res) => {
         dispatch('getAccounts')
-        dispatch(
-          'flash-message/showFlashMessage',
-          {
-            content: '出金/入金が成功しました。',
-            type: 'success',
-          },
-          {
-            root: true,
-          }
-        )
       })
       .catch((error) => {
         console.log(error)
