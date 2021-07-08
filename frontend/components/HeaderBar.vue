@@ -54,8 +54,8 @@ export default {
         },
         {
           icon: 'mdi-chart-bubble',
-          title: 'MyBank',
-          to: '/my-bank',
+          title: 'MyAccounts',
+          to: '/my-accounts',
         },
       ],
     }

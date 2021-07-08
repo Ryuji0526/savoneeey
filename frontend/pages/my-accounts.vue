@@ -4,12 +4,12 @@
       <v-row>
         <v-col v-for="(account, index) in accounts" :key="index" cols="6">
           <v-item class="mx-auto">
-            <bank-account :account="account" />
+            <account-lists :account="account" />
           </v-item>
         </v-col>
         <v-col cols="6">
           <v-item class="mx-auto">
-            <new-account />
+            <account-new />
           </v-item>
         </v-col>
       </v-row>
@@ -19,13 +19,13 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import BankAccount from '~/components/BankAccount'
-import NewAccount from '~/components/NewAccount'
+import AccountLists from '~/components/AccountLists'
+import AccountNew from '~/components/AccountNew.vue'
 
 export default {
   components: {
-    BankAccount,
-    NewAccount,
+    AccountLists,
+    AccountNew,
   },
   computed: {
     ...mapGetters({
