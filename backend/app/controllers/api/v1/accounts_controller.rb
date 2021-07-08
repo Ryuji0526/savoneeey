@@ -3,11 +3,11 @@ class Api::V1::AccountsController < ApplicationController
 
   def index
     accounts = current_api_v1_user.accounts.all.includes(:account_histories)
-    render json: { status: :success, data: accounts.as_json(methods: :recent_histories) }
+    render json: { status: :success, data: accounts.as_json(methods: :recent_histories,) }
   end
 
   def show
-    render json: { status: :success, data: @account }
+    render json: { status: :success, data: @account.as_json(methods: [:recent_histories, :weekly_accounts, :dayly_accounts, :monthly_accounts]) }
   end
 
   def create
