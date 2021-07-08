@@ -1,41 +1,53 @@
 <template>
   <v-card
-    max-width="300"
-    height="200"
-    class="cursor"
-    :class="{ selected: isSelected }"
+    max-width="400"
+    min-height="300"
+    class="mt-10"
+    :class="{ selected: isSelected, cursor: !reveal }"
     @click="selectAccount"
   >
-    <v-card-text>
-      <div>{{ account.name }}</div>
-      <div>{{ account.id }}</div>
-      <p>{{ account.account_histories.length }}</p>
-      <p>
-        {{
-          account.account_histories[account.account_histories.length - 1]
-            .balance
-        }}
+    <v-card-text class="pt-10">
+      <div class="text-h5 ml-10">- {{ account.name }} -</div>
+      <p class="text-center text-h2 mt-8 font-weight-regular">
+        {{ count | toLocaleString }}
       </p>
-      <p>残高: {{ currentBalance }}円</p>
-      <p>From:{{ transaction.withdrawal }}</p>
-      <p>To:{{ transaction.deposit }}</p>
     </v-card-text>
+    <v-progress-circular
+      v-if="account.target_amount > 0"
+      :rotate="360"
+      :size="50"
+      :value="proportion"
+      width="4"
+      class="ml-11 mt-8"
+    >
+      {{ proportion }}
+    </v-progress-circular>
     <v-card-actions>
-      <v-btn text color="teal accent-4" @click.stop="reveal = true">
-        詳細を見る
+      <v-btn
+        text
+        color="accent-4"
+        absolute
+        right
+        bottom
+        @click.stop="reveal = true"
+      >
+        詳細
+        <v-icon>mdi-arrow-bottom-right</v-icon>
       </v-btn>
     </v-card-actions>
     <v-dialog v-if="account.is_main === true" v-model="dialog1" width="500">
       <template #activator="{ on, attrs }">
         <v-card-actions>
           <v-btn
-            text
-            color="teal accent-4"
             v-bind="attrs"
+            fab
+            absolute
+            bottom
+            left
             v-on="on"
             @click="clearTransaction"
           >
-            入金/出金
+            <v-icon>mdi-plus</v-icon>
           </v-btn>
         </v-card-actions>
       </template>
@@ -161,21 +173,54 @@
     <v-expand-transition>
       <v-card
         v-if="reveal"
-        class="v-card--reveal cursor"
+        class="v-card--reveal px-3"
         :class="{ selected: isSelected }"
         style="height: 100%"
       >
-        <v-card-text>
-          <p class="mb-0">ユーザーID:{{ account.user_id }}</p>
-          <p class="mb-0">アカウントID:{{ account.id }}</p>
-          <p class="mb-0">目標金額:{{ account.target_amount }}</p>
-          <p class="mb-0">メイン?:{{ account.is_main }}</p>
-        </v-card-text>
-        <v-card-actions class="pt-0">
-          <v-btn text color="accent-4" @click.stop="reveal = false">
-            閉じる
+        <account-sparkline :account="account" />
+        <v-card-actions>
+          <v-btn
+            text
+            color="accent-4"
+            class="mt-n10"
+            @click.stop="reveal = false"
+          >
+            <v-icon dark size="25" class="mx-1">mdi-arrow-left</v-icon>
+            CLOSE
+          </v-btn>
+          <v-spacer></v-spacer>
+          <v-btn
+            text
+            color="accent-4"
+            class="mt-n10"
+            @click.stop="reveal = false"
+          >
+            MORE
+            <v-icon dark size="25" class="mx-1">mdi-arrow-right</v-icon>
           </v-btn>
         </v-card-actions>
+        <v-card-text>
+          <v-subheader
+            >目標金額<span class="mb-0 mx-auto text-h5">{{
+              account.target_amount | toLocaleString
+            }}</span></v-subheader
+          >
+          <v-divider></v-divider>
+          <v-subheader>最近の履歴</v-subheader>
+          <v-virtual-scroll
+            :items="account.recent_histories"
+            :item-height="30"
+            height="80"
+          >
+            <template #default="{ item }">
+              <v-list-item class="text-center">
+                <v-list-item-title>{{ item.created }}</v-list-item-title>
+                <v-list-item-subtitle>{{ item.action }}</v-list-item-subtitle>
+                <v-list-item-subtitle>{{ item.amount }}</v-list-item-subtitle>
+              </v-list-item>
+            </template>
+          </v-virtual-scroll>
+        </v-card-text>
       </v-card>
     </v-expand-transition>
   </v-card>
@@ -195,6 +240,7 @@ import {
   integer,
   min_value as minValue,
 } from 'vee-validate/dist/rules.umd'
+import AccountSparkline from '~/components/AccountSparkLine'
 
 extend('required', required)
 extend('integer', integer)
@@ -206,6 +252,7 @@ export default {
   components: {
     ValidationObserver,
     ValidationProvider,
+    AccountSparkline,
   },
   filters: {
     toLocaleString(value) {
@@ -225,7 +272,9 @@ export default {
       dialog2: false,
       actions: ['出金', '入金'],
       action: '',
-      transaction_amount: 0,
+      current_balance: this.account.recent_histories[0].balance,
+      count: 0,
+      transaction_amount: null,
     }
   },
   computed: {
@@ -239,9 +288,20 @@ export default {
       )
     },
     currentBalance() {
-      return this.account.account_histories[
-        this.account.account_histories.length - 1
-      ].balance
+      return this.account.recent_histories[0].balance
+    },
+    items() {
+      return this.account.recent_histories
+    },
+    proportion() {
+      return Math.round(
+        (this.currentBalance / this.account.target_amount) * 100
+      )
+    },
+  },
+  watch: {
+    account(newValue) {
+      this.setCount(newValue.recent_histories[0].balance)
     },
   },
   methods: {
@@ -274,12 +334,13 @@ export default {
     registerTradingHistory() {
       this.setAmount(this.transaction_amount)
       this.createTradingHistory()
-      this.clearTransaction()
+      this.closeDialog2()
       this.transaction_amount = 0
-      this.dialog2 = false
-      // this.setBalanceAnimation()
     },
     selectAccount() {
+      if (this.reveal === true) {
+        return
+      }
       if (this.transaction.withdrawal.id === null) {
         this.setDeposit({
           id: null,
@@ -314,23 +375,16 @@ export default {
         targets: obj,
         n: val,
         round: 1,
-        duration: 500,
+        duration: 600,
         easing: 'linear',
         update: () => {
           this.count = obj.n
         },
       })
     },
-    setBalanceAnimation() {
-      // if (this.transaction.withdrawal.id === this.account.id) {
-      //   this.current_balance -= Number(this.transaction_amount)
-      // }
-      // if (this.transaction.deposit.id === this.account.id) {
-      //   this.current_balance += Number(this.transaction_amount)
-      // }
-      this.transaction_amount = 0
-      this.clearTransaction()
-    },
+  },
+  mounted() {
+    this.setCount(this.current_balance)
   },
 }
 </script>
@@ -343,13 +397,13 @@ export default {
   width: 100%;
 }
 .cursor {
-  cursor: pointer;
   &:hover {
-    background: yellow;
+    // cursor: pointer;
+    border: 1px solid yellow;
   }
 }
 .selected {
-  border: 3px solid yellow;
+  border: 1px solid yellow;
 }
 p {
   margin: 0;
