@@ -1,5 +1,5 @@
 class Api::V1::AccountsController < ApplicationController
-  before_action :set_account, only: [:show, :update, :destroy]
+  before_action :set_account, only: [:update, :destroy]
 
   def index
     accounts = current_api_v1_user.accounts.all.includes(:account_histories)
@@ -7,7 +7,8 @@ class Api::V1::AccountsController < ApplicationController
   end
 
   def show
-    render json: { status: :success, data: @account.as_json(methods: [:recent_histories, :weekly_accounts, :dayly_accounts, :monthly_accounts]) }
+    account = current_api_v1_user.accounts.includes(:account_histories).find(params[:id])
+    render json: { status: :success, data: account.as_json(methods: [:recent_histories, :weekly_histories, :dayly_histories, :monthly_histories]) }
   end
 
   def create

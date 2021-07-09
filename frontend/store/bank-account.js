@@ -24,7 +24,6 @@ export const getters = {
 export const mutations = {
   setAccounts(state, accounts) {
     state.accounts = accounts.data
-    console.log(state.accounts)
   },
   setAccount(state, account) {
     state.account = account.data
@@ -74,7 +73,7 @@ export const actions = {
       data: '',
     }
     await this.$axios
-      .get(`api/v1/account/${id}`)
+      .get(`api/v1/accounts/${id}`)
       .then((res) => {
         account.data = res.data
         commit('setAccount', account.data)
