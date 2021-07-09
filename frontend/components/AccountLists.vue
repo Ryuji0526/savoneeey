@@ -1,14 +1,14 @@
 <template>
   <v-card
-    max-width="400"
-    min-height="300"
     class="mt-10"
     :class="{ selected: isSelected, cursor: !reveal }"
+    max-width="400"
+    min-height="300"
     @click="selectAccount"
   >
     <v-card-text class="pt-10">
       <div class="text-h5 ml-10">- {{ account.name }} -</div>
-      <p class="text-center text-h2 mt-8 font-weight-regular">
+      <p class="text-center text-h2 mt-8">
         {{ count | toLocaleString }}
       </p>
     </v-card-text>
@@ -193,7 +193,7 @@
             text
             color="accent-4"
             class="mt-n10"
-            @click.stop="reveal = false"
+            :to="{ path: `/account/${account.id}` }"
           >
             MORE
             <v-icon dark size="25" class="mx-1">mdi-arrow-right</v-icon>
@@ -214,7 +214,9 @@
           >
             <template #default="{ item }">
               <v-list-item class="text-center">
-                <v-list-item-title>{{ item.created }}</v-list-item-title>
+                <v-list-item-title>{{
+                  item.created_at | moement
+                }}</v-list-item-title>
                 <v-list-item-subtitle>{{ item.action }}</v-list-item-subtitle>
                 <v-list-item-subtitle>{{ item.amount }}</v-list-item-subtitle>
               </v-list-item>
@@ -240,6 +242,7 @@ import {
   integer,
   min_value as minValue,
 } from 'vee-validate/dist/rules.umd'
+import moment from 'moment'
 import AccountSparkline from '~/components/AccountSparkLine'
 
 extend('required', required)
@@ -257,6 +260,9 @@ export default {
   filters: {
     toLocaleString(value) {
       return value.toLocaleString()
+    },
+    moement(date) {
+      return moment(date).format(`D日 MM:mm`)
     },
   },
   props: {
@@ -375,7 +381,7 @@ export default {
         targets: obj,
         n: val,
         round: 1,
-        duration: 600,
+        duration: 800,
         easing: 'linear',
         update: () => {
           this.count = obj.n
