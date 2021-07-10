@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe AccountHistory, type: :model do
   let(:account) { create(:account) }
   let(:account2) { create(:account, is_main: true) }
-  let!(:account_history) { create(:account_history, :deposit_action, account_id: account.id) }
+  let!(:account_history) { create(:account_history, account_id: account.id) }
   let!(:account_history2) { create(:account_history, :deposit_action, account_id: account2.id) }
   let(:trading_history) { create(:trading_history, withdrawal_id: account2.id, deposit_id: account.id) }
 

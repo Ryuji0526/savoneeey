@@ -9,40 +9,9 @@
     </p>
     <v-breadcrumbs :items="items" divider="/" class="pl-4"></v-breadcrumbs>
     <v-subheader class="text-h4 my-5">Detail</v-subheader>
-    <v-card>
-      <v-list-item class="py-5">
-        <v-list-item-content class="ml-10">
-          <v-list-item-subtitle>Name</v-list-item-subtitle>
-          <v-list-item-title class="text-h6 text-center">{{
-            account.name
-          }}</v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-      <v-list-item class="pb-5">
-        <v-list-item-content class="ml-10">
-          <v-list-item-subtitle>TargetAmount</v-list-item-subtitle>
-          <v-list-item-title class="text-h6 text-center"
-            >{{ account.target_amount | toLocaleString
-            }}<span class="ml-5"
-              >({{
-                (currentBalance - account.target_amount) | toLocaleString
-              }})</span
-            ></v-list-item-title
-          >
-        </v-list-item-content>
-      </v-list-item>
-    </v-card>
+    <account-detail :account="account" :current-balance="currentBalance" />
     <v-subheader id="history" class="text-h4 my-5">History</v-subheader>
-    <v-card>
-      <v-tabs color="gray" left>
-        <v-tab v-for="(tab, i) in tabs" :key="i" @click="tabName = tab">{{
-          tab
-        }}</v-tab>
-        <v-tab-item v-for="(tab, i) in tabs" :key="i">
-          <chart :chart-data="chartData" :height="150" />
-        </v-tab-item>
-      </v-tabs>
-    </v-card>
+    <account-history :account="account" />
     <v-subheader id="wish-lists" class="text-h4 my-5">WishLists</v-subheader>
     <v-card></v-card>
   </v-container>
@@ -50,13 +19,14 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import moment from 'moment'
 import anime from 'animejs/lib/anime.es.js'
-import Chart from '~/components/Chart'
+import AccountDetail from '~/components/AccountDetail'
+import AccountHistory from '~/components/AccountHistory'
 
 export default {
   components: {
-    Chart,
+    AccountDetail,
+    AccountHistory,
   },
   filters: {
     toLocaleString(value) {
@@ -82,8 +52,6 @@ export default {
           href: '#wish-lists',
         },
       ],
-      tabs: ['Recent', 'Day', 'Week', 'Month'],
-      tabName: 'Recent',
       count: 0,
     }
   },
@@ -93,68 +61,6 @@ export default {
     }),
     currentBalance() {
       return this.account.recent_histories[0].balance
-    },
-    chartData() {
-      const date = []
-      const balance = []
-      let len = 0
-      switch (this.tabName) {
-        case 'Recent':
-          len = this.account.recent_histories.length
-          for (let i = 0; i < len; i++) {
-            date.unshift(
-              moment(this.account.recent_histories[i].created_at).format(
-                `D日 HH:mm`
-              )
-            )
-            balance.unshift(this.account.recent_histories[i].balance)
-          }
-          break
-        case 'Day':
-          len = this.account.dayly_histories.length
-          for (let i = 0; i < len; i++) {
-            date.push(
-              moment(this.account.dayly_histories[i].created_at).format(
-                `M月D日`
-              )
-            )
-            balance.push(this.account.dayly_histories[i].balance)
-          }
-          break
-        case 'Week':
-          len = this.account.weekly_histories.length
-          for (let i = 0; i < len; i++) {
-            date.push(
-              moment(this.account.weekly_histories[i].created_at).format(
-                `M月D日`
-              )
-            )
-            balance.push(this.account.weekly_histories[i].balance)
-          }
-          break
-        case 'Month':
-          len = this.account.monthly_histories.length
-          for (let i = 0; i < len; i++) {
-            date.push(
-              moment(this.account.monthly_histories[i].created_at).format(`M月`)
-            )
-            balance.push(this.account.monthly_histories[i].balance)
-          }
-          break
-      }
-      return {
-        labels: date,
-        datasets: [
-          {
-            label: '残高',
-            data: balance,
-            borderColor: '#ccc',
-            fill: false,
-            type: 'line',
-            lineTension: 0.3,
-          },
-        ],
-      }
     },
   },
   watch: {
@@ -172,7 +78,7 @@ export default {
         targets: obj,
         n: val,
         round: 1,
-        duration: 800,
+        duration: 700,
         easing: 'linear',
         update: () => {
           this.count = obj.n
@@ -180,7 +86,7 @@ export default {
       })
     },
   },
-  created() {
+  mounted() {
     this.getAccount(this.$route.params.id)
     this.setCount(this.currentBalance)
   },
@@ -188,11 +94,14 @@ export default {
 </script>
 
 <style scoped>
-* {
-  color: rgba(0, 0, 0, 0.6);
-}
 .v-tabs {
   width: 90%;
   margin: 0 auto;
+}
+</style>
+
+<style>
+* {
+  color: rgba(0, 0, 0, 0.6);
 }
 </style>

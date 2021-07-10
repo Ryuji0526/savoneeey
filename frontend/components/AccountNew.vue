@@ -18,7 +18,7 @@
       </v-card>
     </template>
     <v-card>
-      <v-card-title class="text-h5 grey lighten-2"> 新規口座開発 </v-card-title>
+      <v-card-title class="text-h5 grey lighten-2"> 新規口座開設 </v-card-title>
       <v-card-text class="px-12">
         <validation-observer ref="observer" v-slot="{ invalid }">
           <v-form ref="form">
