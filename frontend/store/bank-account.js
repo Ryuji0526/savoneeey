@@ -1,6 +1,13 @@
 export const state = () => ({
   accounts: [],
-  account: {},
+  account: {
+    target_amount: 0,
+    recent_histories: [
+      {
+        balance: 0,
+      },
+    ],
+  },
   transaction: {
     deposit: {
       id: null,
@@ -104,18 +111,25 @@ export const actions = {
       })
   },
   async editAccount({ dispatch }, account) {
-    await this.$axios.put(`/api/v1/accounts/${account.id}`).then((res) => {
-      dispatch(
-        'flash-message/showFlashMessage',
-        {
-          content: '口座情報を変更しました。',
-          type: 'success',
-        },
-        {
-          root: true,
-        }
-      )
-    })
+    await this.$axios
+      .put(`/api/v1/accounts/${account.id}`, account)
+      .then(() => {
+        dispatch('getAccount', account.id)
+        dispatch(
+          'flash-message/showFlashMessage',
+          {
+            content: '口座情報を変更しました。',
+            type: 'success',
+          },
+          {
+            root: true,
+          }
+        )
+        this.$router.push(`/account/${account.id}`)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
   },
   async createTradingHistory({ dispatch, state }) {
     await this.$axios
