@@ -52,9 +52,9 @@ RSpec.describe Account, type: :model do
   end
 
   describe "メソッド" do
-    let!(:yesterday_history) { create(:account_history, :deposit_action, :create_yesterday, account: account) }
-
     context "recent_histories" do
+      let!(:yesterday_history) { create(:account_history, :deposit_action, :create_yesterday, account: account) }
+
       example "過去10件の履歴が取得できる" do
         expect(account.recent_histories.count).to eq(10)
       end
@@ -64,6 +64,8 @@ RSpec.describe Account, type: :model do
     end
 
     context "dayly_histories" do
+      let!(:yesterday_history) { create(:account_history, :deposit_action, :create_yesterday, account: account) }
+
       example "履歴が追加された日の数取得できる" do
         expect(account.dayly_histories.count).to eq(2)
       end
