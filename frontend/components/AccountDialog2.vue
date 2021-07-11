@@ -2,6 +2,11 @@
   <v-card>
     <v-card-title class="text-h5 grey lighten-2">出金/入金</v-card-title>
     <v-card-text class="px-12">
+      <div class="font-weight-bold text-h6">
+        {{ transaction.withdrawal.name }}
+        <v-icon class="pb-1">mdi-arrow-right</v-icon>
+        {{ transaction.deposit.name }}
+      </div>
       <validation-observer ref="observer" v-slot="{ invalid }">
         <v-form ref="form">
           <validation-provider

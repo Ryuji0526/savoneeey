@@ -93,7 +93,7 @@ export const actions = {
     console.log(account)
     await this.$axios
       .post('/api/v1/accounts', account)
-      .then((res) => {
+      .then(() => {
         dispatch('getAccounts')
         dispatch(
           'flash-message/showFlashMessage',
@@ -126,6 +126,26 @@ export const actions = {
           }
         )
         this.$router.push(`/account/${account.id}`)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  },
+  async deleteAccount({ dispatch }, id) {
+    await this.$axios
+      .delete(`/api/v1/accounts/${id}`)
+      .then(() => {
+        dispatch(
+          'flash-message/showFlashMessage',
+          {
+            content: '口座を削除しました。',
+            type: 'success',
+          },
+          {
+            root: true,
+          }
+        )
+        this.$router.push(`/my-accounts`)
       })
       .catch((error) => {
         console.log(error)

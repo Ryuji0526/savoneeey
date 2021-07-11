@@ -14,6 +14,9 @@
     <account-history :account="account" />
     <v-subheader id="wish-lists" class="text-h4 my-5">WishLists</v-subheader>
     <v-card></v-card>
+    <div v-if="!is_main" class="text-right">
+      <v-btn @click="deletable"> 口座を削除する </v-btn>
+    </div>
   </v-container>
 </template>
 
@@ -62,6 +65,9 @@ export default {
     currentBalance() {
       return this.account.recent_histories[0].balance
     },
+    is_main() {
+      return this.account.is_main === true
+    },
   },
   watch: {
     account(newValue) {
@@ -71,6 +77,8 @@ export default {
   methods: {
     ...mapActions({
       getAccount: 'bank-account/getAccount',
+      deleteAccount: 'bank-account/deleteAccount',
+      showFlashMessage: 'flash-message/showFlashMessage',
     }),
     setCount(val) {
       const obj = { n: this.count }
@@ -78,12 +86,23 @@ export default {
         targets: obj,
         n: val,
         round: 1,
-        duration: 700,
+        duration: 600,
         easing: 'linear',
         update: () => {
           this.count = obj.n
         },
       })
+    },
+    deletable() {
+      if (this.currentBalance > 0) {
+        window.scrollTo(0, 0)
+        this.showFlashMessage({
+          content: '残高が存在するため削除できません。',
+          type: 'error',
+        })
+      } else {
+        this.deleteAccount(this.account.id)
+      }
     },
   },
   mounted() {

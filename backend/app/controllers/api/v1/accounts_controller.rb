@@ -30,10 +30,14 @@ class Api::V1::AccountsController < ApplicationController
   end
 
   def destroy
-    if @account.destroy
-      render json: { status: :success, data: @account }
+    if !@account.account_histories.last.balance == 0 || @account.is_main?
+      render json: { status: :error, data: '口座に残高が存在しています。' }, status: :unprocessable_entity
     else
-      render json: { status: :error, data: @account.errors }, status: :unprocessable_entity
+      if @account.destroy
+        render json: { status: :success, data: @account }
+      else
+        render json: { status: :error, data: @account.errors }, status: :unprocessable_entity
+      end
     end
   end
 

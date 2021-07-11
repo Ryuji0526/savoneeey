@@ -233,6 +233,7 @@ export default {
   },
   mounted() {
     this.setCount(this.current_balance)
+    this.clearTransaction()
   },
 }
 </script>
