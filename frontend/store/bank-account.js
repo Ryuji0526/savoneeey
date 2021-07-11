@@ -1,6 +1,13 @@
 export const state = () => ({
   accounts: [],
-  account: {},
+  account: {
+    target_amount: 0,
+    recent_histories: [
+      {
+        balance: 0,
+      },
+    ],
+  },
   transaction: {
     deposit: {
       id: null,
@@ -24,7 +31,6 @@ export const getters = {
 export const mutations = {
   setAccounts(state, accounts) {
     state.accounts = accounts.data
-    console.log(state.accounts)
   },
   setAccount(state, account) {
     state.account = account.data
@@ -74,7 +80,7 @@ export const actions = {
       data: '',
     }
     await this.$axios
-      .get(`api/v1/account/${id}`)
+      .get(`api/v1/accounts/${id}`)
       .then((res) => {
         account.data = res.data
         commit('setAccount', account.data)
@@ -87,7 +93,7 @@ export const actions = {
     console.log(account)
     await this.$axios
       .post('/api/v1/accounts', account)
-      .then((res) => {
+      .then(() => {
         dispatch('getAccounts')
         dispatch(
           'flash-message/showFlashMessage',
@@ -105,18 +111,45 @@ export const actions = {
       })
   },
   async editAccount({ dispatch }, account) {
-    await this.$axios.put(`/api/v1/accounts/${account.id}`).then((res) => {
-      dispatch(
-        'flash-message/showFlashMessage',
-        {
-          content: '口座情報を変更しました。',
-          type: 'success',
-        },
-        {
-          root: true,
-        }
-      )
-    })
+    await this.$axios
+      .put(`/api/v1/accounts/${account.id}`, account)
+      .then(() => {
+        dispatch('getAccount', account.id)
+        dispatch(
+          'flash-message/showFlashMessage',
+          {
+            content: '口座情報を変更しました。',
+            type: 'success',
+          },
+          {
+            root: true,
+          }
+        )
+        this.$router.push(`/account/${account.id}`)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  },
+  async deleteAccount({ dispatch }, id) {
+    await this.$axios
+      .delete(`/api/v1/accounts/${id}`)
+      .then(() => {
+        dispatch(
+          'flash-message/showFlashMessage',
+          {
+            content: '口座を削除しました。',
+            type: 'success',
+          },
+          {
+            root: true,
+          }
+        )
+        this.$router.push(`/my-accounts`)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
   },
   async createTradingHistory({ dispatch, state }) {
     await this.$axios

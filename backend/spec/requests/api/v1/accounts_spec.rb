@@ -66,8 +66,46 @@ RSpec.describe "Api::V1::Accounts", type: :request do
     end
 
     context "パラメーターが無効な場合" do
-      example "講座の編集ができない" do
+      example "口座の編集ができない" do
         put "/api/v1/accounts/#{account.id}", params: { account: { name: "" } }, headers: headers, as: :json
+        res = JSON.parse(response.body)
+        expect(res["status"]).to eq("error")
+        expect(response.status).to eq 422
+      end
+    end
+  end
+
+  describe "DELETE /api/v1/accounts/:id" do
+    context "残高が0円の場合" do
+      let!(:account_history) { create(:account_history, :withdrawal_action, balance: 0, account: account) }
+
+      example "is_main = false なら口座を削除できる" do
+        expect {
+          delete "/api/v1/accounts/#{account.id}", headers: headers, as: :json
+        }.to change(Account, :count).by(-1)
+        res = JSON.parse(response.body)
+        expect(res["status"]).to eq("deleted")
+        expect(response.status).to eq(200)
+      end
+
+      example "is_main = true なら口座を削除できない" do
+        account.update_column(:is_main, true)
+        expect {
+          delete "/api/v1/accounts/#{account.id}", headers: headers, as: :json
+        }.not_to change(Account, :count)
+        res = JSON.parse(response.body)
+        expect(res["status"]).to eq("error")
+        expect(response.status).to eq 422
+      end
+    end
+
+    context "残高が0円でない場合" do
+      let!(:account_history) { create(:account_history, :deposit_action, account: account) }
+
+      example "口座を削除できない" do
+        expect {
+          delete "/api/v1/accounts/#{account.id}", headers: headers, as: :json
+        }.not_to change(Account, :count)
         res = JSON.parse(response.body)
         expect(res["status"]).to eq("error")
         expect(response.status).to eq 422
