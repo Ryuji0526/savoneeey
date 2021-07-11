@@ -13,7 +13,7 @@
     </v-card-actions>
     <validation-observer ref="observer" v-slot="{ invalid }">
       <v-list-item class="pb-5">
-        <v-list-item-content class="ml-10">
+        <v-list-item-content class="ml-10 pt-0">
           <v-list-item-subtitle>Name</v-list-item-subtitle>
           <v-list-item-title v-if="!editable" class="text-h6 text-center">{{
             account.name
