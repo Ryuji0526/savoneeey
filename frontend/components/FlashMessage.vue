@@ -28,10 +28,3 @@ export default {
   },
 }
 </script>
-
-<style scoped>
-.fixed {
-  position: fixed;
-  order: 10;
-}
-</style>

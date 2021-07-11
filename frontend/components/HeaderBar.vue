@@ -57,6 +57,11 @@ export default {
           title: 'MyAccounts',
           to: '/my-accounts',
         },
+        {
+          icon: 'mdi-chart-bubble',
+          title: 'MainAccount',
+          to: '/account/1',
+        },
       ],
     }
   },

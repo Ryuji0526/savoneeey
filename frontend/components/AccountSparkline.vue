@@ -18,6 +18,8 @@
 </template>
 
 <script>
+import moment from 'moment'
+
 export default {
   props: {
     account: {
@@ -37,7 +39,11 @@ export default {
     date() {
       const date = ['現在']
       for (let i = 0; i < this.len - 1; i++) {
-        date.unshift(this.account.recent_histories[i].created)
+        date.unshift(
+          moment(this.account.recent_histories[i].created_at).format(
+            `D日 HH:mm`
+          )
+        )
       }
       return date
     },
