@@ -114,7 +114,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      createAccount: 'bank-account/createAccount',
+      createAccount: 'bankAccount/createAccount',
     }),
     registerAccount() {
       this.createAccount(this.account)

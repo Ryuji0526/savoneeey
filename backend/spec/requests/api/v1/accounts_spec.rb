@@ -56,7 +56,7 @@ RSpec.describe "Api::V1::Accounts", type: :request do
 
   describe "PUT /api/v1/accounts/:id" do
     context "パラメーターが有効な場合" do
-      example "講座の編集が行われる" do
+      example "口座の編集が行われる" do
         put "/api/v1/accounts/#{account.id}", params: { account: { name: "edited account" } }, headers: headers, as: :json
         res = JSON.parse(response.body)
         expect(res["status"]).to eq("updated")

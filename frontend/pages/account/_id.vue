@@ -60,7 +60,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      account: 'bank-account/account',
+      account: 'bankAccount/account',
     }),
     currentBalance() {
       return this.account.recent_histories[0].balance
@@ -76,9 +76,9 @@ export default {
   },
   methods: {
     ...mapActions({
-      getAccount: 'bank-account/getAccount',
-      deleteAccount: 'bank-account/deleteAccount',
-      showFlashMessage: 'flash-message/showFlashMessage',
+      getAccount: 'bankAccount/getAccount',
+      deleteAccount: 'bankAccount/deleteAccount',
+      showFlashMessage: 'flashMessage/showFlashMessage',
     }),
     setCount(val) {
       const obj = { n: this.count }

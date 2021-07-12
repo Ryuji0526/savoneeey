@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       get :health_check, to: 'health_check#index'
       resources :accounts, except: [:edit]
       resources :trading_histories, only: [:index, :create]
+      resources :wish_lists, except: [:edit, :show]
     end
   end
 end

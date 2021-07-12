@@ -48,6 +48,6 @@ class Api::V1::AccountsController < ApplicationController
   end
 
   def account_params
-    params.require(:account).permit(:name, :target_amount, :id)
+    params.require(:account).permit(:name, :target_amount)
   end
 end

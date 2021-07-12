@@ -107,11 +107,11 @@ export default {
   },
   methods: {
     ...mapActions({
-      setAmount: 'bank-account/setAmount',
-      createTradingHistory: 'bank-account/createTradingHistory',
-      clearTransaction: 'bank-account/clearTransaction',
-      setWithdrawal: 'bank-account/setWithdrawal',
-      setDeposit: 'bank-account/setDeposit',
+      setAmount: 'bankAccount/setAmount',
+      createTradingHistory: 'bankAccount/createTradingHistory',
+      clearTransaction: 'bankAccount/clearTransaction',
+      setWithdrawal: 'bankAccount/setWithdrawal',
+      setDeposit: 'bankAccount/setDeposit',
     }),
     registerTradingHistoryOnlyMain() {
       switch (this.action) {
