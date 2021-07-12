@@ -141,7 +141,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      editAccount: 'bank-account/editAccount',
+      editAccount: 'bankAccount/editAccount',
     }),
     closeEditable() {
       this.accountData.name = this.account.name

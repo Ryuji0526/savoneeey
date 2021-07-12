@@ -161,7 +161,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      transaction: 'bank-account/transaction',
+      transaction: 'bankAccount/transaction',
     }),
     isSelected() {
       return (
@@ -185,9 +185,9 @@ export default {
   },
   methods: {
     ...mapActions({
-      clearTransaction: 'bank-account/clearTransaction',
-      setDeposit: 'bank-account/setDeposit',
-      setWithdrawal: 'bank-account/setWithdrawal',
+      clearTransaction: 'bankAccount/clearTransaction',
+      setDeposit: 'bankAccount/setDeposit',
+      setWithdrawal: 'bankAccount/setWithdrawal',
     }),
     selectAccount() {
       if (this.reveal === true) {

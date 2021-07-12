@@ -89,16 +89,16 @@ export default {
   },
   computed: {
     ...mapGetters({
-      transaction: 'bank-account/transaction',
+      transaction: 'bankAccount/transaction',
     }),
   },
   methods: {
     ...mapActions({
-      createTradingHistory: 'bank-account/createTradingHistory',
-      setDeposit: 'bank-account/setDeposit',
-      setWithdrawal: 'bank-account/setWithdrawal',
-      setAmount: 'bank-account/setAmount',
-      clearTransaction: 'bank-account/clearTransaction',
+      createTradingHistory: 'bankAccount/createTradingHistory',
+      setDeposit: 'bankAccount/setDeposit',
+      setWithdrawal: 'bankAccount/setWithdrawal',
+      setAmount: 'bankAccount/setAmount',
+      clearTransaction: 'bankAccount/clearTransaction',
     }),
     registerTradingHistory() {
       this.setAmount(this.transaction_amount)

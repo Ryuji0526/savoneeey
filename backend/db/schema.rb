@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_01_142426) do
+ActiveRecord::Schema.define(version: 2021_07_11_153255) do
 
   create_table "account_histories", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "account_id", null: false
@@ -30,6 +30,14 @@ ActiveRecord::Schema.define(version: 2021_07_01_142426) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_accounts_on_user_id"
+  end
+
+  create_table "tags", charset: "utf8mb4", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "type", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["type"], name: "index_tags_on_type"
   end
 
   create_table "trading_histories", charset: "utf8mb4", force: :cascade do |t|
@@ -69,9 +77,30 @@ ActiveRecord::Schema.define(version: 2021_07_01_142426) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  create_table "wish_lists", charset: "utf8mb4", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "name", null: false
+    t.integer "price", null: false
+    t.string "url"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_wish_lists_on_user_id"
+  end
+
+  create_table "wish_tag_links", charset: "utf8mb4", force: :cascade do |t|
+    t.bigint "wish_list_id", null: false
+    t.bigint "wish_tag_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["wish_list_id", "wish_tag_id"], name: "index_wish_tag_links_on_wish_list_id_and_wish_tag_id", unique: true
+    t.index ["wish_list_id"], name: "index_wish_tag_links_on_wish_list_id"
+    t.index ["wish_tag_id"], name: "index_wish_tag_links_on_wish_tag_id"
+  end
+
   add_foreign_key "account_histories", "accounts"
   add_foreign_key "accounts", "users"
   add_foreign_key "trading_histories", "accounts", column: "deposit_id"
   add_foreign_key "trading_histories", "accounts", column: "withdrawal_id"
   add_foreign_key "trading_histories", "users"
+  add_foreign_key "wish_lists", "users"
 end

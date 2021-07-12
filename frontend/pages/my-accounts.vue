@@ -33,12 +33,12 @@ export default {
   },
   computed: {
     ...mapGetters({
-      accounts: 'bank-account/accounts',
+      accounts: 'bankAccount/accounts',
     }),
   },
   methods: {
     ...mapActions({
-      getAccounts: 'bank-account/getAccounts',
+      getAccounts: 'bankAccount/getAccounts',
     }),
   },
   mounted() {
