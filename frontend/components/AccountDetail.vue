@@ -63,16 +63,17 @@
                 />
               </validation-provider>
               <v-card-actions class="d-flex justify-end">
+                <v-spacer></v-spacer>
                 <v-btn
                   color="light-green darken-1"
-                  class="white--text text-body-1 font-weight-bold rounded-log"
+                  class="white--text text-body-1 font-weight-bold"
                   elavation="5"
-                  outlined
+                  text
                   :disabled="invalid"
                   data-testid="register-account-history"
                   @click="edit"
                 >
-                  編集する
+                  編集
                 </v-btn>
               </v-card-actions>
             </v-form>

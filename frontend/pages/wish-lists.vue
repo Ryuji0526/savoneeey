@@ -1,7 +1,29 @@
 <template>
-  <v-container><p>test</p></v-container>
+  <v-container>
+    <wish-lists :wish-lists="wishLists" />
+  </v-container>
 </template>
 
 <script>
-export default {}
+import { mapActions, mapGetters } from 'vuex'
+import WishLists from '~/components/WishLists'
+
+export default {
+  components: {
+    WishLists,
+  },
+  computed: {
+    ...mapGetters({
+      wishLists: 'wishList/wishLists',
+    }),
+  },
+  methods: {
+    ...mapActions({
+      getWishLists: 'wishList/getWishLists',
+    }),
+  },
+  mounted() {
+    this.getWishLists()
+  },
+}
 </script>

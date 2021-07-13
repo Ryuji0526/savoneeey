@@ -71,9 +71,11 @@ export const actions = {
       })
   },
   async deleteWishList({ dispatch }, id) {
+    console.log(id)
     await this.$axios
       .delete(`/api/v1/wish_lists/${id}`)
       .then(() => {
+        dispatch('getWishLists')
         dispatch(
           'flashMessage/showFlashMessage',
           {

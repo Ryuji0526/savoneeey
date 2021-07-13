@@ -42,17 +42,18 @@
             />
           </validation-provider>
           <v-card-actions class="d-flex justify-space-around">
-            <v-btn @click="$emit('closeDialog1')">閉じる</v-btn>
+            <v-spacer></v-spacer>
+            <v-btn text @click="$emit('closeDialog1')">閉じる</v-btn>
             <v-btn
               color="light-green darken-1"
               class="white--text text-body-1 font-weight-bold rounded-log"
               elavation="5"
-              outlined
+              text
               :disabled="invalid"
               data-testid="register-account-history"
               @click="registerTradingHistoryOnlyMain"
             >
-              出金/入金する
+              出金/入金
             </v-btn>
           </v-card-actions>
         </v-form>

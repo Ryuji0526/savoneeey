@@ -38,6 +38,6 @@ class Api::V1::WishListsController < ApplicationController
   end
 
   def wish_list_params
-    params.require(:wish_list).permit(:name, :price, wish_tag_links_attributes: [:wish_tag_id])
+    params.require(:wish_list).permit(:name, :price, :url, wish_tag_links_attributes: [:wish_tag_id])
   end
 end
