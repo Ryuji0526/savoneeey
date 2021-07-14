@@ -1,15 +1,21 @@
 export const state = () => ({
   wishLists: [],
+  wishTags: [],
 })
 
 export const getters = {
   wishLists: (state) => state.wishLists,
+  wishTags: (state) => state.wishTags,
 }
 
 export const mutations = {
   setWishLists(state, wishLists) {
     state.wishLists = wishLists.data
     console.log(state.wishLists)
+  },
+  setWishTags(state, wishTags) {
+    state.wishTags = wishTags.data
+    console.log(state.wishTags)
   },
 }
 
@@ -87,6 +93,21 @@ export const actions = {
           }
         )
         this.$router.push('/wish-lists')
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  },
+
+  async getWishTags({ commit }) {
+    const wishTags = {
+      data: '',
+    }
+    await this.$axios
+      .get('/api/v1/tags/wish_tags')
+      .then((res) => {
+        wishTags.data = res.data
+        commit('setWishTags', wishTags.data)
       })
       .catch((error) => {
         console.log(error)
