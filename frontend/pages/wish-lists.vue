@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <wish-lists :wish-lists="wishLists" />
+    <wish-lists :wish-lists="wishLists" :wish-tags="wishTags" />
   </v-container>
 </template>
 
@@ -15,15 +15,18 @@ export default {
   computed: {
     ...mapGetters({
       wishLists: 'wishList/wishLists',
+      wishTags: 'wishList/wishTags',
     }),
   },
   methods: {
     ...mapActions({
       getWishLists: 'wishList/getWishLists',
+      getWishTags: 'wishList/getWishTags',
     }),
   },
   mounted() {
     this.getWishLists()
+    this.getWishTags()
   },
 }
 </script>

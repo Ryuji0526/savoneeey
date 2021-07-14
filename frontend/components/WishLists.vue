@@ -22,7 +22,7 @@
           <v-spacer></v-spacer>
           <v-dialog v-model="dialog" max-width="500px">
             <template #activator="{ on, attrs }">
-              <v-btn class="mb-2" v-bind="attrs" v-on="on">
+              <v-btn v-bind="attrs" absolute right top fab v-on="on">
                 <v-icon>mdi-plus</v-icon>
               </v-btn>
             </template>
@@ -64,7 +64,11 @@
                         </validation-provider>
                       </v-col>
                       <v-col cols="12" class="py-0">
-                        <validation-provider v-slot="{ errors }" name="URL">
+                        <validation-provider
+                          v-slot="{ errors }"
+                          name="URL"
+                          rules="url"
+                        >
                           <v-text-field
                             v-model="editedItem.url"
                             label="URL"
@@ -72,6 +76,17 @@
                             data-testid="url"
                           ></v-text-field>
                         </validation-provider>
+                      </v-col>
+                      <v-col v-if="editedIndex === -1" cols="12" class="py-0">
+                        <v-select
+                          v-model="editedItem.wish_tag_links_attributes"
+                          :items="WishTagItems"
+                          attach
+                          chips
+                          :deletable-chips="deletable"
+                          label="Tags"
+                          multiple
+                        ></v-select>
                       </v-col>
                     </v-row>
                     <v-card-actions>
@@ -133,8 +148,8 @@
         <v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>
       </template>
     </v-data-table>
-    <div class="Text-center pt-2">
-      <v-pagination v-model="page" :length="pageCount"></v-pagination>
+    <div class="text-center pt-2">
+      <v-pagination v-model="page" :length="pageCount" circle></v-pagination>
     </div>
   </v-card>
 </template>
@@ -169,6 +184,10 @@ export default {
       type: Array,
       required: true,
     },
+    wishTags: {
+      type: Array,
+      required: true,
+    },
   },
   data() {
     return {
@@ -178,6 +197,8 @@ export default {
       loading: false,
       page: 1,
       pageCount: 5,
+      deletable: true,
+      reg: /^(https?|ftp):\/\/([a-zA-Z0-9.-]+(:[a-zA-Z0-9.&%$-]+)*@)*((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|([a-zA-Z0-9-]+\.)*[a-zA-Z0-9-]+\.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2}))(:[0-9]+)*(\/($|[a-zA-Z0-9.,?'\\+&%$#=~_-]+))*$/,
       headers: [
         { text: 'Name', value: 'name' },
         { text: 'Price', value: 'price' },
@@ -190,20 +211,30 @@ export default {
         name: '',
         price: null,
         url: '',
-        wish_tags: [],
+        wish_tag_links_attributes: [],
       },
       defaultItem: {
         id: 0,
         name: '',
         price: null,
         url: '',
-        wish_tags: [],
+        wish_tag_links_attributes: [],
       },
     }
   },
   computed: {
     formTitle() {
       return this.editedIndex === -1 ? 'New WishList' : 'Edit WishList'
+    },
+    WishTagItems() {
+      const items = []
+      for (let i = 0; i < this.wishTags.length; i++) {
+        const item = {}
+        item.text = this.wishTags[i].name
+        item.value = { wish_tag_id: this.wishTags[i].id }
+        items.push(item)
+      }
+      return items
     },
   },
   watch: {

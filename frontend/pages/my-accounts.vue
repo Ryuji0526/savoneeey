@@ -5,7 +5,8 @@
         <v-col
           v-for="(account, i) in accounts"
           :key="i"
-          :cols="i === 0 ? 12 : 6"
+          :sm="i === 0 ? 12 : 6"
+          cols="12"
         >
           <v-item class="mx-auto">
             <account :account="account" />
