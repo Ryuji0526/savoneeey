@@ -33,7 +33,7 @@
           </validation-provider>
           <v-card-actions class="d-flex justify-space-around">
             <v-spacer></v-spacer>
-            <v-btn text @click="closeDialog2">閉じる</v-btn>
+            <v-btn text @click="close">閉じる</v-btn>
             <v-btn
               color="light-green darken-1"
               class="white--text text-body-1 font-weight-bold rounded-log"
@@ -104,12 +104,14 @@ export default {
     registerTradingHistory() {
       this.setAmount(this.transaction_amount)
       this.createTradingHistory()
-      this.closeDialog2()
-      this.transaction_amount = 0
+      this.close()
     },
-    closeDialog2() {
-      this.clearTransaction()
+    close() {
       this.$emit('closeDialog2')
+      this.$nextTick(() => {
+        this.transaction_amount = 0
+        this.clearTransaction()
+      })
     },
   },
 }

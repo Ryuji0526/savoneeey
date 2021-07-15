@@ -14,14 +14,6 @@ export default {
     return {
       options: {
         scales: {
-          xAxes: [
-            {
-              scaleLabel: {
-                display: true,
-                labelString: 'Date',
-              },
-            },
-          ],
           yAxes: [
             {
               ticks: {

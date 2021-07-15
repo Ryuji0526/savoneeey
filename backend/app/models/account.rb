@@ -2,6 +2,8 @@ class Account < ApplicationRecord
   belongs_to :user
   has_many :trading_histories
   has_many :account_histories, dependent: :destroy
+  has_many :registerings, dependent: :destroy
+  has_many :wish_lists, through: :registerings
 
   validates :name, presence: true, length: { maximum: 50 }
   validates :target_amount, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }

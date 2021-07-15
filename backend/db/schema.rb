@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_11_153255) do
+ActiveRecord::Schema.define(version: 2021_07_14_043111) do
 
   create_table "account_histories", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "account_id", null: false
@@ -30,6 +30,16 @@ ActiveRecord::Schema.define(version: 2021_07_11_153255) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_accounts_on_user_id"
+  end
+
+  create_table "registerings", charset: "utf8mb4", force: :cascade do |t|
+    t.bigint "wish_list_id", null: false
+    t.bigint "account_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_registerings_on_account_id"
+    t.index ["wish_list_id", "account_id"], name: "index_registerings_on_wish_list_id_and_account_id", unique: true
+    t.index ["wish_list_id"], name: "index_registerings_on_wish_list_id"
   end
 
   create_table "tags", charset: "utf8mb4", force: :cascade do |t|

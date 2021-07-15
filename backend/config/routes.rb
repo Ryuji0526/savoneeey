@@ -11,9 +11,12 @@ Rails.application.routes.draw do
       resources :accounts, except: [:edit]
       resources :trading_histories, only: [:index, :create]
       resources :wish_lists, except: [:edit, :show]
-      # get :wish_tags, to: 'tags#wish_tags'
       resources :tags, only: [] do
         get :wish_tags, on: :collection
+      end
+      resources :registerings, only: [] do
+        post :register, on: :collection
+        delete :unregister, on: :collection
       end
     end
   end
