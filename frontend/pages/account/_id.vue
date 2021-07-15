@@ -13,8 +13,8 @@
     <v-subheader id="history" class="text-h4 my-5">History</v-subheader>
     <account-history :account="account" />
     <v-subheader id="wish-lists" class="text-h4 my-5">WishLists</v-subheader>
-    <v-card></v-card>
-    <div v-if="!is_main" class="text-right">
+    <account-wish-lists :account="account" />
+    <div v-if="!is_main" class="text-right mt-10">
       <v-btn @click="deletable"> 口座を削除する </v-btn>
     </div>
   </v-container>
@@ -25,11 +25,13 @@ import { mapActions, mapGetters } from 'vuex'
 import anime from 'animejs/lib/anime.es.js'
 import AccountDetail from '~/components/AccountDetail'
 import AccountHistory from '~/components/AccountHistory'
+import AccountWishLists from '~/components/AccountWishLists'
 
 export default {
   components: {
     AccountDetail,
     AccountHistory,
+    AccountWishLists,
   },
   filters: {
     toLocaleString(value) {

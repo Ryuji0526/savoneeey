@@ -11,3 +11,4 @@ AllCops:
 Metrics/LineLength:
   Exclude:
     - 'app/models/account.rb'
+    - 'app/controllers/api/v1/accounts_controller.rb'

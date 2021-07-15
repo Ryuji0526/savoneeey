@@ -1,12 +1,14 @@
 <template>
   <v-card max-width="1000px" class="mx-auto">
     <v-data-table
+      v-model="selected"
       :headers="headers"
       :items="wishLists"
       :search="search"
       :loading="loading"
       :page.sync="page"
       hide-default-footer
+      show-select
     >
       <template #top>
         <v-toolbar flat>
@@ -97,7 +99,7 @@
                         text
                         @click="close"
                       >
-                        閉じる
+                        Close
                       </v-btn>
                       <v-btn
                         color="light-green darken-1"
@@ -107,7 +109,7 @@
                         data-testid="add-wish-list"
                         @click="save"
                       >
-                        追加
+                        Save
                       </v-btn>
                     </v-card-actions>
                   </v-form>
@@ -117,7 +119,7 @@
           </v-dialog>
           <v-dialog v-model="dialogDelete" max-width="500px">
             <v-card>
-              <v-card-title class="text-h5"
+              <v-card-title class="text-h6"
                 >リストを削除してもよろしいですか?</v-card-title
               >
               <v-card-actions>
@@ -140,17 +142,29 @@
       </template>
       <template #[`item.wish_tags`]="{ item }">
         <template v-for="(tag, i) in item.wish_tags">
-          <span :key="i">{{ tag.name }}</span>
+          <v-chip :key="i" outlined small class="mr-1">{{ tag.name }}</v-chip>
         </template>
       </template>
       <template #[`item.actions`]="{ item }">
-        <v-icon small class="mr-2" @click="editItem(item)"> mdi-pencil </v-icon>
+        <v-icon small @click="editItem(item)"> mdi-pencil </v-icon>
+        |
         <v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>
       </template>
     </v-data-table>
-    <div class="text-center pt-2">
+    <v-container>
+      <v-card-actions v-if="selected.length > 0">
+        <v-btn text absolute left bottom @click="dialogRegister = true"
+          >口座に追加</v-btn
+        >
+      </v-card-actions>
       <v-pagination v-model="page" :length="pageCount" circle></v-pagination>
-    </div>
+    </v-container>
+    <v-dialog v-model="dialogRegister" max-width="500px">
+      <account-select
+        @closeDialogRegister="closeDialogRegister"
+        @register="register"
+      />
+    </v-dialog>
   </v-card>
 </template>
 
@@ -167,6 +181,7 @@ import {
   integer,
   min_value as minValue,
 } from 'vee-validate/dist/rules.umd'
+import AccountSelect from '~/components/AccountSelect'
 
 extend('required', required)
 extend('integer', integer)
@@ -178,6 +193,7 @@ export default {
   components: {
     ValidationObserver,
     ValidationProvider,
+    AccountSelect,
   },
   props: {
     wishLists: {
@@ -191,9 +207,11 @@ export default {
   },
   data() {
     return {
+      selected: [],
       search: '',
       dialog: false,
       dialogDelete: false,
+      dialogRegister: false,
       loading: false,
       page: 1,
       pageCount: 5,
@@ -202,23 +220,31 @@ export default {
       headers: [
         { text: 'Name', value: 'name' },
         { text: 'Price', value: 'price' },
-        { text: 'Tags', value: 'wish_tags', sortable: false },
+        { text: 'Tags', value: 'wish_tags' },
         { text: 'Actions', value: 'actions', sortable: false },
       ],
       editedIndex: -1,
       editedItem: {
-        id: 0,
+        id: null,
         name: '',
         price: null,
         url: '',
         wish_tag_links_attributes: [],
       },
       defaultItem: {
-        id: 0,
+        id: null,
         name: '',
         price: null,
         url: '',
         wish_tag_links_attributes: [],
+      },
+      registering: {
+        account_id: null,
+        wish_list_ids: [],
+      },
+      defaultRegistering: {
+        account_id: null,
+        wish_list_ids: [],
       },
     }
   },
@@ -236,6 +262,13 @@ export default {
       }
       return items
     },
+    wishListIds() {
+      const ids = []
+      for (let i = 0; i < this.selected.length; i++) {
+        ids.push(this.selected[i].id)
+      }
+      return ids
+    },
   },
   watch: {
     dialog(val) {
@@ -250,6 +283,7 @@ export default {
       createWishList: 'wishList/createWishList',
       editWishList: 'wishList/editWishList',
       deleteWishList: 'wishList/deleteWishList',
+      createRegistering: 'registering/createRegistering',
     }),
     editItem(item) {
       this.editedIndex = this.wishLists.indexOf(item)
@@ -280,6 +314,13 @@ export default {
         this.editedIndex = -1
       })
     },
+    closeDialogRegister() {
+      this.dialogRegister = false
+      this.$nextTick(() => {
+        this.selected = []
+        this.registering = Object.assign({}, this.defaultRegistering)
+      })
+    },
     save() {
       this.loading = true
       if (this.editedIndex > -1) {
@@ -288,6 +329,12 @@ export default {
         this.createWishList(this.editedItem)
       }
       this.close()
+    },
+    register(accountId) {
+      this.registering.account_id = accountId
+      this.registering.wish_list_ids = this.wishListIds
+      this.createRegistering(this.registering)
+      this.closeDialogRegister()
     },
   },
 }

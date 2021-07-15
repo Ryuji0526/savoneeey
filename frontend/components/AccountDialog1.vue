@@ -9,7 +9,7 @@
             name="出金/入金"
             rules="required"
           >
-            <v-radio-group v-model="action" row>
+            <v-radio-group v-model="selected" row>
               <v-radio
                 v-for="(action, index) in actions"
                 :key="index"
@@ -28,7 +28,7 @@
               minValue: 0,
               lessThanBalance: {
                 balance: currentBalance,
-                action: action,
+                action: selected,
               },
             }"
           >
@@ -43,7 +43,7 @@
           </validation-provider>
           <v-card-actions class="d-flex justify-space-around">
             <v-spacer></v-spacer>
-            <v-btn text @click="$emit('closeDialog1')">閉じる</v-btn>
+            <v-btn text @click="close">閉じる</v-btn>
             <v-btn
               color="light-green darken-1"
               class="white--text text-body-1 font-weight-bold rounded-log"
@@ -97,7 +97,7 @@ export default {
     return {
       transaction_amount: 0,
       actions: ['出金', '入金'],
-      action: '',
+      selected: '',
       current_balance: this.account.recent_histories[0].balance,
     }
   },
@@ -115,7 +115,7 @@ export default {
       setDeposit: 'bankAccount/setDeposit',
     }),
     registerTradingHistoryOnlyMain() {
-      switch (this.action) {
+      switch (this.selected) {
         case '出金':
           this.setWithdrawal({
             id: this.account.id,
@@ -129,9 +129,14 @@ export default {
       }
       this.setAmount(this.transaction_amount)
       this.createTradingHistory()
-      this.clearTransaction()
-      this.transaction_amount = 0
+      this.close()
+    },
+    close() {
       this.$emit('closeDialog1')
+      this.$nextTick(() => {
+        this.transaction_amount = 0
+        this.clearTransaction()
+      })
     },
   },
 }

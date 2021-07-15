@@ -1,5 +1,7 @@
 class WishList < ApplicationRecord
   belongs_to :user
+  has_many :registerings, dependent: :destroy
+  has_many :accounts, through: :registerings
   has_many :wish_tag_links, dependent: :destroy
   has_many :wish_tags, through: :wish_tag_links
   accepts_nested_attributes_for :wish_tag_links, reject_if: ->(attributes) { attributes['wish_tag_id'].blank? }, allow_destroy: true
