@@ -62,6 +62,11 @@ export default {
           title: 'MainAccount',
           to: '/account/1',
         },
+        {
+          icon: 'mdi-chart-bubble',
+          title: 'WishLists',
+          to: '/wish-lists',
+        },
       ],
     }
   },

@@ -14,18 +14,18 @@ RSpec.describe AccountHistory, type: :model do
     context "action" do
       example "nilならば無効" do
         account_history.action = nil
-        expect(account_history.valid?).to be_falsy
+        expect(account_history).to be_invalid
       end
       example "「出金、入金、新規」以外ならば無効" do
         account_history.action = 'テスト'
-        expect(account_history.valid?).to be_falsy
+        expect(account_history).to be_invalid
       end
     end
 
     context "amount" do
       example "nilならば無効" do
         account_history.amount = nil
-        expect(account_history.valid?).to be_falsy
+        expect(account_history).to be_invalid
       end
       context "action=入金のとき" do
         before do
@@ -34,19 +34,19 @@ RSpec.describe AccountHistory, type: :model do
 
         example "正の数なら有効" do
           account_history.amount = 100
-          expect(account_history.valid?).to be_truthy
+          expect(account_history).to be_valid
         end
         example "0なら有効" do
           account_history.amount = 0
-          expect(account_history.valid?).to be_truthy
+          expect(account_history).to be_valid
         end
         example "負の数なら無効" do
           account_history.amount = -1000
-          expect(account_history.valid?).to be_falsy
+          expect(account_history).to be_invalid
         end
         example "小数点が含まれるなら無効" do
           account_history.amount = 100.1
-          expect(account_history.valid?).to be_falsy
+          expect(account_history).to be_invalid
         end
       end
 
@@ -57,19 +57,19 @@ RSpec.describe AccountHistory, type: :model do
 
         example "負の数なら有効" do
           account_history.amount = -100
-          expect(account_history.valid?).to be_truthy
+          expect(account_history).to be_valid
         end
         example "0なら有効" do
           account_history.amount = 0
-          expect(account_history.valid?).to be_truthy
+          expect(account_history).to be_valid
         end
         example "正の数なら無効" do
           account_history.amount = 1000
-          expect(account_history.valid?).to be_falsy
+          expect(account_history).to be_invalid
         end
         example "小数点が含まれるなら無効" do
           account_history.amount = 100.1
-          expect(account_history.valid?).to be_falsy
+          expect(account_history).to be_invalid
         end
       end
 
@@ -80,15 +80,15 @@ RSpec.describe AccountHistory, type: :model do
 
         example "負の数なら無効" do
           account_history.amount = -100
-          expect(account_history.valid?).to be_falsy
+          expect(account_history).to be_invalid
         end
         example "0なら有効" do
           account_history.amount = 0
-          expect(account_history.valid?).to be_truthy
+          expect(account_history).to be_valid
         end
         example "正の数なら無効" do
           account_history.amount = 1000
-          expect(account_history.valid?).to be_falsy
+          expect(account_history).to be_invalid
         end
       end
     end

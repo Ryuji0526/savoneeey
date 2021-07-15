@@ -32,17 +32,18 @@
             />
           </validation-provider>
           <v-card-actions class="d-flex justify-space-around">
-            <v-btn @click="closeDialog2">閉じる</v-btn>
+            <v-spacer></v-spacer>
+            <v-btn text @click="close">閉じる</v-btn>
             <v-btn
               color="light-green darken-1"
               class="white--text text-body-1 font-weight-bold rounded-log"
               elavation="5"
-              outlined
+              text
               :disabled="invalid"
               data-testid="register-account-history"
               @click="registerTradingHistory"
             >
-              出金/入金する
+              出金/入金
             </v-btn>
           </v-card-actions>
         </v-form>
@@ -89,26 +90,28 @@ export default {
   },
   computed: {
     ...mapGetters({
-      transaction: 'bank-account/transaction',
+      transaction: 'bankAccount/transaction',
     }),
   },
   methods: {
     ...mapActions({
-      createTradingHistory: 'bank-account/createTradingHistory',
-      setDeposit: 'bank-account/setDeposit',
-      setWithdrawal: 'bank-account/setWithdrawal',
-      setAmount: 'bank-account/setAmount',
-      clearTransaction: 'bank-account/clearTransaction',
+      createTradingHistory: 'bankAccount/createTradingHistory',
+      setDeposit: 'bankAccount/setDeposit',
+      setWithdrawal: 'bankAccount/setWithdrawal',
+      setAmount: 'bankAccount/setAmount',
+      clearTransaction: 'bankAccount/clearTransaction',
     }),
     registerTradingHistory() {
       this.setAmount(this.transaction_amount)
       this.createTradingHistory()
-      this.closeDialog2()
-      this.transaction_amount = 0
+      this.close()
     },
-    closeDialog2() {
-      this.clearTransaction()
+    close() {
       this.$emit('closeDialog2')
+      this.$nextTick(() => {
+        this.transaction_amount = 0
+        this.clearTransaction()
+      })
     },
   },
 }

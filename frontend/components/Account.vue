@@ -42,15 +42,7 @@
     >
       <template #activator="{ on, attrs }">
         <v-card-actions>
-          <v-btn
-            v-bind="attrs"
-            fab
-            absolute
-            bottom
-            left
-            v-on="on"
-            @click="clearTransaction"
-          >
+          <v-btn v-bind="attrs" fab absolute bottom left v-on="on">
             <v-icon>mdi-plus-minus-variant</v-icon>
           </v-btn>
         </v-card-actions>
@@ -161,7 +153,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      transaction: 'bank-account/transaction',
+      transaction: 'bankAccount/transaction',
     }),
     isSelected() {
       return (
@@ -183,11 +175,15 @@ export default {
       this.setCount(newValue.recent_histories[0].balance)
     },
   },
+  mounted() {
+    this.setCount(this.current_balance)
+    this.clearTransaction()
+  },
   methods: {
     ...mapActions({
-      clearTransaction: 'bank-account/clearTransaction',
-      setDeposit: 'bank-account/setDeposit',
-      setWithdrawal: 'bank-account/setWithdrawal',
+      clearTransaction: 'bankAccount/clearTransaction',
+      setDeposit: 'bankAccount/setDeposit',
+      setWithdrawal: 'bankAccount/setWithdrawal',
     }),
     selectAccount() {
       if (this.reveal === true) {
@@ -230,10 +226,6 @@ export default {
         },
       })
     },
-  },
-  mounted() {
-    this.setCount(this.current_balance)
-    this.clearTransaction()
   },
 }
 </script>

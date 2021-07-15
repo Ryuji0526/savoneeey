@@ -25,6 +25,7 @@ export default {
     account: {
       type: Object,
       require: true,
+      default: () => ({}),
     },
   },
   data() {

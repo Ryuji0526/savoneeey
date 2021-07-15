@@ -9,7 +9,7 @@ RSpec.describe TradingHistory, type: :model do
   context "user_id" do
     example "nilなら無効" do
       trading_history.user_id = nil
-      expect(trading_history.valid?).to be_falsy
+      expect(trading_history).to be_invalid
     end
   end
 
@@ -17,22 +17,22 @@ RSpec.describe TradingHistory, type: :model do
     example "どちらもnilなら無効" do
       trading_history.deposit_id = nil
       trading_history.withdrawal_id = nil
-      expect(trading_history.valid?).to be_falsy
+      expect(trading_history).to be_invalid
     end
   end
 
   context "transaction_amount" do
     example "マイナスなら無効" do
       trading_history.transaction_amount = -1000
-      expect(trading_history.valid?).to be_falsy
+      expect(trading_history).to be_invalid
     end
     example "整数でなければ無効" do
       trading_history.transaction_amount = 100.1
-      expect(trading_history.valid?).to be_falsy
+      expect(trading_history).to be_invalid
     end
     example "0ならば有効" do
       trading_history.transaction_amount = 0
-      expect(trading_history.valid?).to be_truthy
+      expect(trading_history).to be_valid
     end
   end
 end
