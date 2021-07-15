@@ -76,6 +76,10 @@ export default {
       this.setCount(newValue.recent_histories[0].balance)
     },
   },
+  mounted() {
+    this.getAccount(this.$route.params.id)
+    this.setCount(this.currentBalance)
+  },
   methods: {
     ...mapActions({
       getAccount: 'bankAccount/getAccount',
@@ -106,10 +110,6 @@ export default {
         this.deleteAccount(this.account.id)
       }
     },
-  },
-  mounted() {
-    this.getAccount(this.$route.params.id)
-    this.setCount(this.currentBalance)
   },
 }
 </script>

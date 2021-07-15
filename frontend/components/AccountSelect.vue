@@ -46,6 +46,9 @@ export default {
       return this.selected === null
     },
   },
+  mounted() {
+    this.getAccounts()
+  },
   methods: {
     ...mapActions({
       getAccounts: 'bankAccount/getAccounts',
@@ -59,9 +62,6 @@ export default {
     save() {
       this.$emit('register', this.selected)
     },
-  },
-  mounted() {
-    this.getAccounts()
   },
 }
 </script>
