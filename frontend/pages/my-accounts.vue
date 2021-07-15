@@ -37,13 +37,13 @@ export default {
       accounts: 'bankAccount/accounts',
     }),
   },
+  mounted() {
+    this.getAccounts()
+  },
   methods: {
     ...mapActions({
       getAccounts: 'bankAccount/getAccounts',
     }),
-  },
-  mounted() {
-    this.getAccounts()
   },
 }
 </script>

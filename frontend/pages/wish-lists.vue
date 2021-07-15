@@ -18,15 +18,15 @@ export default {
       wishTags: 'wishList/wishTags',
     }),
   },
+  mounted() {
+    this.getWishLists()
+    this.getWishTags()
+  },
   methods: {
     ...mapActions({
       getWishLists: 'wishList/getWishLists',
       getWishTags: 'wishList/getWishTags',
     }),
-  },
-  mounted() {
-    this.getWishLists()
-    this.getWishTags()
   },
 }
 </script>

@@ -79,9 +79,7 @@ export const actions = {
   async editUser({ dispatch }, user) {
     await this.$axios
       .put('/api/v1/auth', user)
-      .then((res) => {
-        console.log('edited user')
-        console.log(res)
+      .then(() => {
         dispatch(
           'flashMessage/showFlashMessage',
           {

@@ -11,11 +11,9 @@ export const getters = {
 export const mutations = {
   setWishLists(state, wishLists) {
     state.wishLists = wishLists.data
-    console.log(state.wishLists)
   },
   setWishTags(state, wishTags) {
     state.wishTags = wishTags.data
-    console.log(state.wishTags)
   },
 }
 
@@ -35,7 +33,6 @@ export const actions = {
       })
   },
   async createWishList({ dispatch }, wishList) {
-    console.log(wishList)
     await this.$axios
       .post('/api/v1/wish_lists', wishList)
       .then(() => {

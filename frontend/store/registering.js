@@ -1,6 +1,5 @@
 export const actions = {
   async createRegistering({ dispatch }, registering) {
-    console.log(registering)
     await this.$axios
       .post('/api/v1/registerings/register', registering)
       .then(() => {
@@ -31,7 +30,6 @@ export const actions = {
       })
   },
   async deleteRegistering({ dispatch }, registering) {
-    console.log(registering)
     await this.$axios
       .delete('/api/v1/registerings/unregister', { params: registering })
       .then(() => {
