@@ -1,12 +1,7 @@
 <template>
   <v-card>
     <v-card-actions class="pb-0 pt-5">
-      <v-btn
-        text
-        color="accent-4"
-        class="ml-auto"
-        @click="editable = !editable"
-      >
+      <v-btn text color="accent-4" class="ml-auto" @click="editItem">
         <v-icon v-if="!editable">mdi-pencil-outline</v-icon>
         <v-icon v-else>mdi-pencil-off-outline</v-icon>
       </v-btn>
@@ -26,7 +21,7 @@
                 rules="required|max:50"
               >
                 <v-text-field
-                  v-model="accountData.name"
+                  v-model="editedItem.name"
                   :error-messages="errors"
                   clearble
                   data-testid="name"
@@ -38,7 +33,7 @@
       </v-list-item>
       <v-list-item class="pb-5">
         <v-list-item-content class="ml-10">
-          <v-list-item-subtitle>TargetAmount</v-list-item-subtitle>
+          <v-list-item-subtitle>Target</v-list-item-subtitle>
           <v-list-item-title v-if="!editable" class="text-h6 text-center"
             >{{ account.target_amount | toLocaleString
             }}<span class="ml-5"
@@ -55,13 +50,41 @@
                 rules="required|minValue:0|integer"
               >
                 <v-text-field
-                  v-model="accountData.target_amount"
+                  v-model="editedItem.target_amount"
                   :error-messages="errors"
                   clearble
                   data-testid="name"
                   suffix="円"
                 />
               </validation-provider>
+            </v-form>
+          </v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+      <v-list-item class="pb-5">
+        <v-list-item-content class="ml-10">
+          <v-list-item-subtitle>Tags</v-list-item-subtitle>
+          <v-list-item-title v-if="!editable" class="text-h6 text-center">
+            <v-chip
+              v-for="(tag, i) in account.account_tags"
+              :key="i"
+              outlined
+              small
+              class="mr-1"
+              >{{ tag.name }}</v-chip
+            >
+          </v-list-item-title>
+          <v-list-item-title v-else class="text-h6 text-center">
+            <v-form ref="form">
+              <v-select
+                v-model="editedItem.account_tag_links_attributes"
+                :items="accountTagItems"
+                chips
+                :deletable-chips="deletable"
+                label="Tags"
+                multiple
+              >
+              </v-select>
               <v-card-actions class="d-flex justify-end">
                 <v-spacer></v-spacer>
                 <v-btn
@@ -73,7 +96,7 @@
                   data-testid="register-account-history"
                   @click="edit"
                 >
-                  編集
+                  Save
                 </v-btn>
               </v-card-actions>
             </v-form>
@@ -85,7 +108,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import {
   extend,
   ValidationObserver,
@@ -129,29 +152,73 @@ export default {
   data() {
     return {
       editable: false,
+      deletable: true,
+      editedItem: {
+        id: null,
+        name: '',
+        target_amount: null,
+        account_tag_links_attributes: [],
+      },
+      defaultItem: {
+        id: null,
+        name: '',
+        target_amount: null,
+        account_tag_links_attributes: [],
+      },
     }
   },
   computed: {
+    ...mapGetters({
+      accountTags: 'tag/accountTags',
+    }),
     accountData() {
       return {
         name: this.account.name,
         target_amount: this.account.target_amount,
         id: this.account.id,
+        account_tag_links_attributes: this.myTags,
       }
     },
+    accountTagItems() {
+      const items = []
+      for (let i = 0; i < this.accountTags.length; i++) {
+        const item = {}
+        item.text = this.accountTags[i].name
+        item.value = { account_tag_id: this.accountTags[i].id }
+        items.push(item)
+      }
+      return items
+    },
+    myTags() {
+      const tags = []
+      for (let i = 0; i < this.account.account_tags.length; i++) {
+        tags.push({ account_tag_id: this.account.account_tags[i].id })
+      }
+      return tags
+    },
+  },
+  mounted() {
+    this.getAccountTags()
   },
   methods: {
     ...mapActions({
       editAccount: 'bankAccount/editAccount',
+      getAccountTags: 'tag/getAccountTags',
     }),
-    closeEditable() {
-      this.accountData.name = this.account.name
-      this.accountData.target_amount = this.account.target_amount
-      this.editable = false
-    },
     edit() {
-      this.editAccount(this.accountData)
+      this.editAccount(this.editedItem)
       this.editable = false
+      this.$nextTick(() => {
+        this.editedItem = Object.assign({}, this.defaultItem)
+      })
+    },
+    editItem() {
+      if (this.editable === false) {
+        this.editable = true
+        this.editedItem = Object.assign({}, this.accountData)
+      } else {
+        this.editable = false
+      }
     },
   },
 }

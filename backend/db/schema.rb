@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_14_043111) do
+ActiveRecord::Schema.define(version: 2021_07_15_041125) do
 
   create_table "account_histories", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "account_id", null: false
@@ -20,6 +20,16 @@ ActiveRecord::Schema.define(version: 2021_07_14_043111) do
     t.integer "balance", null: false
     t.index ["account_id", "created_at"], name: "index_account_histories_on_account_id_and_created_at"
     t.index ["account_id"], name: "index_account_histories_on_account_id"
+  end
+
+  create_table "account_tag_links", charset: "utf8mb4", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "account_tag_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id", "account_tag_id"], name: "index_account_tag_links_on_account_id_and_account_tag_id", unique: true
+    t.index ["account_id"], name: "index_account_tag_links_on_account_id"
+    t.index ["account_tag_id"], name: "index_account_tag_links_on_account_tag_id"
   end
 
   create_table "accounts", charset: "utf8mb4", force: :cascade do |t|

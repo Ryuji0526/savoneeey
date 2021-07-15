@@ -1,6 +1,6 @@
 export const state = () => ({
   content: '',
-  type: '',
+  type: 'success',
 })
 
 export const getters = {

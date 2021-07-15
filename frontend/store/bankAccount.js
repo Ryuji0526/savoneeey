@@ -34,6 +34,7 @@ export const mutations = {
   },
   setAccount(state, account) {
     state.account = account.data
+    console.log(state.account)
   },
   setDeposit(state, deposit) {
     state.transaction.deposit = deposit
