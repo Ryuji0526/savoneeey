@@ -109,7 +109,7 @@ export default {
     close() {
       this.$emit('closeDialog2')
       this.$nextTick(() => {
-        this.transaction_amount = 0
+        this.transaction_amount = null
         this.clearTransaction()
       })
     },

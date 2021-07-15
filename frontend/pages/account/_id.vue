@@ -15,8 +15,23 @@
     <v-subheader id="wish-lists" class="text-h4 my-5">WishLists</v-subheader>
     <account-wish-lists :account="account" />
     <div v-if="!is_main" class="text-right mt-10">
-      <v-btn @click="deletable"> 口座を削除する </v-btn>
+      <v-btn @click="dialogDelete = true"> 口座を削除する </v-btn>
     </div>
+    <v-dialog v-model="dialogDelete" max-width="500px">
+      <v-card>
+        <v-card-title class="text-h6"
+          >口座を削除してもよろしいですか?</v-card-title
+        >
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="darken-1" text @click="dialogDelete = false"
+            >Cancel</v-btn
+          >
+          <v-btn color="darken-1" text @click="deletable">OK</v-btn>
+          <v-spacer></v-spacer>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -40,6 +55,7 @@ export default {
   },
   data() {
     return {
+      dialogDelete: false,
       items: [
         {
           text: 'Detail',
@@ -101,7 +117,7 @@ export default {
     },
     deletable() {
       if (this.currentBalance > 0) {
-        window.scrollTo(0, 0)
+        this.dialogDelete = false
         this.showFlashMessage({
           content: '残高が存在するため削除できません。',
           type: 'error',

@@ -6,6 +6,8 @@ RSpec.describe "Api::V1::Accounts", type: :request do
   let(:account) { create(:account, user: user) }
   let(:account_params) { attributes_for(:account) }
   let(:invalid_account_params) { attributes_for(:account, name: "") }
+  let(:tag1) { create(:account_tag) }
+  let(:tag2) { create(:account_tag) }
 
   before do
     create_list(:account, 10, user: user)
@@ -32,13 +34,22 @@ RSpec.describe "Api::V1::Accounts", type: :request do
         expect(res["data"]["name"]).to eq(Account.last.name)
         expect(response.status).to eq 200
       end
-
       example "AccountHistoryが追加される" do
         expect {
           post "/api/v1/accounts", params: account_params, headers: headers, as: :json
         }.to change(AccountHistory, :count).by(1)
         latest_history = AccountHistory.last
         expect(latest_history.action).to eq("新規")
+      end
+      example "タグが選択されていればタグも追加される" do
+        expect {
+          post "/api/v1/accounts", params: { account: {
+            name: 'test',
+            target_amount: 1000,
+            is_main: false,
+            account_tag_links_attributes: [{ account_tag_id: tag1.id }, { account_tag_id: tag2.id }],
+          } }, headers: headers, as: :json
+        }.to change(AccountTagLink, :count).by(2)
       end
     end
 
@@ -62,6 +73,15 @@ RSpec.describe "Api::V1::Accounts", type: :request do
         expect(res["status"]).to eq("updated")
         expect(res['data']['name']).to eq("edited account")
         expect(response.status).to eq(200)
+      end
+
+      example "タグが選択されていればタグも追加される" do
+        expect {
+          put "/api/v1/accounts/#{account.id}", params: { account: {
+            name: "edited account",
+            account_tag_links_attributes: [{ account_tag_id: tag1.id }, { account_tag_id: tag2.id }],
+          } }, headers: headers, as: :json
+        }.to change(account.account_tags, :count).by(2)
       end
     end
 
@@ -96,6 +116,13 @@ RSpec.describe "Api::V1::Accounts", type: :request do
         res = JSON.parse(response.body)
         expect(res["status"]).to eq("error")
         expect(response.status).to eq 422
+      end
+
+      example "accountTagLinkも削除される" do
+        account.account_tag_links.create(account_tag_id: tag1.id)
+        expect {
+          delete "/api/v1/accounts/#{account.id}", headers: headers, as: :json
+        }.to change(AccountTagLink, :count).by(-1)
       end
     end
 
