@@ -1,14 +1,15 @@
 <template>
-  <v-item-group>
-    <v-container>
+  <v-container>
+    <v-item-group>
       <v-row>
         <v-col
           v-for="(account, i) in accounts"
           :key="i"
-          :cols="i === 0 ? 12 : 6"
+          :sm="i === 0 ? 12 : 6"
+          cols="12"
         >
           <v-item class="mx-auto">
-            <account-lists :account="account" />
+            <account :account="account" />
           </v-item>
         </v-col>
         <v-col cols="6" align-self="center">
@@ -17,32 +18,32 @@
           </v-item>
         </v-col>
       </v-row>
-    </v-container>
-  </v-item-group>
+    </v-item-group>
+  </v-container>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import AccountLists from '~/components/AccountLists'
+import Account from '~/components/Account'
 import AccountNew from '~/components/AccountNew'
 
 export default {
   components: {
-    AccountLists,
+    Account,
     AccountNew,
   },
   computed: {
     ...mapGetters({
-      accounts: 'bank-account/accounts',
-    }),
-  },
-  methods: {
-    ...mapActions({
-      getAccounts: 'bank-account/getAccounts',
+      accounts: 'bankAccount/accounts',
     }),
   },
   mounted() {
     this.getAccounts()
+  },
+  methods: {
+    ...mapActions({
+      getAccounts: 'bankAccount/getAccounts',
+    }),
   },
 }
 </script>

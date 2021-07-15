@@ -90,13 +90,12 @@ export const actions = {
       })
   },
   async createAccount({ dispatch }, account) {
-    console.log(account)
     await this.$axios
       .post('/api/v1/accounts', account)
       .then(() => {
         dispatch('getAccounts')
         dispatch(
-          'flash-message/showFlashMessage',
+          'flashMessage/showFlashMessage',
           {
             content: '新規口座を開設しました',
             type: 'success',
@@ -116,7 +115,7 @@ export const actions = {
       .then(() => {
         dispatch('getAccount', account.id)
         dispatch(
-          'flash-message/showFlashMessage',
+          'flashMessage/showFlashMessage',
           {
             content: '口座情報を変更しました。',
             type: 'success',
@@ -136,7 +135,7 @@ export const actions = {
       .delete(`/api/v1/accounts/${id}`)
       .then(() => {
         dispatch(
-          'flash-message/showFlashMessage',
+          'flashMessage/showFlashMessage',
           {
             content: '口座を削除しました。',
             type: 'success',
@@ -145,7 +144,7 @@ export const actions = {
             root: true,
           }
         )
-        this.$router.push(`/my-accounts`)
+        this.$router.push('/my-accounts')
       })
       .catch((error) => {
         console.log(error)

@@ -1,13 +1,15 @@
 <template>
   <v-card>
-    <v-tabs color="gray" left>
-      <v-tab v-for="(tab, i) in tabs" :key="i" @click="tabName = tab">{{
-        tab
-      }}</v-tab>
-      <v-tab-item v-for="(tab, i) in tabs" :key="i">
-        <chart :chart-data="chartData" :height="150" />
-      </v-tab-item>
-    </v-tabs>
+    <v-container>
+      <v-tabs color="gray" left>
+        <v-tab v-for="(tab, i) in tabs" :key="i" @click="tabName = tab">{{
+          tab
+        }}</v-tab>
+        <v-tab-item v-for="(tab, i) in tabs" :key="i">
+          <chart :chart-data="chartData" :height="150" />
+        </v-tab-item>
+      </v-tabs>
+    </v-container>
   </v-card>
 </template>
 

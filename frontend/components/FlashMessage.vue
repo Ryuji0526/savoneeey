@@ -22,8 +22,8 @@ import { mapGetters } from 'vuex'
 export default {
   computed: {
     ...mapGetters({
-      message: 'flash-message/content',
-      type: 'flash-message/type',
+      message: 'flashMessage/content',
+      type: 'flashMessage/type',
     }),
   },
 }

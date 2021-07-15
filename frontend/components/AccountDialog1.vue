@@ -9,7 +9,7 @@
             name="出金/入金"
             rules="required"
           >
-            <v-radio-group v-model="action" row>
+            <v-radio-group v-model="selected" row>
               <v-radio
                 v-for="(action, index) in actions"
                 :key="index"
@@ -28,7 +28,7 @@
               minValue: 0,
               lessThanBalance: {
                 balance: currentBalance,
-                action: action,
+                action: selected,
               },
             }"
           >
@@ -42,17 +42,18 @@
             />
           </validation-provider>
           <v-card-actions class="d-flex justify-space-around">
-            <v-btn @click="$emit('closeDialog1')">閉じる</v-btn>
+            <v-spacer></v-spacer>
+            <v-btn text @click="close">閉じる</v-btn>
             <v-btn
               color="light-green darken-1"
               class="white--text text-body-1 font-weight-bold rounded-log"
               elavation="5"
-              outlined
+              text
               :disabled="invalid"
               data-testid="register-account-history"
               @click="registerTradingHistoryOnlyMain"
             >
-              出金/入金する
+              出金/入金
             </v-btn>
           </v-card-actions>
         </v-form>
@@ -96,7 +97,7 @@ export default {
     return {
       transaction_amount: 0,
       actions: ['出金', '入金'],
-      action: '',
+      selected: '',
       current_balance: this.account.recent_histories[0].balance,
     }
   },
@@ -107,14 +108,14 @@ export default {
   },
   methods: {
     ...mapActions({
-      setAmount: 'bank-account/setAmount',
-      createTradingHistory: 'bank-account/createTradingHistory',
-      clearTransaction: 'bank-account/clearTransaction',
-      setWithdrawal: 'bank-account/setWithdrawal',
-      setDeposit: 'bank-account/setDeposit',
+      setAmount: 'bankAccount/setAmount',
+      createTradingHistory: 'bankAccount/createTradingHistory',
+      clearTransaction: 'bankAccount/clearTransaction',
+      setWithdrawal: 'bankAccount/setWithdrawal',
+      setDeposit: 'bankAccount/setDeposit',
     }),
     registerTradingHistoryOnlyMain() {
-      switch (this.action) {
+      switch (this.selected) {
         case '出金':
           this.setWithdrawal({
             id: this.account.id,
@@ -128,9 +129,14 @@ export default {
       }
       this.setAmount(this.transaction_amount)
       this.createTradingHistory()
-      this.clearTransaction()
-      this.transaction_amount = 0
+      this.close()
+    },
+    close() {
       this.$emit('closeDialog1')
+      this.$nextTick(() => {
+        this.transaction_amount = 0
+        this.clearTransaction()
+      })
     },
   },
 }

@@ -7,8 +7,8 @@ class Api::V1::AccountsController < ApplicationController
   end
 
   def show
-    account = current_api_v1_user.accounts.includes(:account_histories).find(params[:id])
-    render json: { status: :success, data: account.as_json(methods: [:recent_histories, :weekly_histories, :dayly_histories, :monthly_histories]) }
+    account = current_api_v1_user.accounts.includes(:account_histories, :wish_lists).find(params[:id])
+    render json: { status: :success, data: account.as_json(methods: [:recent_histories, :weekly_histories, :dayly_histories, :monthly_histories], include: { wish_lists: { include: { wish_tags: { only: :name } } } }) }
   end
 
   def create
@@ -48,6 +48,6 @@ class Api::V1::AccountsController < ApplicationController
   end
 
   def account_params
-    params.require(:account).permit(:name, :target_amount, :id)
+    params.require(:account).permit(:name, :target_amount)
   end
 end
