@@ -11,6 +11,7 @@ export const getters = {
 export const mutations = {
   setWishLists(state, wishLists) {
     state.wishLists = wishLists.data
+    console.log(state.wishLists)
   },
   setWishTags(state, wishTags) {
     state.wishTags = wishTags.data

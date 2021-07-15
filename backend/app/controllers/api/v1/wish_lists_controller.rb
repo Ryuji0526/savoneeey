@@ -16,8 +16,12 @@ class Api::V1::WishListsController < ApplicationController
   end
 
   def update
-    if @wish_list.update(wish_list_params)
-      render json: { status: :updated, data: @wish_list }
+    if @wish_list.wish_tag_links.destroy_all
+      if @wish_list.update(wish_list_params)
+        render json: { status: :updated, data: @wish_list }
+      else
+        render json: { status: :error, data: @wish_list.errors }, status: :unprocessable_entity
+      end
     else
       render json: { status: :error, data: @wish_list.errors }, status: :unprocessable_entity
     end

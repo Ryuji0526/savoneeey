@@ -5,6 +5,9 @@
         :headers="headers"
         :items="account.wish_lists"
         :loading="loading"
+        :page.sync="page"
+        :items-per-page="itemsPerPage"
+        @page-count="pageCount = $event"
         hide-default-footer
       >
         <template #top>
@@ -38,9 +41,10 @@
           </template>
         </template>
         <template #[`item.actions`]="{ item }">
-          <v-icon small @click="unregisterItem(item.id)"> mdi-delete </v-icon>
+          <v-icon midium @click="unregisterItem(item.id)"> mdi-delete </v-icon>
         </template>
       </v-data-table>
+      <v-pagination v-model="page" :length="pageCount" circle></v-pagination>
     </v-container>
   </v-card>
 </template>
@@ -60,6 +64,9 @@ export default {
       selected: [],
       dialogUnregister: false,
       loading: false,
+      page: 1,
+      pageCount: 0,
+      itemsPerPage: 5,
       registering: {
         wish_list_id: null,
         account_id: null,
@@ -87,7 +94,6 @@ export default {
     unregisterItemConfirm() {
       this.registering.account_id = this.account.id
       this.deleteRegistering(this.registering)
-      // console.log(this.registering)
       this.closeUnregister()
     },
     closeUnregister() {

@@ -2,9 +2,6 @@
   <v-container>
     <div>
       <p>loggedIn: {{ $auth.loggedIn }}</p>
-      <p v-if="loggedIn">name: {{ user.name }}</p>
-      <p v-if="loggedIn">email: {{ user.email }}</p>
-      <p v-if="loggedIn">id: {{ user.id }}</p>
     </div>
   </v-container>
 </template>

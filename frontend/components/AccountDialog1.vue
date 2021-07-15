@@ -95,7 +95,7 @@ export default {
   },
   data() {
     return {
-      transaction_amount: 0,
+      transaction_amount: null,
       actions: ['出金', '入金'],
       selected: '',
       current_balance: this.account.recent_histories[0].balance,
@@ -134,7 +134,8 @@ export default {
     close() {
       this.$emit('closeDialog1')
       this.$nextTick(() => {
-        this.transaction_amount = 0
+        this.transaction_amount = null
+        this.selected = ''
         this.clearTransaction()
       })
     },
