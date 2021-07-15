@@ -7,8 +7,8 @@ class Api::V1::AccountsController < ApplicationController
   end
 
   def show
-    account = current_api_v1_user.accounts.includes(:account_histories, :wish_lists).find(params[:id])
-    render json: { status: :success, data: account.as_json(methods: [:recent_histories, :weekly_histories, :dayly_histories, :monthly_histories], include: { wish_lists: { include: { wish_tags: { only: :name } } } }) }
+    account = current_api_v1_user.accounts.includes(:account_histories, :wish_lists, :account_tags).find(params[:id])
+    render json: { status: :success, data: account.as_json(methods: [:recent_histories, :weekly_histories, :dayly_histories, :monthly_histories], include: [{ account_tags: { only: [:name, :id] } }, { wish_lists: { include: { wish_tags: { only: :name } } } }]) }
   end
 
   def create
@@ -22,8 +22,12 @@ class Api::V1::AccountsController < ApplicationController
   end
 
   def update
-    if @account.update(account_params)
-      render json: { data: @account, status: :updated }
+    if @account.account_tag_links.destroy_all
+      if @account.update(account_params)
+        render json: { data: @account, status: :updated }
+      else
+        render json: { status: :error, data: @account.errors }, status: :unprocessable_entity
+      end
     else
       render json: { status: :error, data: @account.errors }, status: :unprocessable_entity
     end
@@ -48,6 +52,6 @@ class Api::V1::AccountsController < ApplicationController
   end
 
   def account_params
-    params.require(:account).permit(:name, :target_amount)
+    params.require(:account).permit(:name, :target_amount, account_tag_links_attributes: [:account_tag_id])
   end
 end

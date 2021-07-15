@@ -13,6 +13,7 @@ Rails.application.routes.draw do
       resources :wish_lists, except: [:edit, :show]
       resources :tags, only: [] do
         get :wish_tags, on: :collection
+        get :account_tags, on: :collection
       end
       resources :registerings, only: [] do
         post :register, on: :collection

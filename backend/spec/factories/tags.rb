@@ -1,11 +1,11 @@
 FactoryBot.define do
   factory :wish_tag do
-    name { "tag" }
+    name { "wishTag" }
     type { "WishTag" }
   end
 
   factory :account_tag do
-    name { "tag" }
+    name { "accountTag" }
     type { "AccountTag" }
   end
 end

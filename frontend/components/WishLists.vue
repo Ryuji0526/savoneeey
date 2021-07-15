@@ -7,6 +7,8 @@
       :search="search"
       :loading="loading"
       :page.sync="page"
+      :items-per-page="itemsPerPage"
+      @page-count="pageCount = $event"
       hide-default-footer
       show-select
     >
@@ -79,11 +81,10 @@
                           ></v-text-field>
                         </validation-provider>
                       </v-col>
-                      <v-col v-if="editedIndex === -1" cols="12" class="py-0">
+                      <v-col cols="12" class="py-0">
                         <v-select
                           v-model="editedItem.wish_tag_links_attributes"
-                          :items="WishTagItems"
-                          attach
+                          :items="wishTagItems"
                           chips
                           :deletable-chips="deletable"
                           label="Tags"
@@ -214,13 +215,14 @@ export default {
       dialogRegister: false,
       loading: false,
       page: 1,
-      pageCount: 5,
+      pageCount: 0,
+      itemsPerPage: 5,
       deletable: true,
       reg: /^(https?|ftp):\/\/([a-zA-Z0-9.-]+(:[a-zA-Z0-9.&%$-]+)*@)*((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|([a-zA-Z0-9-]+\.)*[a-zA-Z0-9-]+\.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2}))(:[0-9]+)*(\/($|[a-zA-Z0-9.,?'\\+&%$#=~_-]+))*$/,
       headers: [
         { text: 'Name', value: 'name' },
         { text: 'Price', value: 'price' },
-        { text: 'Tags', value: 'wish_tags' },
+        { text: 'Tags', value: 'wish_tags', sortable: false },
         { text: 'Actions', value: 'actions', sortable: false },
       ],
       editedIndex: -1,
@@ -252,7 +254,7 @@ export default {
     formTitle() {
       return this.editedIndex === -1 ? 'New WishList' : 'Edit WishList'
     },
-    WishTagItems() {
+    wishTagItems() {
       const items = []
       for (let i = 0; i < this.wishTags.length; i++) {
         const item = {}
@@ -285,9 +287,25 @@ export default {
       deleteWishList: 'wishList/deleteWishList',
       createRegistering: 'registering/createRegistering',
     }),
+    itemData(item) {
+      return {
+        id: item.id,
+        name: item.name,
+        price: item.price,
+        url: item.url,
+        wish_tag_links_attributes: this.myTags(item),
+      }
+    },
+    myTags(item) {
+      const tags = []
+      for (let i = 0; i < item.wish_tags.length; i++) {
+        tags.push({ wish_tag_id: item.wish_tags[i].id })
+      }
+      return tags
+    },
     editItem(item) {
       this.editedIndex = this.wishLists.indexOf(item)
-      this.editedItem = Object.assign({}, item)
+      this.editedItem = Object.assign({}, this.itemData(item))
       this.dialog = true
     },
     deleteItem(item) {

@@ -15,7 +15,7 @@ export default {
   computed: {
     ...mapGetters({
       wishLists: 'wishList/wishLists',
-      wishTags: 'wishList/wishTags',
+      wishTags: 'tag/wishTags',
     }),
   },
   mounted() {
@@ -25,7 +25,7 @@ export default {
   methods: {
     ...mapActions({
       getWishLists: 'wishList/getWishLists',
-      getWishTags: 'wishList/getWishTags',
+      getWishTags: 'tag/getWishTags',
     }),
   },
 }

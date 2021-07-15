@@ -49,6 +49,15 @@
                 suffix="円"
               />
             </validation-provider>
+            <v-select
+              v-model="account.account_tag_links_attributes"
+              :items="accountTagItems"
+              chips
+              :deletable-chips="deletable"
+              label="Tags"
+              multiple
+            >
+            </v-select>
             <v-card-actions>
               <v-btn
                 color="light-green darken-1"
@@ -77,7 +86,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import {
   extend,
   ValidationObserver,
@@ -106,14 +115,35 @@ export default {
   data() {
     return {
       dialog: false,
+      deletable: true,
       account: {
         name: '',
         target_amount: 10000,
+        account_tag_links_attributes: [],
       },
     }
   },
+  computed: {
+    ...mapGetters({
+      accountTags: 'tag/accountTags',
+    }),
+    accountTagItems() {
+      const items = []
+      for (let i = 0; i < this.accountTags.length; i++) {
+        const item = {}
+        item.text = this.accountTags[i].name
+        item.value = { account_tag_id: this.accountTags[i].id }
+        items.push(item)
+      }
+      return items
+    },
+  },
+  mounted() {
+    this.getAccountTags()
+  },
   methods: {
     ...mapActions({
+      getAccountTags: 'tag/getAccountTags',
       createAccount: 'bankAccount/createAccount',
     }),
     registerAccount() {
