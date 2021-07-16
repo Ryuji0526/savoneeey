@@ -13,12 +13,15 @@ class Api::V1::AccountsController < ApplicationController
 
   def create
     account = current_api_v1_user.accounts.new(account_params)
-    if account.save
-      AccountHistory.first_account_history(account)
-      render json: { data: account, status: :created }
-    else
-      render json: { status: :error, data: account.errors }, status: :unprocessable_entity
+    Account.transaction do
+      AccountHistory.transaction do
+        account.save!
+        AccountHistory.first_account_history(account)
+      end
     end
+    render json: { data: account, status: :created }
+  rescue => e
+    render json: { status: :error, data: e.message }, status: :unprocessable_entity
   end
 
   def update

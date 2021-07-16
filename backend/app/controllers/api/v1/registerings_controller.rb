@@ -6,11 +6,7 @@ class Api::V1::RegisteringsController < ApplicationController
     registerings = wish_lists.map do |list|
       @account.registerings.new(wish_list_id: list.id)
     end
-    if save(registerings)
-      render json: { status: :created, data: registerings }
-    else
-      render json: { status: :error }, status: :unprocessable_entity
-    end
+    save(registerings)
   end
 
   def unregister
@@ -34,5 +30,8 @@ class Api::V1::RegisteringsController < ApplicationController
         registering.save!
       end
     end
+    render json: { status: :created, data: registerings }
+  rescue => e
+    render json: { status: :error, data: e.message }, status: :unprocessable_entity
   end
 end

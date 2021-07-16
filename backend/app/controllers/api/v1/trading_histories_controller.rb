@@ -6,12 +6,15 @@ class Api::V1::TradingHistoriesController < ApplicationController
 
   def create
     trading_history = current_api_v1_user.trading_histories.new(trading_params)
-    if trading_history.save
-      AccountHistory.add_history(trading_history)
-      render json: { data: trading_history, status: :created }
-    else
-      render json: { status: :error, data: trading_history.errors }, status: :unprocessable_entity
+    TradingHistory.transaction do
+      AccountHistory.transaction do
+        trading_history.save!
+        AccountHistory.add_history(trading_history)
+      end
     end
+    render json: { data: trading_history, status: :created }
+  rescue => e
+    render json: { status: :error, data: e.message }, status: :unprocessable_entity
   end
 
   private

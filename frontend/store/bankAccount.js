@@ -107,6 +107,16 @@ export const actions = {
         )
       })
       .catch((error) => {
+        dispatch(
+          'flashMessage/showFlashMessage',
+          {
+            content: '口座の開設に失敗しました。再度操作をお願いします。',
+            type: 'error',
+          },
+          {
+            root: true,
+          }
+        )
         console.log(error)
       })
   },
@@ -158,10 +168,20 @@ export const actions = {
         withdrawal_id: state.transaction.withdrawal.id,
         transaction_amount: state.transaction.amount,
       })
-      .then((res) => {
+      .then(() => {
         dispatch('getAccounts')
       })
       .catch((error) => {
+        dispatch(
+          'flashMessage/showFlashMessage',
+          {
+            content: '取引に失敗しました。再度取引をお願いします。',
+            type: 'error',
+          },
+          {
+            root: true,
+          }
+        )
         console.log(error)
       })
   },
