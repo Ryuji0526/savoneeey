@@ -31,6 +31,7 @@ export default {
   position: fixed;
   z-index: 300;
   left: 50%;
+  top: 7%;
   margin-left: calc(70% / -2);
 }
 </style>
