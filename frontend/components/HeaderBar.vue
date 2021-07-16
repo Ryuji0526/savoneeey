@@ -72,7 +72,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      showFlashMessage: 'flashMessage/showFlashMessage',
+      showFlashMessage: 'flash-message/showFlashMessage',
     }),
     logout() {
       this.$auth.logout().then(() => {

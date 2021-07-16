@@ -2,7 +2,7 @@ import colors from 'vuetify/es5/util/colors'
 
 export default {
   head: {
-    titleTemplate: '%s - savoneeey',
+    titleTemplate: 'savoneeey',
     title: 'app',
     htmlAttrs: {
       lang: 'ja',
@@ -68,18 +68,25 @@ export default {
   },
 
   vuetify: {
+    treeShake: true,
+    defaultAssets: {
+      font: {
+        family: 'fot-tsukuardgothic-std, sans-serif',
+      },
+    },
     customVariables: ['~/assets/variables.scss'],
     theme: {
       dark: false,
       themes: {
         light: {
-          primary: colors.blue.darken2,
-          accent: colors.grey.darken3,
-          secondary: colors.amber.darken3,
-          info: colors.teal.lighten1,
-          warning: colors.amber.base,
+          primary: '#b5f814',
+          accent: '#b5f814',
+          secondary: '#b5f814',
+          info: '#b5f814',
+          warning: '#b5f814',
           error: colors.deepOrange.accent4,
-          success: colors.green.accent3,
+          success: '#b5f814',
+          background: '#e3dbd0',
         },
       },
     },
