@@ -7,8 +7,8 @@
         :loading="loading"
         :page.sync="page"
         :items-per-page="itemsPerPage"
-        @page-count="pageCount = $event"
         hide-default-footer
+        @page-count="pageCount = $event"
       >
         <template #top>
           <v-dialog v-model="dialogUnregister" max-width="500px">
