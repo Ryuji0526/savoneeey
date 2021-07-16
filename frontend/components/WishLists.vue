@@ -8,9 +8,9 @@
       :loading="loading"
       :page.sync="page"
       :items-per-page="itemsPerPage"
-      @page-count="pageCount = $event"
       hide-default-footer
       show-select
+      @page-count="pageCount = $event"
     >
       <template #top>
         <v-toolbar flat>
@@ -216,7 +216,7 @@ export default {
       loading: false,
       page: 1,
       pageCount: 0,
-      itemsPerPage: 5,
+      itemsPerPage: 10,
       deletable: true,
       reg: /^(https?|ftp):\/\/([a-zA-Z0-9.-]+(:[a-zA-Z0-9.&%$-]+)*@)*((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|([a-zA-Z0-9-]+\.)*[a-zA-Z0-9-]+\.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2}))(:[0-9]+)*(\/($|[a-zA-Z0-9.,?'\\+&%$#=~_-]+))*$/,
       headers: [
