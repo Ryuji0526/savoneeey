@@ -31,4 +31,7 @@ export default {
 #main {
   height: 100%;
 }
+.caption {
+  font-family: 'Amatic SC' !important;
+}
 </style>

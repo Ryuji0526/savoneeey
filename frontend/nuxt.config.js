@@ -23,7 +23,7 @@ export default {
 
   buildModules: ['@nuxtjs/eslint-module', '@nuxtjs/vuetify'],
 
-  modules: ['@nuxtjs/axios', '@nuxtjs/auth'],
+  modules: ['@nuxtjs/axios', '@nuxtjs/auth', 'nuxt-webfontloader'],
 
   plugins: [
     { src: '~/plugins/axios.js', ssr: false },
@@ -71,7 +71,7 @@ export default {
     treeShake: true,
     defaultAssets: {
       font: {
-        family: 'fot-tsukuardgothic-std, sans-serif',
+        family: 'Noto Sans JP',
       },
     },
     customVariables: ['~/assets/variables.scss'],
@@ -89,6 +89,12 @@ export default {
           background: '#e3dbd0',
         },
       },
+    },
+  },
+
+  webfontloader: {
+    google: {
+      families: ['Noto+Sans+JP', 'Caveat'],
     },
   },
 

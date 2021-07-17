@@ -10,7 +10,10 @@
       >
         <v-list-item-content class="hover">
           <v-icon>{{ item.icon }}</v-icon>
-          <v-list-item-title class="text-center" v-text="item.title" />
+          <v-list-item-title
+            class="text-center text-body-1 caption"
+            v-text="item.title"
+          />
         </v-list-item-content>
       </v-list-item>
     </v-list>
@@ -24,14 +27,19 @@
       >
         <v-list-item-content>
           <v-icon>{{ item.icon }}</v-icon>
-          <v-list-item-title class="text-center" v-text="item.title" />
+          <v-list-item-title
+            class="text-center text-body-1 caption"
+            v-text="item.title"
+          />
         </v-list-item-content>
       </v-list-item>
       <v-divider></v-divider>
       <v-list-item @click="logout">
         <v-list-item-content class="px-0" two-line>
           <v-icon>mdi-logout</v-icon>
-          <v-list-item-title class="text-center"> Logout </v-list-item-title>
+          <v-list-item-title class="text-center text-body-1 caption">
+            Logout
+          </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
     </v-list>
@@ -107,5 +115,8 @@ export default {
 .v-list-item__title {
   font-size: small;
   display: block;
+}
+.caption {
+  font-family: 'Caveat', cursive !important;
 }
 </style>
