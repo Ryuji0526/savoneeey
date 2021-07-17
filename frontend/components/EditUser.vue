@@ -1,16 +1,13 @@
 <template>
-  <v-card width="400px" class="mx-auto mt-15 py-7 rounded-xl" elevation="10">
-    <v-card-title>
-      <h1 class="mx-auto text-h6 font-weight-bold">ユーザー情報編集</h1>
-    </v-card-title>
-    <v-card-text class="px-12">
+  <v-card width="400px" class="mx-auto mt-15 py-7 rounded-xl" elevation="5">
+    <v-card-text class="px-12 pb-0">
       <validation-observer ref="observer" v-slot="{ invalid }">
         <v-form ref="form">
           <validation-provider v-slot="{ errors }" name="名前" rules="required">
             <v-text-field
               v-model="user.name"
               prepend-icon="mdi-account"
-              label="名前"
+              label="Name"
               :error-messages="errors"
               clearable
               data-testid="name"
@@ -24,30 +21,23 @@
             <v-text-field
               v-model="user.email"
               prepend-icon="mdi-email"
-              label="メールアドレス"
+              label="e-mail"
               :error-messages="errors"
               clearable
               data-testid="email"
             />
           </validation-provider>
           <v-card-actions>
+            <v-spacer></v-spacer>
             <v-btn
-              color="light-green darken-1"
-              class="
-                white--text
-                mx-auto
-                text-body-1
-                font-weight-bold
-                rounded-lg
-              "
-              elavation="5"
-              outlined
-              block
+              color="primary"
+              class="font-weight-bold"
+              text
               :disabled="invalid"
               data-testid="edit"
               @click="editUser"
             >
-              登録
+              Save
             </v-btn>
           </v-card-actions>
         </v-form>
