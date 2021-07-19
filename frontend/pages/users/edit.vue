@@ -1,17 +1,17 @@
 <template>
   <v-container>
     <main-title :title="title" />
-    <edit-user />
+    <user-edit />
   </v-container>
 </template>
 
 <script>
-import EditUser from '~/components/EditUser'
+import UserEdit from '~/components/UserEdit'
 import MainTitle from '~/components/MainTitle'
 
 export default {
   components: {
-    EditUser,
+    UserEdit,
     MainTitle,
   },
   data() {

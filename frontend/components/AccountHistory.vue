@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-container>
-      <v-tabs color="gray" left>
+      <v-tabs left>
         <v-tab v-for="(tab, i) in tabs" :key="i" @click="tabName = tab">{{
           tab
         }}</v-tab>

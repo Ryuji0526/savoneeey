@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-card width="400px" class="mx-auto mt-15 py-7 rounded-xl" elevation="10">
+    <v-card width="400px" class="mx-auto py-7 rounded-xl" elevation="10">
       <v-card-text class="px-12 pb-0">
         <validation-observer ref="observer" v-slot="{ invalid }">
           <v-form ref="form">
@@ -12,7 +12,7 @@
               <v-text-field
                 v-model="user.name"
                 prepend-icon="mdi-account"
-                label="Name"
+                label="※Name"
                 :error-messages="errors"
                 clearable
                 data-testid="name"
@@ -26,7 +26,7 @@
               <v-text-field
                 v-model="user.email"
                 prepend-icon="mdi-email"
-                label="e-mail"
+                label="※e-mail"
                 :error-messages="errors"
                 clearable
                 data-testid="email"
@@ -43,7 +43,7 @@
                 :type="show ? 'text' : 'password'"
                 prepend-icon="mdi-lock"
                 :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
-                label="Password"
+                label="※Password"
                 :error-messages="errors"
                 clearable
                 data-testid="password"
@@ -60,7 +60,7 @@
                 :type="show ? 'text' : 'password'"
                 prepend-icon="mdi-lock"
                 :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
-                label="Password(confirmation)"
+                label="※Password(confirmation)"
                 :error-messages="errors"
                 clearable
                 data-testid="password_confirmation"
@@ -71,9 +71,10 @@
               <v-spacer></v-spacer>
               <v-btn
                 color="primary"
-                class="font-weight-bold"
+                class="font-weight-bold text-body-1"
                 :disabled="invalid"
                 text
+                rounded
                 data-testid="sign-up"
                 @click="registerUser"
               >

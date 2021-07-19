@@ -55,7 +55,7 @@ export default {
         {
           icon: 'mdi-chart-bubble',
           title: 'MyAccounts',
-          to: '/my-accounts',
+          to: '/accounts',
         },
         {
           icon: 'mdi-chart-bubble',
@@ -86,7 +86,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .caption {
   font-family: 'Caveat', cursive !important;
 }

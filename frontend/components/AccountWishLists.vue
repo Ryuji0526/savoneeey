@@ -12,21 +12,11 @@
       >
         <template #top>
           <v-dialog v-model="dialogUnregister" max-width="500px">
-            <v-card>
-              <v-card-title class="text-h6"
-                >口座からこのリストを外しますか?</v-card-title
-              >
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="darken-1" text @click="closeUnregister"
-                  >Cancel</v-btn
-                >
-                <v-btn color="darken-1" text @click="unregisterItemConfirm"
-                  >OK</v-btn
-                >
-                <v-spacer></v-spacer>
-              </v-card-actions>
-            </v-card>
+            <delete-alert
+              :message="message"
+              @close="closeUnregister"
+              @delete="unregisterItemConfirm"
+            />
           </v-dialog>
         </template>
         <template #[`item.name`]="{ item }">
@@ -51,8 +41,12 @@
 
 <script>
 import { mapActions } from 'vuex'
+import DeleteAlert from '~/components/DeleteAlert.vue'
 
 export default {
+  components: {
+    DeleteAlert,
+  },
   props: {
     account: {
       type: Object,
@@ -67,6 +61,7 @@ export default {
       page: 1,
       pageCount: 0,
       itemsPerPage: 5,
+      message: '口座からこのリスト',
       registering: {
         wish_list_id: null,
         account_id: null,

@@ -1,8 +1,12 @@
 <template>
-  <v-card>
-    <v-card-title class="text-h5">口座の選択</v-card-title>
-    <v-container>
-      <v-radio-group v-model="selected" class="mt-0">
+  <v-card class="mx-auto rounded-lg" elevation="8">
+    <v-card-title>
+      <div class="text-h4 caption">
+        <span class="text-h3 caption">S</span>lect Account
+      </div>
+    </v-card-title>
+    <v-card-text>
+      <v-radio-group v-model="selected">
         <v-radio
           v-for="(account, i) in accounts"
           :key="i"
@@ -10,22 +14,22 @@
           :value="account.id"
         ></v-radio>
       </v-radio-group>
-    </v-container>
-    <v-card-actions>
-      <v-spacer></v-spacer>
-      <v-btn color="darken-1" class="text-body-1" text @click="close">
-        閉じる
-      </v-btn>
-      <v-btn
-        color="light-green darken-1"
-        class="text-body-1"
-        text
-        :disabled="disabled"
-        @click="save"
-      >
-        追加
-      </v-btn>
-    </v-card-actions>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn text rounded @click="close">Close</v-btn>
+        <v-btn
+          color="primary"
+          class="font-weight-bold text-body-1"
+          text
+          rounded
+          :disabled="disabled"
+          data-testid="register-account-wish-list"
+          @click="save"
+        >
+          Add
+        </v-btn>
+      </v-card-actions>
+    </v-card-text>
   </v-card>
 </template>
 
@@ -65,3 +69,9 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.caption {
+  font-family: 'Caveat', cursive !important;
+}
+</style>

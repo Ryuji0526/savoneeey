@@ -1,11 +1,10 @@
 <template>
-  <v-card max-width="1000px" class="mx-auto">
+  <v-card max-width="1200px" class="mx-auto rounded-lg" elevation="8">
     <v-data-table
       v-model="selected"
       :headers="headers"
       :items="wishLists"
       :search="search"
-      :loading="loading"
       :page.sync="page"
       :items-per-page="itemsPerPage"
       hide-default-footer
@@ -26,86 +25,83 @@
           <v-spacer></v-spacer>
           <v-dialog v-model="dialog" max-width="500px">
             <template #activator="{ on, attrs }">
-              <v-btn v-bind="attrs" absolute right top fab v-on="on">
+              <v-btn
+                v-bind="attrs"
+                class="turn-black"
+                absolute
+                right
+                top
+                fab
+                v-on="on"
+              >
                 <v-icon>mdi-plus</v-icon>
               </v-btn>
             </template>
-            <v-card>
-              <v-card-title class="text-h5 grey lighten-2">{{
-                formTitle
-              }}</v-card-title>
-              <v-card-text class="px-12">
+            <v-card class="mx-auto rounded-lg" elevation="8">
+              <v-card-title>
+                <div class="text-h4 caption">
+                  <span class="text-h3 caption">{{
+                    formTitle.substr(0, 1)
+                  }}</span
+                  ><span>{{ formTitle.substr(1) }}</span>
+                </div>
+              </v-card-title>
+              <v-card-text>
                 <validation-observer ref="observer" v-slot="{ invalid }">
                   <v-form ref="form">
-                    <v-row>
-                      <v-col cols="12" class="pb-0">
-                        <validation-provider
-                          v-slot="{ errors }"
-                          name="金額"
-                          rules="required"
-                        >
-                          <v-text-field
-                            v-model="editedItem.name"
-                            label="Name"
-                            :error-messages="errors"
-                            data-testid="name"
-                          ></v-text-field>
-                        </validation-provider>
-                      </v-col>
-                      <v-col cols="12" class="py-0">
-                        <validation-provider
-                          v-slot="{ errors }"
-                          name="金額"
-                          rules="required|integer|minValue:0"
-                        >
-                          <v-text-field
-                            v-model="editedItem.price"
-                            label="Price"
-                            :error-messages="errors"
-                            data-testid="price"
-                            suffix="円"
-                          ></v-text-field>
-                        </validation-provider>
-                      </v-col>
-                      <v-col cols="12" class="py-0">
-                        <validation-provider
-                          v-slot="{ errors }"
-                          name="URL"
-                          rules="url"
-                        >
-                          <v-text-field
-                            v-model="editedItem.url"
-                            label="URL"
-                            :error-messages="errors"
-                            data-testid="url"
-                          ></v-text-field>
-                        </validation-provider>
-                      </v-col>
-                      <v-col cols="12" class="py-0">
-                        <v-select
-                          v-model="editedItem.wish_tag_links_attributes"
-                          :items="wishTagItems"
-                          chips
-                          :deletable-chips="deletable"
-                          label="Tags"
-                          multiple
-                        ></v-select>
-                      </v-col>
-                    </v-row>
+                    <validation-provider
+                      v-slot="{ errors }"
+                      name="金額"
+                      rules="required"
+                    >
+                      <v-text-field
+                        v-model="editedItem.name"
+                        label="※Name"
+                        :error-messages="errors"
+                        data-testid="name"
+                      ></v-text-field>
+                    </validation-provider>
+                    <validation-provider
+                      v-slot="{ errors }"
+                      name="金額"
+                      rules="required|integer|minValue:0"
+                    >
+                      <v-text-field
+                        v-model="editedItem.price"
+                        label="※Price"
+                        :error-messages="errors"
+                        data-testid="price"
+                        suffix="円"
+                      ></v-text-field>
+                    </validation-provider>
+                    <validation-provider
+                      v-slot="{ errors }"
+                      name="URL"
+                      rules="url"
+                    >
+                      <v-text-field
+                        v-model="editedItem.url"
+                        label="URL"
+                        :error-messages="errors"
+                        data-testid="url"
+                      ></v-text-field>
+                    </validation-provider>
+                    <v-select
+                      v-model="editedItem.wish_tag_links_attributes"
+                      :items="wishTagItems"
+                      chips
+                      :deletable-chips="deletable"
+                      label="Tags"
+                      multiple
+                    ></v-select>
                     <v-card-actions>
                       <v-spacer></v-spacer>
+                      <v-btn text rounded @click="close"> Close </v-btn>
                       <v-btn
-                        color="darken-1"
-                        class="text-body-1"
+                        color="primary"
+                        class="font-weight-bold text-body-1"
                         text
-                        @click="close"
-                      >
-                        Close
-                      </v-btn>
-                      <v-btn
-                        color="light-green darken-1"
-                        class="text-body-1"
-                        text
+                        rounded
                         :disabled="invalid"
                         data-testid="add-wish-list"
                         @click="save"
@@ -119,19 +115,11 @@
             </v-card>
           </v-dialog>
           <v-dialog v-model="dialogDelete" max-width="500px">
-            <v-card>
-              <v-card-title class="text-h6"
-                >リストを削除してもよろしいですか?</v-card-title
-              >
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="darken-1" text @click="closeDelete">Cancel</v-btn>
-                <v-btn color="darken-1" text @click="deleteItemConfirm"
-                  >OK</v-btn
-                >
-                <v-spacer></v-spacer>
-              </v-card-actions>
-            </v-card>
+            <delete-alert
+              :message="message"
+              @close="closeDelete"
+              @delete="deleteItemConfirm"
+            />
           </v-dialog>
         </v-toolbar>
       </template>
@@ -140,6 +128,9 @@
           {{ item.name }}
         </a>
         <span v-else>{{ item.name }}</span>
+      </template>
+      <template #[`item.price`]="{ item }">
+        <span>{{ item.price | toLocaleString }}</span>
       </template>
       <template #[`item.wish_tags`]="{ item }">
         <template v-for="(tag, i) in item.wish_tags">
@@ -154,13 +145,20 @@
     </v-data-table>
     <v-container>
       <v-card-actions v-if="selected.length > 0">
-        <v-btn text absolute left bottom @click="dialogRegister = true"
-          >口座に追加</v-btn
+        <v-btn
+          rounded
+          absolute
+          left
+          bottom
+          class="turn-black"
+          color="#ffeb58"
+          @click="dialogRegister = true"
+          >Add to account</v-btn
         >
       </v-card-actions>
       <v-pagination v-model="page" :length="pageCount" circle></v-pagination>
     </v-container>
-    <v-dialog v-model="dialogRegister" max-width="500px">
+    <v-dialog v-model="dialogRegister" max-width="400px">
       <account-select
         @closeDialogRegister="closeDialogRegister"
         @register="register"
@@ -183,6 +181,7 @@ import {
   min_value as minValue,
 } from 'vee-validate/dist/rules.umd'
 import AccountSelect from '~/components/AccountSelect'
+import DeleteAlert from '~/components/DeleteAlert.vue'
 
 extend('required', required)
 extend('integer', integer)
@@ -195,6 +194,12 @@ export default {
     ValidationObserver,
     ValidationProvider,
     AccountSelect,
+    DeleteAlert,
+  },
+  filters: {
+    toLocaleString(value) {
+      return value.toLocaleString()
+    },
   },
   props: {
     wishLists: {
@@ -213,11 +218,11 @@ export default {
       dialog: false,
       dialogDelete: false,
       dialogRegister: false,
-      loading: false,
       page: 1,
       pageCount: 0,
       itemsPerPage: 10,
       deletable: true,
+      message: 'このリスト',
       reg: /^(https?|ftp):\/\/([a-zA-Z0-9.-]+(:[a-zA-Z0-9.&%$-]+)*@)*((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|([a-zA-Z0-9-]+\.)*[a-zA-Z0-9-]+\.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2}))(:[0-9]+)*(\/($|[a-zA-Z0-9.,?'\\+&%$#=~_-]+))*$/,
       headers: [
         { text: 'Name', value: 'name' },
@@ -279,6 +284,9 @@ export default {
     dialogDelete(val) {
       val || this.closeDelete()
     },
+    dialogRegister(val) {
+      val || this.closeDialogRegister()
+    },
   },
   methods: {
     ...mapActions({
@@ -319,7 +327,6 @@ export default {
     },
     close() {
       this.dialog = false
-      this.loading = false
       this.$nextTick(() => {
         this.editedItem = Object.assign({}, this.defaultItem)
         this.editedIndex = -1
@@ -340,7 +347,6 @@ export default {
       })
     },
     save() {
-      this.loading = true
       if (this.editedIndex > -1) {
         this.editWishList(this.editedItem)
       } else {
@@ -357,3 +363,9 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.caption {
+  font-family: 'Caveat', cursive !important;
+}
+</style>

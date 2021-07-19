@@ -1,10 +1,14 @@
 <template>
-  <v-card>
-    <v-card-title class="text-h5 grey lighten-2">出金/入金</v-card-title>
-    <v-card-text class="px-12">
+  <v-card class="mx-auto rounded-lg" elevation="8">
+    <v-card-title>
+      <div class="text-h4 caption">
+        <span class="text-h3 caption">T</span>rading
+      </div>
+    </v-card-title>
+    <v-card-text>
       <div class="font-weight-bold text-h6">
         {{ transaction.withdrawal.name }}
-        <v-icon class="pb-1">mdi-arrow-right</v-icon>
+        <v-icon class="pb-1">mdi-chevron-triple-right</v-icon>
         {{ transaction.deposit.name }}
       </div>
       <validation-observer ref="observer" v-slot="{ invalid }">
@@ -24,7 +28,7 @@
           >
             <v-text-field
               v-model="transaction_amount"
-              label="金額"
+              label="※Amount"
               :error-messages="errors"
               clearble
               data-testid="amount"
@@ -33,17 +37,17 @@
           </validation-provider>
           <v-card-actions class="d-flex justify-space-around">
             <v-spacer></v-spacer>
-            <v-btn text @click="close">閉じる</v-btn>
+            <v-btn text rounded @click="close">Close</v-btn>
             <v-btn
-              color="light-green darken-1"
-              class="white--text text-body-1 font-weight-bold rounded-log"
-              elavation="5"
+              color="primary"
+              class="font-weight-bold text-body-1"
               text
+              rounded
               :disabled="invalid"
               data-testid="register-account-history"
               @click="registerTradingHistory"
             >
-              出金/入金
+              Save
             </v-btn>
           </v-card-actions>
         </v-form>
@@ -116,3 +120,9 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.caption {
+  font-family: 'Caveat', cursive !important;
+}
+</style>

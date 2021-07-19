@@ -4,7 +4,7 @@ import Vuetify from 'vuetify'
 import { mount, createLocalVue } from '@vue/test-utils'
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import * as store from '~/store'
-import LoginUser from '~/components/LoginUser'
+import UserLogin from '~/components/UserLogin'
 
 Vue.use(Vuetify)
 const localVue = createLocalVue()
@@ -12,7 +12,7 @@ localVue.use(Vuex)
 localVue.component('ValidationProvider', ValidationProvider)
 localVue.component('ValidationObserver', ValidationObserver)
 
-describe('components/LoginUser.vue', () => {
+describe('components/UserLogin.vue', () => {
   let vuetify
   let wrapper
   let observer
@@ -22,7 +22,7 @@ describe('components/LoginUser.vue', () => {
   beforeEach(() => {
     vuetify = new Vuetify()
     localVue.use(vuetify)
-    wrapper = mount(LoginUser, {
+    wrapper = mount(UserLogin, {
       store,
       localVue,
       vuetify,

@@ -1,6 +1,13 @@
 <template>
-  <v-navigation-drawer permanent color="#f7f7f7" width="100px" min-width="80px">
-    <v-list v-if="!$auth.loggedIn" class="pa-0" shaped>
+  <v-navigation-drawer
+    permanent
+    color="#f7f7f7"
+    class="pt-10"
+    width="100px"
+    min-width="80px"
+    fixed
+  >
+    <v-list v-if="!$auth.loggedIn" shaped>
       <v-list-item
         v-for="(item, i) in items"
         :key="i"
@@ -85,7 +92,7 @@ export default {
         {
           icon: 'mdi-bank-outline',
           title: 'Accounts',
-          to: '/my-accounts',
+          to: '/accounts',
         },
         {
           icon: 'mdi-clipboard-list-outline',
@@ -113,8 +120,10 @@ export default {
 
 <style scoped>
 .v-list-item__title {
-  font-size: small;
   display: block;
+}
+.v-list-item--active {
+  background-color: #ffeb58 !important;
 }
 .caption {
   font-family: 'Caveat', cursive !important;
