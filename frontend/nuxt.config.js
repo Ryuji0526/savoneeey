@@ -1,6 +1,8 @@
 import colors from 'vuetify/es5/util/colors'
 
 export default {
+  mode: 'spa',
+
   head: {
     titleTemplate: 'savoneeey',
     title: 'app',
@@ -14,6 +16,18 @@ export default {
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
+
+  loading: {
+    color: '#ffeb58',
+    continuous: true,
+  },
+
+  loadingIndicator: {
+    name: 'cube-grid',
+    color: '#ffeb58',
+    background: '#e3dbd0',
+  },
+
 
   devServer: {
     disableHostCheck: true,
@@ -79,13 +93,12 @@ export default {
       dark: false,
       themes: {
         light: {
-          primary: '#b5f814',
-          accent: '#b5f814',
-          secondary: '#b5f814',
-          info: '#b5f814',
-          warning: '#b5f814',
+          primary: '#ffeb58',
+          secondary: '#ffeb58',
+          info: '#ffeb58',
+          warning: colors.deepOrange.accent4,
           error: colors.deepOrange.accent4,
-          success: '#b5f814',
+          success: '#ffeb58',
           background: '#e3dbd0',
         },
       },

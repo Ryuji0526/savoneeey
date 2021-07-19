@@ -1,25 +1,26 @@
 <template>
-  <v-dialog v-model="dialog" width="500">
+  <v-dialog v-model="dialog" max-width="400" class="cursor">
     <template #activator="{ on, attrs }">
-      <v-card
-        max-width="200"
-        height="150"
-        class="d-flex align-center justify-center mx-auto"
-      >
+      <v-card max-width="200" height="150" class="d-flex align-center mx-auto">
         <v-btn
           width="100%"
           height="100%"
-          color="transparent"
+          color="#ffeb58"
           v-bind="attrs"
+          class="turn-black"
           v-on="on"
         >
-          <v-icon color="grey" class="text-center text-h2">mdi-plus</v-icon>
+          <v-icon class="text-center text-h2">mdi-plus</v-icon>
         </v-btn>
       </v-card>
     </template>
-    <v-card>
-      <v-card-title class="text-h5 grey lighten-2"> 新規口座開設 </v-card-title>
-      <v-card-text class="px-12">
+    <v-card class="mx-auto rounded-lg" elevation="8">
+      <v-card-title>
+        <div class="text-h4 caption">
+          <span class="text-h3 caption">O</span>pening
+        </div>
+      </v-card-title>
+      <v-card-text>
         <validation-observer ref="observer" v-slot="{ invalid }">
           <v-form ref="form">
             <validation-provider
@@ -29,7 +30,7 @@
             >
               <v-text-field
                 v-model="account.name"
-                label="口座名"
+                label="※Name"
                 :error-messages="errors"
                 clearble
                 data-testid="name"
@@ -42,7 +43,7 @@
             >
               <v-text-field
                 v-model="account.target_amount"
-                label="目標金額"
+                label="※Target"
                 :error-messages="errors"
                 clearble
                 data-testid="target-amount"
@@ -59,23 +60,19 @@
             >
             </v-select>
             <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn text rounded @click="dialog = false">Close</v-btn>
               <v-btn
-                color="light-green darken-1"
-                class="
-                  white--text
-                  mx-auto
-                  text-body-1
-                  font-weight-bold
-                  rounded-log
-                "
+                color="primary"
+                class="font-weight-bold text-body-1"
                 elavation="5"
-                outlined
-                block
+                text
+                rounded
                 :disabled="invalid"
                 data-testid="register-account"
                 @click="registerAccount"
               >
-                口座を開設する
+                Save
               </v-btn>
             </v-card-actions>
           </v-form>
@@ -155,3 +152,9 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.caption {
+  font-family: 'Caveat', cursive !important;
+}
+</style>

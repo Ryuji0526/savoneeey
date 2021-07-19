@@ -1,12 +1,13 @@
 <template>
   <v-card
-    class="mt-10"
     :class="{ selected: isSelected, cursor: !reveal }"
+    class="rounded-lg py-15"
     max-width="400"
     min-height="300"
+    elevation="8"
     @click="selectAccount"
   >
-    <v-card-text class="pt-10">
+    <v-card-text>
       <div class="text-h5 ml-10">- {{ account.name }} -</div>
       <p class="text-center text-h2 mt-8">
         {{ count | toLocaleString }}
@@ -25,7 +26,9 @@
     <v-card-actions>
       <v-btn
         text
+        rounded
         color="accent-4"
+        class="turn-black"
         absolute
         right
         bottom
@@ -37,19 +40,31 @@
     <v-dialog
       v-if="account.is_main === true"
       v-model="dialog1"
-      width="500"
+      max-width="400"
       persistent
     >
       <template #activator="{ on, attrs }">
         <v-card-actions>
-          <v-btn v-bind="attrs" fab absolute bottom left v-on="on">
+          <v-btn
+            v-bind="attrs"
+            class="turn-black"
+            fab
+            absolute
+            bottom
+            left
+            v-on="on"
+          >
             <v-icon>mdi-plus-minus-variant</v-icon>
           </v-btn>
         </v-card-actions>
       </template>
-      <account-dialog-1 :account="account" @closeDialog1="dialog1 = false" />
+      <account-dialog-1
+        :account="account"
+        max-width="400"
+        @closeDialog1="dialog1 = false"
+      />
     </v-dialog>
-    <v-dialog v-model="dialog2" width="500" persistent>
+    <v-dialog v-model="dialog2" width="400" persistent>
       <account-dialog-2 :account="account" @closeDialog2="dialog2 = false" />
     </v-dialog>
     <v-expand-transition>
@@ -63,8 +78,8 @@
         <v-card-actions>
           <v-btn
             text
-            color="accent-4"
-            class="mt-n10"
+            rounded
+            class="mt-n10 turn-black"
             @click.stop="reveal = false"
           >
             <v-icon dark size="25" class="mx-1"
@@ -75,8 +90,8 @@
           <v-spacer></v-spacer>
           <v-btn
             text
-            color="accent-4"
-            class="mt-n10"
+            rounded
+            class="mt-n10 turn-black"
             :to="{ path: `/account/${account.id}` }"
           >
             MORE
@@ -87,12 +102,12 @@
         </v-card-actions>
         <v-card-text>
           <v-subheader
-            >目標金額<span class="mb-0 mx-auto text-h5">{{
+            >Target<span class="mb-0 mx-auto text-h5">{{
               account.target_amount | toLocaleString
             }}</span></v-subheader
           >
           <v-divider></v-divider>
-          <v-subheader>最近の履歴</v-subheader>
+          <v-subheader>Recent History</v-subheader>
           <v-virtual-scroll
             :items="account.recent_histories"
             :item-height="30"
@@ -165,9 +180,10 @@ export default {
       return this.account.recent_histories[0].balance
     },
     proportion() {
-      return Math.round(
+      const value = Math.round(
         (this.currentBalance / this.account.target_amount) * 100
       )
+      return value > 100 ? '100+' : value
     },
   },
   watch: {
@@ -239,11 +255,12 @@ export default {
 }
 .cursor {
   &:hover {
-    border: 2px solid yellow;
+    background: #ffeb58;
+    transition: 0.3s;
   }
 }
 .selected {
-  border: 1px solid yellow;
+  background: #ffeb58;
 }
 p {
   margin: 0;

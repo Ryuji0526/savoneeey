@@ -1,8 +1,18 @@
 <template>
-  <v-card width="400px" class="mx-auto mt-15 py-7 rounded-xl" elevation="5">
+  <v-card max-width="400px" class="mx-auto py-7 rounded-lg" elevation="8">
     <v-card-text class="px-12 pb-0">
       <validation-observer ref="observer" v-slot="{ invalid }">
         <v-form ref="form">
+          <validation-provider v-slot="{ errors }" name="名前" rules="required">
+            <v-text-field
+              v-model="user.name"
+              prepend-icon="mdi-account"
+              label="※Name"
+              :error-messages="errors"
+              clearable
+              data-testid="name"
+            />
+          </validation-provider>
           <validation-provider
             v-slot="{ errors }"
             name="メールアドレス"
@@ -11,40 +21,24 @@
             <v-text-field
               v-model="user.email"
               prepend-icon="mdi-email"
-              label="e-mail"
+              label="※e-mail"
               :error-messages="errors"
               clearable
               data-testid="email"
-            />
-          </validation-provider>
-          <validation-provider
-            v-slot="{ errors }"
-            name="パスワード"
-            rules="required"
-          >
-            <v-text-field
-              v-model="user.password"
-              :type="show ? 'text' : 'password'"
-              prepend-icon="mdi-lock"
-              :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
-              label="Password"
-              :error-messages="errors"
-              clearable
-              data-testid="password"
-              @click:append="show = !show"
             />
           </validation-provider>
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn
               color="primary"
-              class="font-weight-bold"
+              class="font-weight-bold text-body-1"
               text
+              rounded
               :disabled="invalid"
-              data-testid="login"
-              @click="loginUser"
+              data-testid="edit"
+              @click="editUser"
             >
-              Log in
+              Save
             </v-btn>
           </v-card-actions>
         </v-form>
@@ -76,18 +70,17 @@ export default {
   data() {
     return {
       user: {
-        email: '',
-        password: '',
+        name: this.$auth.user.name,
+        email: this.$auth.user.email,
       },
-      show: false,
     }
   },
   methods: {
     ...mapActions({
-      login: 'user/login',
+      edit: 'user/editUser',
     }),
-    loginUser() {
-      this.login(this.user)
+    editUser() {
+      this.edit(this.user)
     },
   },
 }

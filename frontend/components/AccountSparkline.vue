@@ -1,6 +1,6 @@
 <template>
   <v-sheet
-    class="v-sheet--offset mx-auto"
+    class="v-sheet--offset mx-auto rounded-lg"
     elevation="5"
     min-height="115"
     rounded

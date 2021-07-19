@@ -1,13 +1,14 @@
 <template>
   <v-alert
     v-show="message"
-    dense
     border="left"
+    color="primary"
+    elevation="20"
+    dense
     colored-border
-    elevation="3"
     :type="type"
     transition="slide-x-reverse-transition"
-    width="70%"
+    width="50%"
   >
     {{ message }}
   </v-alert>
@@ -30,8 +31,7 @@ export default {
 .v-alert {
   position: fixed;
   z-index: 300;
-  left: 50%;
-  top: 7%;
-  margin-left: calc(70% / -2);
+  left: 47%;
+  top: 6%;
 }
 </style>

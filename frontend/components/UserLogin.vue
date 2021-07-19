@@ -3,16 +3,6 @@
     <v-card-text class="px-12 pb-0">
       <validation-observer ref="observer" v-slot="{ invalid }">
         <v-form ref="form">
-          <validation-provider v-slot="{ errors }" name="名前" rules="required">
-            <v-text-field
-              v-model="user.name"
-              prepend-icon="mdi-account"
-              label="Name"
-              :error-messages="errors"
-              clearable
-              data-testid="name"
-            />
-          </validation-provider>
           <validation-provider
             v-slot="{ errors }"
             name="メールアドレス"
@@ -21,23 +11,41 @@
             <v-text-field
               v-model="user.email"
               prepend-icon="mdi-email"
-              label="e-mail"
+              label="※e-mail"
               :error-messages="errors"
               clearable
               data-testid="email"
+            />
+          </validation-provider>
+          <validation-provider
+            v-slot="{ errors }"
+            name="パスワード"
+            rules="required"
+          >
+            <v-text-field
+              v-model="user.password"
+              :type="show ? 'text' : 'password'"
+              prepend-icon="mdi-lock"
+              :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+              label="※Password"
+              :error-messages="errors"
+              clearable
+              data-testid="password"
+              @click:append="show = !show"
             />
           </validation-provider>
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn
               color="primary"
-              class="font-weight-bold"
+              class="font-weight-bold text-body-1"
               text
+              rounded
               :disabled="invalid"
-              data-testid="edit"
-              @click="editUser"
+              data-testid="login"
+              @click="loginUser"
             >
-              Save
+              Log in
             </v-btn>
           </v-card-actions>
         </v-form>
@@ -69,17 +77,18 @@ export default {
   data() {
     return {
       user: {
-        name: this.$auth.user.name,
-        email: this.$auth.user.email,
+        email: '',
+        password: '',
       },
+      show: false,
     }
   },
   methods: {
     ...mapActions({
-      edit: 'user/editUser',
+      login: 'user/login',
     }),
-    editUser() {
-      this.edit(this.user)
+    loginUser() {
+      this.login(this.user)
     },
   },
 }

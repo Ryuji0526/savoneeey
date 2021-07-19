@@ -1,5 +1,5 @@
 <template>
-  <div class="text-h2 py-10 caption">
+  <div class="text-h2 py-10 mb-13 caption">
     <span class="text-h1 caption">{{ initial }}</span
     >{{ exceptInitial }}
   </div>
