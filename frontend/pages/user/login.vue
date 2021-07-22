@@ -1,23 +1,23 @@
 <template>
   <v-container>
     <main-title :title="title" />
-    <user-signup />
+    <user-login />
   </v-container>
 </template>
 
 <script>
-import UserSignup from '~/components/UserSignup'
+import UserLogin from '~/components/user/UserLogin'
 import MainTitle from '~/components/MainTitle'
 
 export default {
   auth: false,
   components: {
-    UserSignup,
+    UserLogin,
     MainTitle,
   },
   data() {
     return {
-      title: 'SignUp',
+      title: 'LogIn',
     }
   },
 }

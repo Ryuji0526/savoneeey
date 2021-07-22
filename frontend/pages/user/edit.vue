@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import UserEdit from '~/components/UserEdit'
+import UserEdit from '~/components/user/UserEdit'
 import MainTitle from '~/components/MainTitle'
 
 export default {
