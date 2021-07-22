@@ -155,7 +155,7 @@ export const actions = {
             root: true,
           }
         )
-        this.$router.push('/my-accounts')
+        this.$router.push('/accounts')
       })
       .catch((error) => {
         console.log(error)

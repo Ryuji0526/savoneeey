@@ -1,36 +1,46 @@
 <template>
   <v-container>
-    <v-btn text to="/my-accounts">
+    <main-title :title="title" />
+    <v-btn text rounded to="/accounts" class="turn-black">
       <v-icon dark size="25" class="mx-1">mdi-arrow-left</v-icon>
       BACK
     </v-btn>
     <p class="text-h1 font-weight-light text-center">
       {{ count | toLocaleString }}
     </p>
-    <v-breadcrumbs :items="items" divider="/" class="pl-4"></v-breadcrumbs>
-    <v-subheader class="text-h4 my-5">Detail</v-subheader>
+    <v-breadcrumbs
+      :items="items"
+      divider="/"
+      class="pl-4 font-weight-bold"
+    ></v-breadcrumbs>
+    <v-subheader class="text-h4 my-5 caption">
+      <span class="text-h3 caption">D</span>etail
+    </v-subheader>
     <account-detail :account="account" :current-balance="currentBalance" />
-    <v-subheader id="history" class="text-h4 my-5">History</v-subheader>
+    <v-subheader id="history" class="text-h4 my-5 caption"
+      ><span class="text-h3 caption">H</span>istory
+    </v-subheader>
     <account-history :account="account" />
-    <v-subheader id="wish-lists" class="text-h4 my-5">WishLists</v-subheader>
+    <v-subheader id="wish-lists" class="text-h4 my-5 caption"
+      ><span class="text-h3 caption">W</span>ishLists
+    </v-subheader>
     <account-wish-lists :account="account" />
     <div v-if="!is_main" class="text-right mt-10">
-      <v-btn @click="dialogDelete = true"> 口座を削除する </v-btn>
+      <v-btn
+        class="turn-black"
+        rounded
+        color="#ffeb58"
+        @click="dialogDelete = true"
+      >
+        Delete Account
+      </v-btn>
     </div>
     <v-dialog v-model="dialogDelete" max-width="500px">
-      <v-card>
-        <v-card-title class="text-h6"
-          >口座を削除してもよろしいですか?</v-card-title
-        >
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="darken-1" text @click="dialogDelete = false"
-            >Cancel</v-btn
-          >
-          <v-btn color="darken-1" text @click="deletable">OK</v-btn>
-          <v-spacer></v-spacer>
-        </v-card-actions>
-      </v-card>
+      <delete-alert
+        :message="message"
+        @close="dialogDelete = false"
+        @delete="deletable"
+      />
     </v-dialog>
   </v-container>
 </template>
@@ -41,12 +51,16 @@ import anime from 'animejs/lib/anime.es.js'
 import AccountDetail from '~/components/AccountDetail'
 import AccountHistory from '~/components/AccountHistory'
 import AccountWishLists from '~/components/AccountWishLists'
+import MainTitle from '~/components/MainTitle'
+import DeleteAlert from '~/components/DeleteAlert'
 
 export default {
   components: {
     AccountDetail,
     AccountHistory,
     AccountWishLists,
+    MainTitle,
+    DeleteAlert,
   },
   filters: {
     toLocaleString(value) {
@@ -56,6 +70,7 @@ export default {
   data() {
     return {
       dialogDelete: false,
+      message: 'この口座',
       items: [
         {
           text: 'Detail',
@@ -74,6 +89,7 @@ export default {
         },
       ],
       count: 0,
+      title: 'Account',
     }
   },
   computed: {
@@ -137,8 +153,8 @@ export default {
 }
 </style>
 
-<style>
-* {
-  color: rgba(0, 0, 0, 0.6);
+<style scoped>
+.caption {
+  font-family: 'Caveat', cursive !important;
 }
 </style>

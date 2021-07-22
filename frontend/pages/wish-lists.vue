@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <main-title :title="title" />
     <wish-lists :wish-lists="wishLists" :wish-tags="wishTags" />
   </v-container>
 </template>
@@ -7,10 +8,17 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import WishLists from '~/components/WishLists'
+import MainTitle from '~/components/MainTitle'
 
 export default {
   components: {
     WishLists,
+    MainTitle,
+  },
+  data() {
+    return {
+      title: 'Wish Lists',
+    }
   },
   computed: {
     ...mapGetters({

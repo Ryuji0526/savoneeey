@@ -13,7 +13,7 @@
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title v-text="item.title" />
+            <v-list-item-title class="caption" v-text="item.title" />
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -55,7 +55,7 @@ export default {
         {
           icon: 'mdi-chart-bubble',
           title: 'MyAccounts',
-          to: '/my-accounts',
+          to: '/accounts',
         },
         {
           icon: 'mdi-chart-bubble',
@@ -72,7 +72,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      showFlashMessage: 'flashMessage/showFlashMessage',
+      showFlashMessage: 'flash-message/showFlashMessage',
     }),
     logout() {
       this.$auth.logout().then(() => {
@@ -85,3 +85,9 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.caption {
+  font-family: 'Caveat', cursive !important;
+}
+</style>

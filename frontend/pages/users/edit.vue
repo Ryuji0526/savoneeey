@@ -1,15 +1,23 @@
 <template>
   <v-container>
-    <edit-user />
+    <main-title :title="title" />
+    <user-edit />
   </v-container>
 </template>
 
 <script>
-import EditUser from '~/components/EditUser'
+import UserEdit from '~/components/UserEdit'
+import MainTitle from '~/components/MainTitle'
 
 export default {
   components: {
-    EditUser,
+    UserEdit,
+    MainTitle,
+  },
+  data() {
+    return {
+      title: 'Profile',
+    }
   },
 }
 </script>
