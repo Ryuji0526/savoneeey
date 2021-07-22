@@ -3,14 +3,10 @@ class AccountHistory < ApplicationRecord
 
   validates :action, presence: true, inclusion: { in: ["出金", "入金", "新規"] }
   validates :amount, presence: true
-  validates :amount, numericality: { only_integer: true, greater_than_or_equal_to: 0 }, if: -> { action == "入金" }
-  validates :amount, numericality: { only_integer: true, less_than_or_equal_to: 0 }, if: -> { action == "出金" }
+  validates :amount, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 10000000 }, if: -> { action == "入金" }
+  validates :amount, numericality: { only_integer: true, less_than_or_equal_to: 0, greater_than_or_equal_to: -10000000}, if: -> { action == "出金" }
   validates :amount, inclusion: { in: [0] }, if: -> { action == "新規" }
   validates :balance, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
-
-  def deposit?
-    action == "入金"
-  end
 
   class << self
     def first_account_history(account)

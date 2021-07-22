@@ -7,7 +7,18 @@
     min-width="80px"
     fixed
   >
-    <v-list v-if="!$auth.loggedIn" shaped>
+    <v-list class="pa-0" shaped>
+      <v-list-item class="px-0" :to="home.to" two-line>
+        <v-list-item-content>
+          <v-icon>{{ home.icon }}</v-icon>
+          <v-list-item-title
+            class="text-center text-body-1 caption"
+            v-text="home.title"
+          />
+        </v-list-item-content>
+      </v-list-item>
+    </v-list>
+    <v-list v-if="!$auth.loggedIn" class="pa-0" shaped>
       <v-list-item
         v-for="(item, i) in items"
         :key="i"
@@ -61,12 +72,12 @@ export default {
     return {
       clipped: true,
       drawer: true,
+      home: {
+        icon: 'mdi-apps',
+        title: 'Home',
+        to: '/',
+      },
       items: [
-        {
-          icon: 'mdi-apps',
-          title: 'Home',
-          to: '/',
-        },
         {
           icon: 'mdi-login',
           title: 'LogIn',
@@ -79,11 +90,6 @@ export default {
         },
       ],
       loggedInItems: [
-        {
-          icon: 'mdi-apps',
-          title: 'Home',
-          to: '/',
-        },
         {
           icon: 'mdi-account-circle-outline',
           title: 'Profile',
@@ -124,6 +130,7 @@ export default {
 }
 .v-list-item--active {
   background-color: #ffeb58 !important;
+  color: #0009 !important;
 }
 .caption {
   font-family: 'Caveat', cursive !important;

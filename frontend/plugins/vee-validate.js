@@ -6,6 +6,7 @@ import {
   confirmed,
   min,
   min_value,
+  max_value,
   max,
   integer,
 } from 'vee-validate/dist/rules'
@@ -32,12 +33,17 @@ extend('min', {
 
 extend('minValue', {
   ...min_value,
-  message: '{_field_}は0円以上にしてください',
+  message: '{_field_}は{min}円以上にしてください',
 })
 
 extend('max', {
   ...max,
   message: '{_field_}は{length}文字以下にしてください',
+})
+
+extend('maxValue', {
+  ...max_value,
+  message: '{_field_}は一度の取引で1000万円以下にしてください',
 })
 
 extend('integer', {

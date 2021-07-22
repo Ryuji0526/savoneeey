@@ -35,6 +35,7 @@
               required: 'required',
               integer: 'integer',
               minValue: 0,
+              maxValue: 10000000,
               lessThanBalance: {
                 balance: currentBalance,
                 action: selected,
@@ -45,6 +46,7 @@
               v-model="transaction_amount"
               prepend-icon="mdi-cash-multiple"
               label="※Amount"
+              autocomplete="off"
               :error-messages="errors"
               clearble
               data-testid="amount"
@@ -84,11 +86,13 @@ import {
   required,
   integer,
   min_value as minValue,
+  max_value as maxValue,
 } from 'vee-validate/dist/rules.umd'
 
 extend('required', required)
 extend('integer', integer)
 extend('minValue', minValue)
+extend('maxValue', maxValue)
 
 setInteractionMode('eager')
 

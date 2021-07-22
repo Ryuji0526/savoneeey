@@ -1,6 +1,7 @@
 class Account < ApplicationRecord
   belongs_to :user
-  has_many :trading_histories
+  has_many :deposit_transactions, class_name: 'TradingHistory', :foreign_key => 'deposit_id', dependent: :destroy
+  has_many :withdrawal_transactions, class_name: 'TradingHistory', :foreign_key => 'withdrawal_id', dependent: :destroy
   has_many :account_histories, dependent: :destroy
   has_many :registerings, dependent: :destroy
   has_many :wish_lists, through: :registerings

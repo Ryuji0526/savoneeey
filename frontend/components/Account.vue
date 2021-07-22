@@ -133,7 +133,7 @@
 import { mapActions, mapGetters } from 'vuex'
 import anime from 'animejs/lib/anime.es.js'
 import moment from 'moment'
-import AccountSparkline from '~/components/AccountSparkLine'
+import AccountSparkline from '~/components/AccountSparkline'
 import AccountDialog1 from '~/components/AccountDialog1'
 import AccountDialog2 from '~/components/AccountDialog2'
 
@@ -192,6 +192,7 @@ export default {
     },
   },
   mounted() {
+    this.count = 0
     this.setCount(this.current_balance)
     this.clearTransaction()
   },
