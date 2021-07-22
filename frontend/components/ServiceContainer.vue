@@ -23,16 +23,26 @@
           <h3 class="text-h5 font-weight-bold">{{ container.subtitle }}</h3>
           <p class="text-body-1 mt-7">{{ container.content }}</p>
           <div class="d-flex justify-space-around mt-10">
-            <v-btn v-show="!(container.containerNum === 0)" @click="scrollUp"
-              >BACK</v-btn
-            >
+            <v-btn
+              v-show="!(container.containerNum === 0)"
+              outlined
+              class="turn-black"
+              color="#0009"
+              @click="scrollUp"
+              >BACK
+              <v-icon>mdi-arrow-up</v-icon>
+            </v-btn>
             <v-btn
               v-show="
                 !(container.containerNum + 1 === container.containersLength)
               "
+              outlined
+              class="turn-black"
+              color="#0009"
               @click="scrollDown"
-              >NEXT</v-btn
-            >
+              >NEXT
+              <v-icon>mdi-arrow-down</v-icon>
+            </v-btn>
           </div>
         </v-col>
       </v-row>
@@ -83,4 +93,3 @@ export default {
   min-width: 100%;
 }
 </style>
-@click="scrollDown"

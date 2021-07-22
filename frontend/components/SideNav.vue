@@ -81,19 +81,19 @@ export default {
         {
           icon: 'mdi-login',
           title: 'LogIn',
-          to: '/users/login',
+          to: '/user/login',
         },
         {
           icon: 'mdi-account-plus-outline',
           title: 'SignUp',
-          to: '/users/signup',
+          to: '/user/signup',
         },
       ],
       loggedInItems: [
         {
           icon: 'mdi-account-circle-outline',
           title: 'Profile',
-          to: '/users/edit',
+          to: '/user/edit',
         },
         {
           icon: 'mdi-bank-outline',

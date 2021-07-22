@@ -4,7 +4,7 @@ import Vuetify from 'vuetify'
 import { mount, createLocalVue } from '@vue/test-utils'
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import * as store from '~/store'
-import UserSignup from '~/components/UserSignup'
+import UserSignup from '~/components/user/UserSignup'
 
 Vue.use(Vuetify)
 const localVue = createLocalVue()
