@@ -28,6 +28,7 @@ export default {
     background: '#e3dbd0',
   },
 
+  css: ['~/assets/css/style.css'],
 
   devServer: {
     disableHostCheck: true,

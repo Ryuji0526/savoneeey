@@ -31,6 +31,7 @@
               <v-text-field
                 v-model="account.name"
                 label="※Name"
+                autocomplete="off"
                 :error-messages="errors"
                 clearble
                 data-testid="name"
@@ -45,6 +46,7 @@
                 v-model="account.target_amount"
                 label="※Target"
                 :error-messages="errors"
+                autocomplete="off"
                 clearble
                 data-testid="target-amount"
                 suffix="円"
@@ -61,7 +63,7 @@
             </v-select>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn text rounded @click="dialog = false">Close</v-btn>
+              <v-btn text rounded @click="closeNewDialog">Close</v-btn>
               <v-btn
                 color="primary"
                 class="font-weight-bold text-body-1"
@@ -118,6 +120,11 @@ export default {
         target_amount: 10000,
         account_tag_links_attributes: [],
       },
+      defaultAccount: {
+        name: '',
+        target_amount: 10000,
+        account_tag_links_attributes: [],
+      },
     }
   },
   computed: {
@@ -145,9 +152,13 @@ export default {
     }),
     registerAccount() {
       this.createAccount(this.account)
+      this.closeNewDialog()
+    },
+    closeNewDialog() {
       this.dialog = false
-      this.account.name = ''
-      this.account.target_amount = 10000
+      this.$nextTick(() => {
+        this.account = Object.assign({}, this.defaultAccount)
+      })
     },
   },
 }

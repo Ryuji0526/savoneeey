@@ -25,11 +25,11 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 div {
   border-bottom: 1px solid white;
-}
-.caption {
-  font-family: 'Caveat', cursive !important;
+  .caption {
+    font-family: 'Caveat', cursive !important;
+  }
 }
 </style>
