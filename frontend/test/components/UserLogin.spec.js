@@ -15,6 +15,7 @@ localVue.component('ValidationObserver', ValidationObserver)
 describe('components/UserLogin.vue', () => {
   let vuetify
   let wrapper
+  let spyLoginUser
   let observer
   let emailField
   let passwordField
@@ -22,6 +23,7 @@ describe('components/UserLogin.vue', () => {
   beforeEach(() => {
     vuetify = new Vuetify()
     localVue.use(vuetify)
+    spyLoginUser = jest.spyOn(UserLogin.methods, 'loginUser')
     wrapper = mount(UserLogin, {
       store,
       localVue,
@@ -37,6 +39,10 @@ describe('components/UserLogin.vue', () => {
       expect(emailField.exists()).toBeTruthy()
       expect(passwordField.exists()).toBeTruthy()
       expect(login.exists()).toBeTruthy()
+    })
+    test('ボタンをクリックするとspyLoginUserメソッドが発火される', () => {
+      login.trigger('click')
+      expect(spyLoginUser).toBeCalled()
     })
   })
   describe('バリデーション確認', () => {
