@@ -1,7 +1,12 @@
 <template>
-  <v-card>
-    <v-card-title class="text-h5 grey lighten-2">出金/入金</v-card-title>
-    <v-card-text class="px-12">
+  <v-card class="mx-auto rounded-lg" elevation="8">
+    <v-card-title>
+      <div class="text-h4 caption">
+        <span class="text-h3 caption">W</span>ithdrawal /
+        <span class="text-h3 caption">D</span>eposit
+      </div>
+    </v-card-title>
+    <v-card-text>
       <validation-observer ref="observer" v-slot="{ invalid }">
         <v-form ref="form">
           <validation-provider
@@ -9,12 +14,16 @@
             name="出金/入金"
             rules="required"
           >
-            <v-radio-group v-model="selected" row>
+            <v-radio-group
+              v-model="selected"
+              row
+              prepend-icon="mdi-bank-transfer"
+            >
               <v-radio
                 v-for="(action, index) in actions"
                 :key="index"
-                :label="action"
-                :value="action"
+                :label="action.label"
+                :value="action.value"
                 :error-messages="errors"
               ></v-radio>
             </v-radio-group>
@@ -26,6 +35,7 @@
               required: 'required',
               integer: 'integer',
               minValue: 0,
+              maxValue: 10000000,
               lessThanBalance: {
                 balance: currentBalance,
                 action: selected,
@@ -34,7 +44,9 @@
           >
             <v-text-field
               v-model="transaction_amount"
-              label="金額"
+              prepend-icon="mdi-cash-multiple"
+              label="※Amount"
+              autocomplete="off"
               :error-messages="errors"
               clearble
               data-testid="amount"
@@ -43,17 +55,17 @@
           </validation-provider>
           <v-card-actions class="d-flex justify-space-around">
             <v-spacer></v-spacer>
-            <v-btn text @click="close">閉じる</v-btn>
+            <v-btn text rounded @click="close">Close</v-btn>
             <v-btn
-              color="light-green darken-1"
-              class="white--text text-body-1 font-weight-bold rounded-log"
-              elavation="5"
+              color="primary"
+              class="font-weight-bold text-body-1"
               text
+              rounded
               :disabled="invalid"
               data-testid="register-account-history"
               @click="registerTradingHistoryOnlyMain"
             >
-              出金/入金
+              Save
             </v-btn>
           </v-card-actions>
         </v-form>
@@ -74,11 +86,13 @@ import {
   required,
   integer,
   min_value as minValue,
+  max_value as maxValue,
 } from 'vee-validate/dist/rules.umd'
 
 extend('required', required)
 extend('integer', integer)
 extend('minValue', minValue)
+extend('maxValue', maxValue)
 
 setInteractionMode('eager')
 
@@ -96,7 +110,13 @@ export default {
   data() {
     return {
       transaction_amount: null,
-      actions: ['出金', '入金'],
+      actions: [
+        {
+          label: 'Withdrawal(出金)',
+          value: '出金',
+        },
+        { label: 'Deposit(入金)', value: '入金' },
+      ],
       selected: '',
       current_balance: this.account.recent_histories[0].balance,
     }
@@ -142,3 +162,9 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.caption {
+  font-family: 'Caveat', cursive !important;
+}
+</style>

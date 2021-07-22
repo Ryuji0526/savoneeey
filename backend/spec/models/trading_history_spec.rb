@@ -34,5 +34,13 @@ RSpec.describe TradingHistory, type: :model do
       trading_history.transaction_amount = 0
       expect(trading_history).to be_valid
     end
+    example "1000万円以降なら無効" do
+      trading_history.transaction_amount = 10000001
+      expect(trading_history).to be_invalid
+    end
+    example "1000万円なら有効" do
+      trading_history.transaction_amount = 10000000
+      expect(trading_history).to be_valid
+    end
   end
 end

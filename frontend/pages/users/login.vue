@@ -1,16 +1,24 @@
 <template>
   <v-container>
-    <login-user />
+    <main-title :title="title" />
+    <user-login />
   </v-container>
 </template>
 
 <script>
-import LoginUser from '~/components/LoginUser'
+import UserLogin from '~/components/UserLogin'
+import MainTitle from '~/components/MainTitle'
 
 export default {
   auth: false,
   components: {
-    LoginUser,
+    UserLogin,
+    MainTitle,
+  },
+  data() {
+    return {
+      title: 'LogIn',
+    }
   },
 }
 </script>

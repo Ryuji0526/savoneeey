@@ -48,6 +48,14 @@ RSpec.describe AccountHistory, type: :model do
           account_history.amount = 100.1
           expect(account_history).to be_invalid
         end
+        example "1000万円以降なら無効" do
+          account_history.amount = 10000001
+          expect(account_history).to be_invalid
+        end
+        example "1000万円なら有効" do
+          account_history.amount = 10000000
+          expect(account_history).to be_valid
+        end
       end
 
       context "action=出金のとき" do
@@ -70,6 +78,14 @@ RSpec.describe AccountHistory, type: :model do
         example "小数点が含まれるなら無効" do
           account_history.amount = 100.1
           expect(account_history).to be_invalid
+        end
+        example "-1000万円以降なら無効" do
+          account_history.amount = -10000001
+          expect(account_history).to be_invalid
+        end
+        example "-1000万円なら有効" do
+          account_history.amount = -10000000
+          expect(account_history).to be_valid
         end
       end
 
