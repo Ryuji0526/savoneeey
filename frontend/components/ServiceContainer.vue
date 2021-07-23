@@ -22,10 +22,10 @@
         <v-col cols="12" md="5">
           <h3 class="text-h5 font-weight-bold">{{ container.subtitle }}</h3>
           <p class="text-body-1 mt-7">{{ container.content }}</p>
-          <div class="d-flex justify-space-around mt-10">
+          <div class="d-flex justify-end mt-10">
             <v-btn
               v-show="!(container.containerNum === 0)"
-              outlined
+              text
               class="turn-black"
               color="#0009"
               @click="scrollUp"
@@ -36,7 +36,7 @@
               v-show="
                 !(container.containerNum + 1 === container.containersLength)
               "
-              outlined
+              text
               class="turn-black"
               color="#0009"
               @click="scrollDown"

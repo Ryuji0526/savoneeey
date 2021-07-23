@@ -20,7 +20,7 @@
           </v-dialog>
         </template>
         <template #[`item.name`]="{ item }">
-          <a v-if="item.url !== ''" target="_blank" :href="item.url">
+          <a v-if="!item.url" target="_blank" :href="item.url">
             {{ item.name }}
           </a>
           <span v-else>{{ item.name }}</span>

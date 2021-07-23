@@ -80,14 +80,7 @@ ActiveRecord::Schema.define(version: 2021_07_15_041125) do
     t.datetime "reset_password_sent_at"
     t.boolean "allow_password_change", default: false
     t.datetime "remember_created_at"
-    t.integer "sign_in_count", default: 0, null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.string "current_sign_in_ip"
-    t.string "last_sign_in_ip"
     t.string "name"
-    t.string "nickname"
-    t.string "image"
     t.string "email"
     t.text "tokens"
     t.datetime "created_at", precision: 6, null: false
@@ -101,7 +94,7 @@ ActiveRecord::Schema.define(version: 2021_07_15_041125) do
     t.bigint "user_id", null: false
     t.string "name", null: false
     t.integer "price", null: false
-    t.string "url"
+    t.text "url"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_wish_lists_on_user_id"
