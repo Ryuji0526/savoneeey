@@ -2,9 +2,13 @@
   <v-card>
     <v-container>
       <v-tabs left>
-        <v-tab v-for="(tab, i) in tabs" :key="i" @click="tabName = tab">{{
-          tab
-        }}</v-tab>
+        <v-tab
+          v-for="(tab, i) in tabs"
+          :key="i"
+          data-testid="tab"
+          @click="tabName = tab"
+          >{{ tab }}</v-tab
+        >
         <v-tab-item v-for="(tab, i) in tabs" :key="i">
           <chart :chart-data="chartData" :height="150" />
         </v-tab-item>

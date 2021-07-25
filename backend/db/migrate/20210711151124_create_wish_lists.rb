@@ -4,7 +4,7 @@ class CreateWishLists < ActiveRecord::Migration[6.1]
       t.references :user, null: false, foreign_key: true
       t.string :name, null: false
       t.integer :price, null: false
-      t.string :url
+      t.text :url
 
       t.timestamps
     end

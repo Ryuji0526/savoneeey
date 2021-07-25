@@ -20,6 +20,7 @@ import MainTitle from '~/components/MainTitle'
 import ServiceContainer from '~/components/ServiceContainer'
 
 export default {
+  auth: false,
   components: {
     MainTitle,
     ServiceContainer,
