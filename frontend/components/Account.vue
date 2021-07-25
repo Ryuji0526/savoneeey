@@ -74,7 +74,6 @@
         v-if="reveal"
         class="v-card--reveal px-3"
         :class="{ selected: isSelected }"
-        style="height: 100%"
       >
         <account-sparkline :account="account" />
         <v-card-actions>
@@ -209,7 +208,7 @@ export default {
       setWithdrawal: 'bankAccount/setWithdrawal',
     }),
     selectAccount() {
-      if (this.reveal === true) {
+      if (this.reveal) {
         return
       }
       if (this.transaction.withdrawal.id === null) {
@@ -259,6 +258,7 @@ export default {
   opacity: 1 !important;
   position: absolute;
   width: 100%;
+  height: 100%;
 }
 .cursor {
   &:hover {

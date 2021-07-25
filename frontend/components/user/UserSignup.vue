@@ -58,7 +58,7 @@
               <v-text-field
                 v-model="user.password_confirmation"
                 :type="show ? 'text' : 'password'"
-                prepend-icon="mdi-lock"
+                prepend-icon="mdi-lock-check"
                 :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
                 label="※Password(confirmation)"
                 :error-messages="errors"
