@@ -8,8 +8,8 @@
     @click="selectAccount"
   >
     <v-card-text>
-      <div class="text-h5 ml-10">- {{ account.name }} -</div>
-      <p class="text-center text-h2 mt-8">
+      <div class="text-h5 ml-10" data-testid="name">- {{ account.name }} -</div>
+      <p class="text-center text-h2 mt-8" data-testid="balance">
         {{ count | toLocaleString }}
       </p>
     </v-card-text>
@@ -32,6 +32,7 @@
         absolute
         right
         bottom
+        data-testid="reveal"
         @click.stop="reveal = true"
       >
         <v-icon large>mdi-chevron-down</v-icon>
@@ -52,6 +53,7 @@
             absolute
             bottom
             left
+            data-testid="dialog1Btn"
             v-on="on"
           >
             <v-icon>mdi-plus-minus-variant</v-icon>
@@ -80,6 +82,7 @@
             text
             rounded
             class="mt-n10 turn-black"
+            data-testid="closeBtn"
             @click.stop="reveal = false"
           >
             <v-icon dark size="25" class="mx-1"
@@ -93,6 +96,7 @@
             rounded
             class="mt-n10 turn-black"
             :to="{ path: `/account/${account.id}` }"
+            data-testid="moreBtn"
           >
             MORE
             <v-icon dark size="25" class="mx-1"
@@ -102,7 +106,7 @@
         </v-card-actions>
         <v-card-text>
           <v-subheader
-            >Target<span class="mb-0 mx-auto text-h5">{{
+            >Target<span class="mb-0 mx-auto text-h5" data-testid="target">{{
               account.target_amount | toLocaleString
             }}</span></v-subheader
           >
@@ -119,7 +123,9 @@
                   item.created_at | moement
                 }}</v-list-item-title>
                 <v-list-item-subtitle>{{ item.action }}</v-list-item-subtitle>
-                <v-list-item-subtitle>{{ item.amount }}</v-list-item-subtitle>
+                <v-list-item-subtitle data-testid="history">{{
+                  item.amount
+                }}</v-list-item-subtitle>
               </v-list-item>
             </template>
           </v-virtual-scroll>
@@ -131,7 +137,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import anime from 'animejs/lib/anime.es.js'
+import anime from 'animejs'
 import moment from 'moment'
 import AccountSparkline from '~/components/AccountSparkline'
 import AccountDialog1 from '~/components/AccountDialog1'

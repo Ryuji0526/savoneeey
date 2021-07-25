@@ -32,14 +32,15 @@
                 right
                 top
                 fab
+                data-testid="newBtn"
                 v-on="on"
               >
                 <v-icon>mdi-plus</v-icon>
               </v-btn>
             </template>
-            <v-card class="mx-auto rounded-lg" elevation="8">
+            <v-card class="mx-auto rounded-lg" elevation="8" data-testid="form">
               <v-card-title>
-                <div class="text-h4 caption">
+                <div class="text-h4 caption" data-testid="formTitle">
                   <span class="text-h3 caption">{{
                     formTitle.substr(0, 1)
                   }}</span
@@ -93,17 +94,20 @@
                       :deletable-chips="deletable"
                       label="Tags"
                       multiple
+                      data-testid="tag"
                     ></v-select>
                     <v-card-actions>
                       <v-spacer></v-spacer>
-                      <v-btn text rounded @click="close"> Close </v-btn>
+                      <v-btn text rounded data-testid="closeBtn" @click="close">
+                        Close
+                      </v-btn>
                       <v-btn
                         color="primary"
                         class="font-weight-bold text-body-1"
                         text
                         rounded
                         :disabled="invalid"
-                        data-testid="add-wish-list"
+                        data-testid="saveBtn"
                         @click="save"
                       >
                         Save
@@ -117,6 +121,7 @@
           <v-dialog v-model="dialogDelete" max-width="500px">
             <delete-alert
               :message="message"
+              data-testid="deleteAlert"
               @close="closeDelete"
               @delete="deleteItemConfirm"
             />
@@ -138,9 +143,13 @@
         </template>
       </template>
       <template #[`item.actions`]="{ item }">
-        <v-icon small @click="editItem(item)"> mdi-pencil </v-icon>
+        <v-icon small data-testid="editBtn" @click="editItem(item)">
+          mdi-pencil
+        </v-icon>
         |
-        <v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>
+        <v-icon small data-testid="deleteBtn" @click="deleteItem(item)">
+          mdi-delete
+        </v-icon>
       </template>
     </v-data-table>
     <v-container>
@@ -152,6 +161,7 @@
           bottom
           class="turn-black"
           color="#ffeb58"
+          data-testid="addToAccountBtn"
           @click="dialogRegister = true"
           >Add to account</v-btn
         >
@@ -160,6 +170,7 @@
     </v-container>
     <v-dialog v-model="dialogRegister" max-width="400px">
       <account-select
+        data-testid="accountSelect"
         @closeDialogRegister="closeDialogRegister"
         @register="register"
       />

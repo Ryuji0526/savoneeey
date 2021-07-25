@@ -8,6 +8,7 @@
           color="#ffeb58"
           v-bind="attrs"
           class="turn-black"
+          data-testid="dialogBtn"
           v-on="on"
         >
           <v-icon class="text-center text-h2">mdi-plus</v-icon>
@@ -48,7 +49,7 @@
                 :error-messages="errors"
                 autocomplete="off"
                 clearble
-                data-testid="target-amount"
+                data-testid="target"
                 suffix="円"
               />
             </validation-provider>
@@ -57,13 +58,16 @@
               :items="accountTagItems"
               chips
               :deletable-chips="deletable"
+              data-testid="tag"
               label="Tags"
               multiple
             >
             </v-select>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn text rounded @click="closeNewDialog">Close</v-btn>
+              <v-btn text rounded data-testid="closeBtn" @click="closeNewDialog"
+                >Close</v-btn
+              >
               <v-btn
                 color="primary"
                 class="font-weight-bold text-body-1"
@@ -71,7 +75,7 @@
                 text
                 rounded
                 :disabled="invalid"
-                data-testid="register-account"
+                data-testid="saveBtn"
                 @click="registerAccount"
               >
                 Save

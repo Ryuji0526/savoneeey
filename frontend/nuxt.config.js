@@ -54,10 +54,10 @@ export default {
 
   auth: {
     redirect: {
-      login: '/users/login',
+      login: '/user/login',
       logout: '/',
       callback: false,
-      home: '/users/account',
+      home: '/accounts',
     },
     strategies: {
       local: {

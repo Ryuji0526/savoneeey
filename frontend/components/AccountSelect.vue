@@ -12,18 +12,19 @@
           :key="i"
           :label="account.name"
           :value="account.id"
+          data-testid="accountRadioBtn"
         ></v-radio>
       </v-radio-group>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn text rounded @click="close">Close</v-btn>
+        <v-btn text rounded data-testid="closeBtn" @click="close">Close</v-btn>
         <v-btn
           color="primary"
           class="font-weight-bold text-body-1"
           text
           rounded
           :disabled="disabled"
-          data-testid="register-account-wish-list"
+          data-testid="addBtn"
           @click="save"
         >
           Add

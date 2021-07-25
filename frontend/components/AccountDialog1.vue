@@ -24,6 +24,7 @@
                 :key="index"
                 :label="action.label"
                 :value="action.value"
+                data-testid="radioBtn"
                 :error-messages="errors"
               ></v-radio>
             </v-radio-group>
@@ -55,14 +56,16 @@
           </validation-provider>
           <v-card-actions class="d-flex justify-space-around">
             <v-spacer></v-spacer>
-            <v-btn text rounded @click="close">Close</v-btn>
+            <v-btn text rounded data-testid="closeBtn" @click="close"
+              >Close</v-btn
+            >
             <v-btn
               color="primary"
               class="font-weight-bold text-body-1"
               text
               rounded
               :disabled="invalid"
-              data-testid="register-account-history"
+              data-testid="saveBtn"
               @click="registerTradingHistoryOnlyMain"
             >
               Save
