@@ -2,7 +2,7 @@
   <v-navigation-drawer
     permanent
     color="#f7f7f7"
-    class="pt-10"
+    class="pt-10 d-none d-sm-block"
     width="100px"
     min-width="80px"
     fixed
@@ -73,7 +73,7 @@ export default {
       clipped: true,
       drawer: true,
       home: {
-        icon: 'mdi-apps',
+        icon: 'mdi-home-outline',
         title: 'Home',
         to: '/',
       },

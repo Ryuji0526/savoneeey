@@ -1,14 +1,7 @@
 <template>
   <v-app>
-    <v-app-bar
-      fixed
-      flat
-      app
-      class="high"
-      color="#f7f7f7"
-      height="18px"
-    ></v-app-bar>
-    <v-main>
+    <app-header />
+    <v-main class="pt-0">
       <flash-message />
       <div id="main" class="d-flex">
         <side-nav />
@@ -16,7 +9,7 @@
       </div>
     </v-main>
     <page-footer />
-    <v-footer height="18px" class="high" color="#f7f7f7" app></v-footer>
+    <app-footer />
   </v-app>
 </template>
 
@@ -24,12 +17,16 @@
 import FlashMessage from '~/components/FlashMessage'
 import SideNav from '~/components/SideNav'
 import PageFooter from '~/components/PageFooter'
+import AppHeader from '~/components/AppHeader'
+import AppFooter from '~/components/AppFooter'
 
 export default {
   components: {
     FlashMessage,
     SideNav,
     PageFooter,
+    AppHeader,
+    AppFooter,
   },
 }
 </script>

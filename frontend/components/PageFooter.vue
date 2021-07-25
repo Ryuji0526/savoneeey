@@ -1,5 +1,5 @@
 <template>
-  <div class="text-center text-body-2 footer">
+  <div class="text-center text-body-2 footer d-none d-sm-block">
     &copy; {{ new Date().getFullYear() }}<span class="ml-2">SAVONEEEY</span>
   </div>
 </template>
