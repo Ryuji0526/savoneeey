@@ -1,14 +1,11 @@
 import Vue from 'vue'
-import Vuex from 'vuex'
 import Vuetify from 'vuetify'
 import { mount, createLocalVue } from '@vue/test-utils'
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
-import * as store from '~/store'
 import UserLogin from '~/components/user/UserLogin'
 
 Vue.use(Vuetify)
 const localVue = createLocalVue()
-localVue.use(Vuex)
 localVue.component('ValidationProvider', ValidationProvider)
 localVue.component('ValidationObserver', ValidationObserver)
 
@@ -25,7 +22,6 @@ describe('components/UserLogin.vue', () => {
     localVue.use(vuetify)
     spyLoginUser = jest.spyOn(UserLogin.methods, 'loginUser')
     wrapper = mount(UserLogin, {
-      store,
       localVue,
       vuetify,
     })
@@ -45,9 +41,9 @@ describe('components/UserLogin.vue', () => {
       expect(spyLoginUser).toBeCalled()
     })
   })
-  describe('バリデーション確認', () => {
+  describe('バリデーション', () => {
     describe('正しくない入力', () => {
-      test('未入力の時', async () => {
+      test('エラーが表示される', async () => {
         await observer.validate()
         await wrapper.vm.$nextTick()
         expect(wrapper.find('.v-messages__message').exists()).toBeTruthy()
