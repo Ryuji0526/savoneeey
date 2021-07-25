@@ -107,4 +107,35 @@ export const actions = {
         console.log(error)
       })
   },
+  async editUserPassword({ dispatch }, user) {
+    await this.$axios
+      .put('/api/v1/auth/password', user)
+      .then(() => {
+        dispatch(
+          'flashMessage/showFlashMessage',
+          {
+            content: 'パスワードを変更しました。',
+            type: 'success',
+          },
+          {
+            root: true,
+          }
+        )
+        window.location.href = '/'
+      })
+      .catch((error) => {
+        dispatch(
+          'flashMessage/showFlashMessage',
+          {
+            content:
+              'パスワードの変更に失敗しました。もう一度登録をお願いします',
+            type: 'error',
+          },
+          {
+            root: true,
+          }
+        )
+        console.log(error)
+      })
+  },
 }

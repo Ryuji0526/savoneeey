@@ -28,6 +28,16 @@
             />
           </validation-provider>
           <v-card-actions>
+            <v-btn
+              class="turn-black"
+              outlined
+              rounded
+              data-testid="passwordBtn"
+              @click="reveal = true"
+            >
+              <v-icon>mdi-lock-reset</v-icon>
+              パスワード変更
+            </v-btn>
             <v-spacer></v-spacer>
             <v-btn
               color="primary"
@@ -44,6 +54,13 @@
         </v-form>
       </validation-observer>
     </v-card-text>
+    <v-expand-transition>
+      <user-edit-password
+        v-if="reveal"
+        data-testid="userEditPassword"
+        @close="reveal = false"
+      />
+    </v-expand-transition>
   </v-card>
 </template>
 
@@ -56,6 +73,7 @@ import {
   setInteractionMode,
 } from 'vee-validate'
 import { required, email } from 'vee-validate/dist/rules.umd'
+import UserEditPassword from '~/components/user/UserEditPassword'
 
 extend('required', required)
 extend('email', email)
@@ -66,9 +84,11 @@ export default {
   components: {
     ValidationProvider,
     ValidationObserver,
+    UserEditPassword,
   },
   data() {
     return {
+      reveal: false,
       user: {
         name: this.$auth.user.name,
         email: this.$auth.user.email,

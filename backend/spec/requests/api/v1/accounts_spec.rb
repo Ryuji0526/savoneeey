@@ -11,12 +11,11 @@ RSpec.describe "Api::V1::Accounts", type: :request do
 
   before do
     create_list(:account, 10, user: user)
-    login_as(user)
   end
 
   describe "GET /api/v1/accounts" do
     example "userの全ての口座を取得する" do
-      get api_v1_accounts_path, headers: headers
+      get '/api/v1/accounts', headers: headers
       res = JSON.parse(response.body)
       expect(res["status"]).to eq("success")
       expect(res["data"].length).to eq(10)

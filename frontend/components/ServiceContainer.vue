@@ -2,7 +2,7 @@
   <v-container class="parallax scrollbox px-sm-15">
     <div class="mx-auto mb-16 box">
       <v-row ref="scrollNum" align="center">
-        <v-col cols="12" md="7" :order-md="reverse">
+        <v-col cols="12" md="6" :order-md="reverse">
           <v-img
             :src="container.image"
             aspect-ratio="1.5"
@@ -19,7 +19,7 @@
             </template>
           </v-img>
         </v-col>
-        <v-col cols="12" md="5">
+        <v-col cols="12" md="6">
           <h3 class="text-h5 font-weight-bold">{{ container.subtitle }}</h3>
           <p class="text-body-1 mt-7">{{ container.content }}</p>
           <div class="d-flex justify-end mt-10">
@@ -86,6 +86,7 @@ export default {
 
 <style scoped>
 .box {
-  min-width: 100%;
+  width: 100%;
+  max-width: 1100px;
 }
 </style>

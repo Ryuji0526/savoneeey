@@ -23,6 +23,7 @@ describe('components/UserEdit.vue', () => {
   let nameField
   let emailField
   let edit
+  let passwordBtn
   beforeEach(() => {
     vuetify = new Vuetify()
     localVue.use(vuetify)
@@ -37,6 +38,7 @@ describe('components/UserEdit.vue', () => {
     observer = wrapper.vm.$refs.observer
     nameField = wrapper.find('[data-testid="name"]')
     emailField = wrapper.find('[data-testid="email"]')
+    passwordBtn = wrapper.find('[data-testid="passwordBtn"]')
     edit = wrapper.find('[data-testid="edit"]')
   })
   describe('表示確認', () => {
@@ -46,14 +48,27 @@ describe('components/UserEdit.vue', () => {
       expect(edit.exists()).toBeTruthy()
     })
   })
+  describe('動作確認', () => {
+    test('passwordBtnを押すとrevealがtrueになる', async () => {
+      expect(wrapper.vm.reveal).toBeFalsy()
+      passwordBtn.trigger('click')
+      await wrapper.vm.$nextTick()
+      expect(wrapper.vm.reveal).toBeTruthy()
+    })
+  })
   describe('バリデーション', () => {
     describe('正しくない入力', () => {
-      test('エラーが表示される', async () => {
+      beforeEach(async () => {
         nameField.setValue('')
         emailField.setValue('')
         await observer.validate()
-        await wrapper.vm.$nextTick()
+      })
+      test('エラーが表示される', () => {
         expect(wrapper.find('.v-messages__message').exists()).toBeTruthy()
+      })
+      test('ボタンを押してもeditUserPasswordメソッドが発火しない', () => {
+        edit.trigger('click')
+        expect(spyEditUser).not.toBeCalled()
       })
     })
     describe('正しい入力', () => {
