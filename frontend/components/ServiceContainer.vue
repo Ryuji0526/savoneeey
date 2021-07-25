@@ -22,17 +22,27 @@
         <v-col cols="12" md="5">
           <h3 class="text-h5 font-weight-bold">{{ container.subtitle }}</h3>
           <p class="text-body-1 mt-7">{{ container.content }}</p>
-          <div class="d-flex justify-space-around mt-10">
-            <v-btn v-show="!(container.containerNum === 0)" @click="scrollUp"
-              >BACK</v-btn
-            >
+          <div class="d-flex justify-end mt-10">
+            <v-btn
+              v-show="!(container.containerNum === 0)"
+              text
+              class="turn-black"
+              color="#0009"
+              @click="scrollUp"
+              >BACK
+              <v-icon>mdi-arrow-up</v-icon>
+            </v-btn>
             <v-btn
               v-show="
                 !(container.containerNum + 1 === container.containersLength)
               "
+              text
+              class="turn-black"
+              color="#0009"
               @click="scrollDown"
-              >NEXT</v-btn
-            >
+              >NEXT
+              <v-icon>mdi-arrow-down</v-icon>
+            </v-btn>
           </div>
         </v-col>
       </v-row>
@@ -60,8 +70,6 @@ export default {
         (this.$refs.scrollNum.getBoundingClientRect().top +
           this.$refs.scrollNum.getBoundingClientRect().bottom) /
           2
-      console.log(center)
-      console.log(document.documentElement.clientHeight + center)
       window.scrollBy(0, -document.documentElement.clientHeight - center)
     },
     scrollDown() {
@@ -70,8 +78,6 @@ export default {
         (this.$refs.scrollNum.getBoundingClientRect().top +
           this.$refs.scrollNum.getBoundingClientRect().bottom) /
           2
-      console.log(center)
-      console.log(document.documentElement.clientHeight + center)
       window.scrollBy(0, document.documentElement.clientHeight - center)
     },
   },
@@ -83,4 +89,3 @@ export default {
   min-width: 100%;
 }
 </style>
-@click="scrollDown"

@@ -7,9 +7,13 @@
     </v-card-title>
     <v-card-text>
       <div class="font-weight-bold text-h6">
-        {{ transaction.withdrawal.name }}
+        <span data-testid="withdrawal">
+          {{ transaction.withdrawal.name }}
+        </span>
         <v-icon class="pb-1">mdi-chevron-triple-right</v-icon>
-        {{ transaction.deposit.name }}
+        <span data-testid="deposit">
+          {{ transaction.deposit.name }}
+        </span>
       </div>
       <validation-observer ref="observer" v-slot="{ invalid }">
         <v-form ref="form">
@@ -39,14 +43,16 @@
           </validation-provider>
           <v-card-actions class="d-flex justify-space-around">
             <v-spacer></v-spacer>
-            <v-btn text rounded @click="close">Close</v-btn>
+            <v-btn text rounded data-testid="closeBtn" @click="close"
+              >Close</v-btn
+            >
             <v-btn
               color="primary"
               class="font-weight-bold text-body-1"
               text
               rounded
               :disabled="invalid"
-              data-testid="register-account-history"
+              data-testid="saveBtn"
               @click="registerTradingHistory"
             >
               Save

@@ -9,6 +9,7 @@
     :type="type"
     transition="slide-x-reverse-transition"
     width="50%"
+    data-testid="message"
   >
     {{ message }}
   </v-alert>
