@@ -8,5 +8,5 @@ class WishList < ApplicationRecord
 
   validates :name, presence: true, length: { maximum: 30 }
   validates :price, presence: true, numericality: { only_integer: true, greater_than: 0 }
-  validates :url, format: { with: /\A#{URI::regexp(%w(http https))}\z/, allow_blank: true }
+  validates :url, format: { with: /\A#{URI.regexp(%w(http https))}\z/, allow_blank: true }
 end

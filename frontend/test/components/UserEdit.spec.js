@@ -1,14 +1,11 @@
 import Vue from 'vue'
-import Vuex from 'vuex'
 import Vuetify from 'vuetify'
 import { mount, createLocalVue } from '@vue/test-utils'
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
-import * as store from '~/store'
-import UserSignup from '~/components/user/UserEdit'
+import UserEdit from '~/components/user/UserEdit'
 
 Vue.use(Vuetify)
 const localVue = createLocalVue()
-localVue.use(Vuex)
 localVue.component('ValidationProvider', ValidationProvider)
 localVue.component('ValidationObserver', ValidationObserver)
 const authMock = {
@@ -18,7 +15,7 @@ const authMock = {
   },
 }
 
-describe('components/UserSignup.vue', () => {
+describe('components/UserEdit.vue', () => {
   let vuetify
   let wrapper
   let spyEditUser
@@ -29,9 +26,8 @@ describe('components/UserSignup.vue', () => {
   beforeEach(() => {
     vuetify = new Vuetify()
     localVue.use(vuetify)
-    spyEditUser = jest.spyOn(UserSignup.methods, 'editUser')
-    wrapper = mount(UserSignup, {
-      store,
+    spyEditUser = jest.spyOn(UserEdit.methods, 'editUser')
+    wrapper = mount(UserEdit, {
       localVue,
       vuetify,
       mocks: {
@@ -49,14 +45,10 @@ describe('components/UserSignup.vue', () => {
       expect(emailField.exists()).toBeTruthy()
       expect(edit.exists()).toBeTruthy()
     })
-    test('ボタンをクリックするとeditUserメソッドが発火される', () => {
-      edit.trigger('click')
-      expect(spyEditUser).toBeCalled()
-    })
   })
-  describe('バリデーション確認', () => {
+  describe('バリデーション', () => {
     describe('正しくない入力', () => {
-      test('未入力の時', async () => {
+      test('エラーが表示される', async () => {
         nameField.setValue('')
         emailField.setValue('')
         await observer.validate()
@@ -71,6 +63,10 @@ describe('components/UserSignup.vue', () => {
         await observer.validate()
         await wrapper.vm.$nextTick()
         expect(wrapper.find('.v-messages__message').exists()).toBeFalsy()
+      })
+      test('ボタンをクリックするとeditUserメソッドが発火される', () => {
+        edit.trigger('click')
+        expect(spyEditUser).toBeCalled()
       })
     })
   })

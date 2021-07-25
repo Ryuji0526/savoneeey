@@ -1,14 +1,11 @@
 import Vue from 'vue'
-import Vuex from 'vuex'
 import Vuetify from 'vuetify'
 import { mount, createLocalVue } from '@vue/test-utils'
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
-import * as store from '~/store'
 import UserSignup from '~/components/user/UserSignup'
 
 Vue.use(Vuetify)
 const localVue = createLocalVue()
-localVue.use(Vuex)
 localVue.component('ValidationProvider', ValidationProvider)
 localVue.component('ValidationObserver', ValidationObserver)
 
@@ -27,7 +24,6 @@ describe('components/UserSignup.vue', () => {
     localVue.use(vuetify)
     spyRegisterUser = jest.spyOn(UserSignup.methods, 'registerUser')
     wrapper = mount(UserSignup, {
-      store,
       localVue,
       vuetify,
     })
@@ -53,7 +49,7 @@ describe('components/UserSignup.vue', () => {
       expect(spyRegisterUser).toBeCalled()
     })
   })
-  describe('バリデーション確認', () => {
+  describe('バリデーション', () => {
     describe('正しくない入力', () => {
       test('未入力の時', async () => {
         await observer.validate()

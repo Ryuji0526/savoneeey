@@ -1,7 +1,13 @@
 <template>
   <v-card>
     <v-card-actions class="pb-0 pt-5">
-      <v-btn text rounded class="ml-auto turn-black" @click="editItem">
+      <v-btn
+        text
+        rounded
+        class="ml-auto turn-black"
+        data-testid="switchBtn"
+        @click="editItem"
+      >
         <v-icon v-if="!editable">mdi-pencil-outline</v-icon>
         <v-icon v-else>mdi-pencil-off-outline</v-icon>
       </v-btn>
@@ -10,9 +16,12 @@
       <v-list-item class="pb-5">
         <v-list-item-content class="ml-10 pt-0">
           <v-list-item-subtitle>※Name</v-list-item-subtitle>
-          <v-list-item-title v-if="!editable" class="text-h6 text-center">{{
-            account.name
-          }}</v-list-item-title>
+          <v-list-item-title
+            v-if="!editable"
+            class="text-h6 text-center"
+            data-testid="name"
+            >{{ account.name }}</v-list-item-title
+          >
           <v-list-item-title v-else class="text-h6 text-center">
             <v-form ref="form">
               <validation-provider
@@ -24,7 +33,7 @@
                   v-model="editedItem.name"
                   :error-messages="errors"
                   clearble
-                  data-testid="name"
+                  data-testid="editName"
                 />
               </validation-provider>
             </v-form>
@@ -34,7 +43,10 @@
       <v-list-item class="pb-5">
         <v-list-item-content class="ml-10">
           <v-list-item-subtitle>※Target</v-list-item-subtitle>
-          <v-list-item-title v-if="!editable" class="text-h6 text-center"
+          <v-list-item-title
+            v-if="!editable"
+            class="text-h6 text-center"
+            data-testid="target"
             >{{ account.target_amount | toLocaleString
             }}<span class="ml-5"
               >({{
@@ -53,7 +65,7 @@
                   v-model="editedItem.target_amount"
                   :error-messages="errors"
                   clearble
-                  data-testid="name"
+                  data-testid="editTarget"
                   suffix="円"
                 />
               </validation-provider>
@@ -69,6 +81,7 @@
               v-for="(tag, i) in account.account_tags"
               :key="i"
               outlined
+              data-testid="tag"
               small
               class="mr-1"
               >{{ tag.name }}</v-chip
@@ -81,6 +94,7 @@
                 :items="accountTagItems"
                 chips
                 :deletable-chips="deletable"
+                data-testid="editTag"
                 label="Tags"
                 multiple
               >
@@ -94,7 +108,7 @@
                   text
                   rounded
                   :disabled="invalid"
-                  data-testid="register-account-history"
+                  data-testid="saveBtn"
                   @click="edit"
                 >
                   Save

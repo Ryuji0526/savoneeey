@@ -14,6 +14,7 @@
           <v-dialog v-model="dialogUnregister" max-width="500px">
             <delete-alert
               :message="message"
+              data-testid="deleteAlert"
               @close="closeUnregister"
               @delete="unregisterItemConfirm"
             />
@@ -31,7 +32,13 @@
           </template>
         </template>
         <template #[`item.actions`]="{ item }">
-          <v-icon midium @click="unregisterItem(item.id)"> mdi-delete </v-icon>
+          <v-icon
+            midium
+            data-testid="deleteBtn"
+            @click="unregisterItem(item.id)"
+          >
+            mdi-delete
+          </v-icon>
         </template>
       </v-data-table>
       <v-pagination v-model="page" :length="pageCount" circle></v-pagination>

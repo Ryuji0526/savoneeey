@@ -70,8 +70,6 @@ export default {
         (this.$refs.scrollNum.getBoundingClientRect().top +
           this.$refs.scrollNum.getBoundingClientRect().bottom) /
           2
-      console.log(center)
-      console.log(document.documentElement.clientHeight + center)
       window.scrollBy(0, -document.documentElement.clientHeight - center)
     },
     scrollDown() {
@@ -80,8 +78,6 @@ export default {
         (this.$refs.scrollNum.getBoundingClientRect().top +
           this.$refs.scrollNum.getBoundingClientRect().bottom) /
           2
-      console.log(center)
-      console.log(document.documentElement.clientHeight + center)
       window.scrollBy(0, document.documentElement.clientHeight - center)
     },
   },
