@@ -63,8 +63,12 @@ describe('components/AccountDialog2.vue', () => {
   })
   describe('表示確認', () => {
     test('出金口座、送金口座の名前が存在する。', () => {
-      expect(wrapper.find('[data-testid="withdrawal"]').text()).toBe(transaction.withdrawal.name)
-      expect(wrapper.find('[data-testid="deposit"]').text()).toBe(transaction.deposit.name)
+      expect(wrapper.find('[data-testid="withdrawal"]').text()).toBe(
+        transaction.withdrawal.name
+      )
+      expect(wrapper.find('[data-testid="deposit"]').text()).toBe(
+        transaction.deposit.name
+      )
     })
     test('入力フォームが存在する', () => {
       expect(amount.exists()).toBeTruthy()

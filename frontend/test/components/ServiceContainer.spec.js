@@ -28,9 +28,15 @@ describe('components/ServiceContainer.vue', () => {
   })
   describe('表示確認', () => {
     test('サブタイトル、本文、画像が正しく表示される', () => {
-      expect(wrapper.find('[data-testid="image"]').props().src).toBe(wrapper.vm.container.image)
-      expect(wrapper.find('[data-testid="subtitle"]').text()).toBe(wrapper.vm.container.subtitle)
-      expect(wrapper.find('[data-testid="content"]').text()).toBe(wrapper.vm.container.content)
+      expect(wrapper.find('[data-testid="image"]').props().src).toBe(
+        wrapper.vm.container.image
+      )
+      expect(wrapper.find('[data-testid="subtitle"]').text()).toBe(
+        wrapper.vm.container.subtitle
+      )
+      expect(wrapper.find('[data-testid="content"]').text()).toBe(
+        wrapper.vm.container.content
+      )
     })
   })
   describe('動作確認', () => {
