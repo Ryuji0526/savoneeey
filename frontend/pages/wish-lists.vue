@@ -1,14 +1,18 @@
 <template>
   <v-container>
     <main-title :title="title" />
-    <wish-lists :wish-lists="wishLists" :wish-tags="wishTags" />
+    <wish-lists
+      :wish-lists="wishLists"
+      :wish-tags="wishTags"
+      data-testid="wishLists"
+    />
   </v-container>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import WishLists from '~/components/WishLists'
-import MainTitle from '~/components/MainTitle'
+import MainTitle from '~/components/layout/MainTitle'
 
 export default {
   components: {

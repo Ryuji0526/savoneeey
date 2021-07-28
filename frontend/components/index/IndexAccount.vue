@@ -1,5 +1,5 @@
 <template>
-  <v-container class="parallax scrollbox px-sm-15">
+  <v-container class="parallax scrollbox px-sm-15 px-7">
     <h1 class="text-center mb-15 text-h3 caption">\ Account</h1>
     <div class="width-1100">
       <v-row>

@@ -2,13 +2,13 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import Vuetify from 'vuetify'
 import { shallowMount, createLocalVue } from '@vue/test-utils'
-import FlashMessage from '~/components/FlashMessage'
+import FlashMessage from '~/components/layout/FlashMessage'
 
 Vue.use(Vuetify)
 const localVue = createLocalVue()
 localVue.use(Vuex)
 
-describe('components/Account.vue', () => {
+describe('components/layout/FlashMessage.vue', () => {
   let store
   let vuetify
   let wrapper

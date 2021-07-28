@@ -48,7 +48,7 @@
 
 <script>
 import { mapActions } from 'vuex'
-import DeleteAlert from '~/components/DeleteAlert.vue'
+import DeleteAlert from '~/components/layout/DeleteAlert.vue'
 
 export default {
   components: {

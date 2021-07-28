@@ -138,6 +138,16 @@ export const actions = {
         this.$router.push(`/account/${account.id}`)
       })
       .catch((error) => {
+        dispatch(
+          'flashMessage/showFlashMessage',
+          {
+            content: '口座情報の変更に失敗しました。再度操作をお願いします。',
+            type: 'error',
+          },
+          {
+            root: true,
+          }
+        )
         console.log(error)
       })
   },

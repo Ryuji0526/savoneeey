@@ -1,11 +1,11 @@
 <template>
   <v-container>
     <main-title :title="title" />
-    <v-btn text rounded to="/accounts" class="turn-black">
+    <v-btn text rounded to="/accounts" class="turn-black" data-testid="backBtn">
       <v-icon dark size="25" class="mx-1">mdi-arrow-left</v-icon>
       BACK
     </v-btn>
-    <p class="text-h1 font-weight-light text-center">
+    <p class="text-h1 font-weight-light text-center" data-testid="balance">
       {{ count | toLocaleString }}
     </p>
     <v-breadcrumbs
@@ -16,20 +16,25 @@
     <v-subheader class="text-h4 my-5 caption">
       <span class="text-h3 caption">D</span>etail
     </v-subheader>
-    <account-detail :account="account" :current-balance="currentBalance" />
+    <account-detail
+      :account="account"
+      :current-balance="currentBalance"
+      data-testid="accountDetail"
+    />
     <v-subheader id="history" class="text-h4 my-5 caption"
       ><span class="text-h3 caption">H</span>istory
     </v-subheader>
-    <account-history :account="account" />
+    <account-history :account="account" data-testid="accountHistory" />
     <v-subheader id="wish-lists" class="text-h4 my-5 caption"
       ><span class="text-h3 caption">W</span>ishLists
     </v-subheader>
-    <account-wish-lists :account="account" />
+    <account-wish-lists :account="account" data-testid="accountWishLists" />
     <div v-if="!is_main" class="text-right mt-10">
       <v-btn
         class="turn-black"
         rounded
         color="#ffeb58"
+        data-testid="deleteBtn"
         @click="dialogDelete = true"
       >
         Delete Account
@@ -38,6 +43,7 @@
     <v-dialog v-model="dialogDelete" max-width="500px">
       <delete-alert
         :message="message"
+        data-testid="deleteAlert"
         @close="dialogDelete = false"
         @delete="deletable"
       />
@@ -47,12 +53,12 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import anime from 'animejs/lib/anime.es.js'
+import anime from 'animejs'
 import AccountDetail from '~/components/AccountDetail'
 import AccountHistory from '~/components/AccountHistory'
 import AccountWishLists from '~/components/AccountWishLists'
-import MainTitle from '~/components/MainTitle'
-import DeleteAlert from '~/components/DeleteAlert'
+import MainTitle from '~/components/layout/MainTitle'
+import DeleteAlert from '~/components/layout/DeleteAlert'
 
 export default {
   components: {

@@ -9,7 +9,11 @@ Vue.use(Vuetify)
 const localVue = createLocalVue()
 localVue.use(Vuex)
 
-describe('components/Account.vue', () => {
+const app = document.createElement('div')
+app.setAttribute('data-app', true)
+document.body.appendChild(app)
+
+describe('components/AccountWishLists.vue', () => {
   let store
   let vuetify
   let wrapper

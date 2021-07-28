@@ -1,5 +1,5 @@
 User.create!(
-  name: "サンプル",
-  email: "sample@sample.com",
+  name: "ゲストユーザー",
+  email: "guest1234@guest.com",
   password: "password",
 )

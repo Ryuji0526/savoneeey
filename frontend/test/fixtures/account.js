@@ -1,9 +1,9 @@
 export default {
   id: 1,
   user_id: 1,
-  name: 'メイン',
+  name: 'Test',
   target_amount: 0,
-  is_main: true,
+  is_main: false,
   created_at: '2021-07-23T05:11:50.571Z',
   updated_at: '2021-07-23T05:11:50.571Z',
   recent_histories: [

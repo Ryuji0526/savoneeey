@@ -21,11 +21,6 @@ html {
 .width-1100 {
   max-width: 1100px;
 }
-.p {
-  height: 100%;
-  width: 100%;
-  box-sizing: border-box;
-}
 .parallax {
   min-height: 100vh;
   min-width: 100%;
@@ -34,6 +29,15 @@ html {
   align-items: center;
   justify-content: center;
 }
+.high {
+  z-index: 10 !important;
+}
 .caption {
   font-family: 'Caveat', cursive !important;
+}
+
+@media screen and (max-width: 600px) {
+  #main {
+    margin-left: 0;
+  }
 }

@@ -12,7 +12,7 @@ localVue.component('ValidationProvider', ValidationProvider)
 localVue.component('ValidationObserver', ValidationObserver)
 localVue.use(Vuex)
 
-describe('components/Account.vue', () => {
+describe('components/AccountDialog1.vue', () => {
   let store
   let vuetify
   let wrapper

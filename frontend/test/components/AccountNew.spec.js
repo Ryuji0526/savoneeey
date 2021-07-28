@@ -12,7 +12,11 @@ localVue.component('ValidationProvider', ValidationProvider)
 localVue.component('ValidationObserver', ValidationObserver)
 localVue.use(Vuex)
 
-describe('components/Account.vue', () => {
+const app = document.createElement('div')
+app.setAttribute('data-app', true)
+document.body.appendChild(app)
+
+describe('components/AccountNew.vue', () => {
   let store
   let vuetify
   let wrapper
@@ -21,12 +25,7 @@ describe('components/Account.vue', () => {
   let tagMock
   let bankAccountMock
   let observer
-  let dialogBtn
   let name
-  let target
-  let tag
-  let closeBtn
-  let saveBtn
   beforeEach(() => {
     vuetify = new Vuetify()
     localVue.use(vuetify)
@@ -60,52 +59,48 @@ describe('components/Account.vue', () => {
     })
   })
   describe('dialog = falseの時', () => {
-    beforeEach(async () => {
+    beforeEach(() => {
       wrapper.setData({ dialog: false })
-      await wrapper.vm.$nextTick()
-      dialogBtn = wrapper.find('[data-testid="dialogBtn"]')
-      name = wrapper.find('[data-testid="name"]')
-      target = wrapper.find('[data-testid="target"]')
-      tag = wrapper.findAll('[data-testid="tag"]')
     })
     describe('表示確認', () => {
       test('入力フォームは存在しない', () => {
+        name = wrapper.find('[data-testid="name"]')
         expect(name.exists()).toBeFalsy()
-        expect(target.exists()).toBeFalsy()
-        expect(tag.exists()).toBeFalsy()
+        expect(wrapper.find('[data-testid="target"]').exists()).toBeFalsy()
+        expect(wrapper.findAll('[data-testid="tag"]').exists()).toBeFalsy()
       })
     })
     describe('操作確認', () => {
       test('dialogBtnを押すとdialog = trueになる', async () => {
         expect(wrapper.vm.dialog).toBeFalsy()
-        dialogBtn.trigger('click')
+        wrapper.find('[data-testid="dialogBtn"]').trigger('click')
         await wrapper.vm.$nextTick()
         expect(wrapper.vm.dialog).toBeTruthy()
       })
     })
   })
   describe('dialog = trueの時', () => {
+    let target
+    let saveBtn
     beforeEach(async () => {
       wrapper.setData({ dialog: true })
       await wrapper.vm.$nextTick()
       observer = wrapper.vm.$refs.observer
       name = wrapper.find('[data-testid="name"]')
       target = wrapper.find('[data-testid="target"]')
-      tag = wrapper.findAll('[data-testid="tag"]')
-      closeBtn = wrapper.find('[data-testid="closeBtn"]')
       saveBtn = wrapper.find('[data-testid="saveBtn"]')
     })
     describe('表示確認', () => {
       test('入力フォームは存在する', () => {
         expect(name.exists()).toBeTruthy()
         expect(target.exists()).toBeTruthy()
-        expect(tag).toBeTruthy()
+        expect(wrapper.findAll('[data-testid="tag"]')).toBeTruthy()
       })
     })
     describe('操作確認', () => {
       test('closeBtnを押すとcloseメソッドが発火される', () => {
         expect(wrapper.vm.dialog).toBeTruthy()
-        closeBtn.trigger('click')
+        wrapper.find('[data-testid="closeBtn"]').trigger('click')
         expect(spyClose).toBeCalled()
         expect(wrapper.vm.dialog).toBeFalsy()
       })
