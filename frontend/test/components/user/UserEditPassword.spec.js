@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import Vuex from 'vuex'
 import Vuetify from 'vuetify'
 import { mount, createLocalVue } from '@vue/test-utils'
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
@@ -6,10 +7,11 @@ import UserEditPassword from '~/components/user/UserEditPassword'
 
 Vue.use(Vuetify)
 const localVue = createLocalVue()
+localVue.use(Vuex)
 localVue.component('ValidationProvider', ValidationProvider)
 localVue.component('ValidationObserver', ValidationObserver)
 
-describe('components/UserEditPassword.vue', () => {
+describe('components/user/UserEditPassword.vue', () => {
   let vuetify
   let wrapper
   let spyEditUserPassword
@@ -17,7 +19,6 @@ describe('components/UserEditPassword.vue', () => {
   let observer
   let password
   let passwordConfirmation
-  let switchBtn
   let editBtn
   beforeEach(() => {
     vuetify = new Vuetify()
@@ -34,7 +35,6 @@ describe('components/UserEditPassword.vue', () => {
     observer = wrapper.vm.$refs.observer
     password = wrapper.find('[data-testid="password"]')
     passwordConfirmation = wrapper.find('[data-testid="password_confirmation"]')
-    switchBtn = wrapper.find('[data-testid="switchBtn"]')
     editBtn = wrapper.find('[data-testid="editBtn"]')
   })
   describe('表示確認', () => {
@@ -46,7 +46,7 @@ describe('components/UserEditPassword.vue', () => {
   })
   describe('動作確認', () => {
     test('switchBtnを押すとcloseメソッドが発火する', () => {
-      switchBtn.trigger('click')
+      wrapper.find('[data-testid="switchBtn"]').trigger('click')
       expect(spyClose).toBeCalled()
     })
   })

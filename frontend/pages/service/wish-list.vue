@@ -10,13 +10,14 @@
           containersLength: containers.length,
           containerNum: i,
         }"
+        data-testid="serviceContainer"
       />
     </div>
   </v-container>
 </template>
 
 <script>
-import MainTitle from '~/components/MainTitle'
+import MainTitle from '~/components/layout/MainTitle'
 import ServiceContainer from '~/components/ServiceContainer'
 
 export default {

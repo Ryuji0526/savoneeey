@@ -1,6 +1,6 @@
 <template>
   <v-card max-width="400px" class="mx-auto py-7 rounded-lg" elevation="8">
-    <v-card-text class="px-12 pb-0">
+    <v-card-text v-if="user.email !== guest" class="px-12 pb-0">
       <validation-observer ref="observer" v-slot="{ invalid }">
         <v-form ref="form">
           <validation-provider v-slot="{ errors }" name="名前" rules="required">
@@ -46,13 +46,34 @@
               rounded
               :disabled="invalid"
               data-testid="edit"
-              @click="editUser"
+              @click="edit"
             >
               Save
             </v-btn>
           </v-card-actions>
         </v-form>
       </validation-observer>
+    </v-card-text>
+    <v-card-text v-else class="px-12 pb-0">
+      <p class="text-right text-body-1">ゲストユーザーのため変更できません。</p>
+      <v-text-field
+        v-model="user.name"
+        prepend-icon="mdi-account"
+        label="※Name"
+        :error-messages="errors"
+        clearable
+        data-testid="name"
+        disabled
+      />
+      <v-text-field
+        v-model="user.email"
+        prepend-icon="mdi-email"
+        label="※e-mail"
+        :error-messages="errors"
+        clearable
+        data-testid="email"
+        disabled
+      />
     </v-card-text>
     <v-expand-transition>
       <user-edit-password
@@ -89,6 +110,7 @@ export default {
   data() {
     return {
       reveal: false,
+      guest: 'guest1234@guest.com',
       user: {
         name: this.$auth.user.name,
         email: this.$auth.user.email,
@@ -97,10 +119,10 @@ export default {
   },
   methods: {
     ...mapActions({
-      edit: 'user/editUser',
+      editUser: 'user/editUser',
     }),
-    editUser() {
-      this.edit(this.user)
+    edit() {
+      this.editUser(this.user)
     },
   },
 }

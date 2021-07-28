@@ -68,6 +68,16 @@
               />
             </validation-provider>
             <v-card-actions>
+              <v-btn
+                color="primary"
+                text
+                class="font-weight-bold text-body-2 turn-black"
+                rounded
+                data-testid="guestLogin"
+                @click="guest"
+              >
+                ゲストとしてログイン
+              </v-btn>
               <v-spacer></v-spacer>
               <v-btn
                 color="primary"
@@ -124,11 +134,13 @@ export default {
   methods: {
     ...mapActions({
       signUp: 'user/signUp',
+      loginAsGuest: 'user/loginAsGuest',
     }),
     registerUser() {
-      this.$refs.observer.validate().then(() => {
-        this.signUp(this.user)
-      })
+      this.signUp(this.user)
+    },
+    guest() {
+      this.loginAsGuest()
     },
   },
 }

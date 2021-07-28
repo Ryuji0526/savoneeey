@@ -8,6 +8,7 @@
             aspect-ratio="1.5"
             max-width="600"
             class="mx-auto"
+            data-testid="image"
           >
             <template #placeholder>
               <v-row class="fill-height ma-0" align="center" justify="center">
@@ -20,14 +21,19 @@
           </v-img>
         </v-col>
         <v-col cols="12" md="6">
-          <h3 class="text-h5 font-weight-bold">{{ container.subtitle }}</h3>
-          <p class="text-body-1 mt-7">{{ container.content }}</p>
+          <h3 class="text-h5 font-weight-bold" data-testid="subtitle">
+            {{ container.subtitle }}
+          </h3>
+          <p class="text-body-1 mt-7" data-testid="content">
+            {{ container.content }}
+          </p>
           <div class="d-flex justify-end mt-10">
             <v-btn
               v-show="!(container.containerNum === 0)"
               text
               class="turn-black"
               color="#0009"
+              data-testid="backBtn"
               @click="scrollUp"
               >BACK
               <v-icon>mdi-arrow-up</v-icon>
@@ -39,6 +45,7 @@
               text
               class="turn-black"
               color="#0009"
+              data-testid="nextBtn"
               @click="scrollDown"
               >NEXT
               <v-icon>mdi-arrow-down</v-icon>

@@ -3,39 +3,30 @@ import Vuex from 'vuex'
 import Vuetify from 'vuetify'
 import { mount, createLocalVue } from '@vue/test-utils'
 import AccountFixture from '~/test/fixtures/account'
+import TransactionFixture from '~/test/fixtures/transaction'
 import Account from '~/components/Account'
 
 Vue.use(Vuetify)
 const localVue = createLocalVue()
 localVue.use(Vuex)
 
+const app = document.createElement('div')
+app.setAttribute('data-app', true)
+document.body.appendChild(app)
+
 describe('components/Account.vue', () => {
   let store
   let vuetify
   let wrapper
+  let spySelectAccount
   let bankAccountMock
-  let nameField
-  let revealBtn
-  let dialog1Btn
-  let target
-  let history
-  let closeBtn
-  let moreBtn
-  const transaction = {
-    deposit: {
-      id: null,
-      name: null,
-    },
-    withdrawal: {
-      id: null,
-      name: null,
-      balance: null,
-    },
-    amount: null,
-  }
+  let stubs
+  const transaction = TransactionFixture
+  AccountFixture.is_main = true
   beforeEach(() => {
     vuetify = new Vuetify()
     localVue.use(vuetify)
+    spySelectAccount = jest.spyOn(Account.methods, 'selectAccount')
     bankAccountMock = {
       namespaced: true,
       actions: {
@@ -52,6 +43,12 @@ describe('components/Account.vue', () => {
         bankAccount: bankAccountMock,
       },
     })
+    stubs = {
+      AccountDialog1: true,
+      AccountDialog2: true,
+      AccountSparkline: true,
+      RouterLink: true,
+    }
     wrapper = mount(Account, {
       store,
       localVue,
@@ -59,17 +56,13 @@ describe('components/Account.vue', () => {
       propsData: {
         account: AccountFixture,
       },
+      stubs,
     })
   })
   describe('表面', () => {
-    beforeEach(() => {
-      nameField = wrapper.find('[data-testid="name"]')
-      dialog1Btn = wrapper.find('[data-testid="dialog1Btn"]')
-      revealBtn = wrapper.find('[data-testid="reveal"]')
-    })
     describe('表示確認', () => {
       test('アカウント名が表示されるする', () => {
-        expect(nameField.text()).toBe(`- ${AccountFixture.name} -`)
+        expect(wrapper.find('[data-testid="name"]').text()).toBe(`- ${AccountFixture.name} -`)
       })
       test('残高が表示される', () => {
         expect(wrapper.vm.currentBalance).toBe(
@@ -77,45 +70,44 @@ describe('components/Account.vue', () => {
         )
       })
       test('dialog1Btnが存在する', () => {
-        expect(dialog1Btn.exists()).toBeTruthy()
+        expect(wrapper.find('[data-testid="dialog1Btn"]').exists()).toBeTruthy()
       })
     })
     describe('動作確認', () => {
       test('revealBtnを押すとrevealがtrueになる', () => {
         expect(wrapper.vm.reveal).toBeFalsy()
-        revealBtn.trigger('click')
+        wrapper.find('[data-testid="reveal"]').trigger('click')
         expect(wrapper.vm.reveal).toBeTruthy()
+      })
+      test('accountCardを押すとselectAccountが発火する', () => {
+        wrapper.find('[data-testid="accountCard"]').trigger('click')
+        expect(spySelectAccount).toBeCalled()
       })
     })
   })
   describe('裏面', () => {
-    beforeEach(async () => {
+    beforeEach(() => {
       wrapper.setData({ reveal: true })
-      await wrapper.vm.$nextTick()
-      target = wrapper.find('[data-testid="target"]')
-      history = wrapper.findAll('[data-testid="history"]').at(0)
-      moreBtn = wrapper.find('[data-testid="moreBtn"]')
-      closeBtn = wrapper.find('[data-testid="closeBtn"]')
     })
     describe('表示確認', () => {
       test('目標金額が表示される', () => {
-        expect(target.text()).toBe(
+        expect(wrapper.find('[data-testid="target"]').text()).toBe(
           AccountFixture.target_amount.toLocaleString()
         )
       })
       test('最新履歴が表示される', () => {
-        expect(history.text()).toBe(
+        expect(wrapper.findAll('[data-testid="history"]').at(0).text()).toBe(
           String(AccountFixture.recent_histories[0].amount)
         )
       })
       test('moreBtnのリンク先が正しい', () => {
-        expect(moreBtn.props().to.path).toBe(`/account/${AccountFixture.id}`)
+        expect(wrapper.find('[data-testid="moreBtn"]').props().to.path).toBe(`/account/${AccountFixture.id}`)
       })
     })
     describe('操作確認', () => {
       test('closeBtnを押すとrevealがfalseになる', () => {
         expect(wrapper.vm.reveal).toBeTruthy()
-        closeBtn.trigger('click')
+        wrapper.find('[data-testid="closeBtn"]').trigger('click')
         expect(wrapper.vm.reveal).toBeFalsy()
       })
     })

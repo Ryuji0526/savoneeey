@@ -4,12 +4,12 @@
       <v-tabs left>
         <v-tab
           v-for="(tab, i) in tabs"
-          :key="i"
+          :key="`first-${i}`"
           data-testid="tab"
           @click="tabName = tab"
           >{{ tab }}</v-tab
         >
-        <v-tab-item v-for="(tab, i) in tabs" :key="i">
+        <v-tab-item v-for="(tab, i) in tabs" :key="`second-${i}`">
           <chart :chart-data="chartData" :height="150" />
         </v-tab-item>
       </v-tabs>

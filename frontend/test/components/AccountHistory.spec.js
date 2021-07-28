@@ -1,5 +1,4 @@
 import Vue from 'vue'
-import Vuex from 'vuex'
 import Vuetify from 'vuetify'
 import { shallowMount, createLocalVue } from '@vue/test-utils'
 import AccountFixture from '~/test/fixtures/account'
@@ -7,10 +6,8 @@ import AccountHistory from '~/components/AccountHistory'
 
 Vue.use(Vuetify)
 const localVue = createLocalVue()
-localVue.use(Vuex)
 
-describe('components/Account.vue', () => {
-  let store
+describe('components/AccountHistory.vue', () => {
   let vuetify
   let wrapper
   let tab
@@ -18,7 +15,6 @@ describe('components/Account.vue', () => {
     vuetify = new Vuetify()
     localVue.use(vuetify)
     wrapper = shallowMount(AccountHistory, {
-      store,
       localVue,
       vuetify,
       propsData: {

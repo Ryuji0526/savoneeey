@@ -104,10 +104,10 @@ export default {
   },
   methods: {
     ...mapActions({
-      edit: 'user/editUserPassword',
+      editPassword: 'user/editUserPassword',
     }),
     editUserPassword() {
-      this.edit(this.user)
+      this.editPassword(this.user)
     },
     close() {
       this.$emit('close')

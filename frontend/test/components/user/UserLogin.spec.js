@@ -9,7 +9,7 @@ const localVue = createLocalVue()
 localVue.component('ValidationProvider', ValidationProvider)
 localVue.component('ValidationObserver', ValidationObserver)
 
-describe('components/UserLogin.vue', () => {
+describe('components/user/UserLogin.vue', () => {
   let vuetify
   let wrapper
   let spyLoginUser
