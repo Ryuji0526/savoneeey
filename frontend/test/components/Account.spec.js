@@ -62,7 +62,9 @@ describe('components/Account.vue', () => {
   describe('表面', () => {
     describe('表示確認', () => {
       test('アカウント名が表示されるする', () => {
-        expect(wrapper.find('[data-testid="name"]').text()).toBe(`- ${AccountFixture.name} -`)
+        expect(wrapper.find('[data-testid="name"]').text()).toBe(
+          `- ${AccountFixture.name} -`
+        )
       })
       test('残高が表示される', () => {
         expect(wrapper.vm.currentBalance).toBe(
@@ -101,7 +103,9 @@ describe('components/Account.vue', () => {
         )
       })
       test('moreBtnのリンク先が正しい', () => {
-        expect(wrapper.find('[data-testid="moreBtn"]').props().to.path).toBe(`/account/${AccountFixture.id}`)
+        expect(wrapper.find('[data-testid="moreBtn"]').props().to.path).toBe(
+          `/account/${AccountFixture.id}`
+        )
       })
     })
     describe('操作確認', () => {

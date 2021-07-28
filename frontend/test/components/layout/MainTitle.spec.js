@@ -22,7 +22,9 @@ describe('components/layout/MainTitle.vue', () => {
   })
   describe('表示確認', () => {
     test('出金口座、送金口座の名前が存在する。', () => {
-      expect(wrapper.find('[data-testid="title"]').text()).toContain(wrapper.vm.title)
+      expect(wrapper.find('[data-testid="title"]').text()).toContain(
+        wrapper.vm.title
+      )
     })
   })
 })

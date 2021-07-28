@@ -62,8 +62,12 @@ describe('components/AccountDetail.vue', () => {
     describe('表示確認', () => {
       let tag
       test('アカウント名、目標金額、タグが存在する', () => {
-        expect(wrapper.find('[data-testid="name"]').text()).toBe(AccountFixture.name)
-        expect(wrapper.find('[data-testid="target"]').text()).toContain(AccountFixture.target_amount)
+        expect(wrapper.find('[data-testid="name"]').text()).toBe(
+          AccountFixture.name
+        )
+        expect(wrapper.find('[data-testid="target"]').text()).toContain(
+          AccountFixture.target_amount
+        )
         tag = wrapper.findAll('[data-testid="tag"]')
         expect(tag.at(0).text()).toBe(AccountFixture.account_tags[0].name)
         expect(tag.at(1).text()).toBe(AccountFixture.account_tags[1].name)
