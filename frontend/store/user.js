@@ -60,13 +60,48 @@ export const actions = {
             root: true,
           }
         )
-        this.$router.push('/')
+        this.$router.push('/accounts')
       })
       .catch((error) => {
         dispatch(
           'flashMessage/showFlashMessage',
           {
             content: 'メールアドレス、またはパスワードが違います。',
+            type: 'error',
+          },
+          {
+            root: true,
+          }
+        )
+        console.log(error)
+      })
+  },
+  async loginAsGuest({ dispatch }) {
+    await this.$auth
+      .loginWith('local', {
+        data: {
+          email: 'guest1234@guest.com',
+          password: 'password',
+        },
+      })
+      .then(() => {
+        dispatch(
+          'flashMessage/showFlashMessage',
+          {
+            content: 'ゲストとしてログインしました。',
+            type: 'success',
+          },
+          {
+            root: true,
+          }
+        )
+        this.$router.push('/accounts')
+      })
+      .catch((error) => {
+        dispatch(
+          'flashMessage/showFlashMessage',
+          {
+            content: 'ログインに失敗しました。',
             type: 'error',
           },
           {
@@ -137,5 +172,20 @@ export const actions = {
         )
         console.log(error)
       })
+  },
+  async logout({ dispatch }) {
+    await this.$auth.logout().then(() => {
+      dispatch(
+        'flashMessage/showFlashMessage',
+        {
+          content: 'ログアウトしました。',
+          type: 'success',
+        },
+        {
+          root: true,
+        }
+      )
+      window.location.href = '/'
+    })
   },
 }

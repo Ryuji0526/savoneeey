@@ -1,9 +1,9 @@
 <template>
-  <div class="p">
-    <index-top />
-    <index-about />
-    <index-account />
-    <index-wish />
+  <div class="index-wrapper">
+    <index-top data-testid="indexTop" />
+    <index-about data-testid="indexAbout" />
+    <index-account data-testid="indexAccount" />
+    <index-wish data-testid="indexWish" />
   </div>
 </template>
 
@@ -27,5 +27,10 @@ export default {
 <style scoped>
 .caption {
   font-family: 'Caveat', cursive !important;
+}
+.index-wrapper {
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
 }
 </style>

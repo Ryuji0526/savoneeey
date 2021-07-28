@@ -9,7 +9,7 @@ Vue.use(Vuetify)
 const localVue = createLocalVue()
 localVue.use(Vuex)
 
-describe('components/Account.vue', () => {
+describe('components/AccountSelect.vue', () => {
   let store
   let vuetify
   let wrapper
@@ -62,7 +62,7 @@ describe('components/Account.vue', () => {
       accountRadioBtn.at(2).trigger('click')
       expect(wrapper.vm.selected).toBe(AccountsFixture[2].id)
     })
-    test('cloasBtnを押すと、closeメソッドが発火される', () => {
+    test('closeBtnを押すと、closeメソッドが発火される', () => {
       closeBtn.trigger('click')
       expect(spyClose).toBeCalled()
     })

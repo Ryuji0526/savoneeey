@@ -6,7 +6,12 @@
       color="#f7f7f7"
       app
     ></v-footer>
-    <v-footer height="50px" class="d-block d-sm-none pa-0" app>
+    <v-footer
+      height="50px"
+      class="d-block d-sm-none pa-0"
+      data-testid="footerNav"
+      app
+    >
       <v-bottom-navigation
         background-color="#0009"
         height="100%"

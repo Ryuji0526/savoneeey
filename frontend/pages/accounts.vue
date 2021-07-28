@@ -11,12 +11,12 @@
           cols="12"
         >
           <v-item class="mx-auto">
-            <account :account="account" />
+            <account :account="account" data-testid="account" />
           </v-item>
         </v-col>
         <v-col cols="12" sm="6" align-self="center" class="mb-15">
           <v-item>
-            <account-new />
+            <account-new data-testid="accountNew" />
           </v-item>
         </v-col>
       </v-row>
@@ -28,7 +28,7 @@
 import { mapActions, mapGetters } from 'vuex'
 import Account from '~/components/Account'
 import AccountNew from '~/components/AccountNew'
-import MainTitle from '~/components/MainTitle'
+import MainTitle from '~/components/layout/MainTitle'
 
 export default {
   components: {

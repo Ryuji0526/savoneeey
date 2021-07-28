@@ -14,11 +14,11 @@
 </template>
 
 <script>
-import FlashMessage from '~/components/FlashMessage'
-import SideNav from '~/components/SideNav'
-import PageFooter from '~/components/PageFooter'
-import AppHeader from '~/components/AppHeader'
-import AppFooter from '~/components/AppFooter'
+import FlashMessage from '~/components/layout/FlashMessage'
+import SideNav from '~/components/layout/SideNav'
+import PageFooter from '~/components/layout/PageFooter'
+import AppHeader from '~/components/layout/AppHeader'
+import AppFooter from '~/components/layout/AppFooter'
 
 export default {
   components: {
@@ -37,8 +37,5 @@ export default {
 }
 .page-enter-active {
   transition: opacity 0.7s;
-}
-.high {
-  z-index: 10 !important;
 }
 </style>

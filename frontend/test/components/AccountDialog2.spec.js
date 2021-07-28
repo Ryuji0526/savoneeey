@@ -4,6 +4,7 @@ import Vuetify from 'vuetify'
 import { mount, createLocalVue } from '@vue/test-utils'
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import AccountFixture from '~/test/fixtures/account'
+import TransactionFixture from '~/test/fixtures/transaction'
 import AccountDialog2 from '~/components/AccountDialog2'
 
 Vue.use(Vuetify)
@@ -12,7 +13,7 @@ localVue.component('ValidationProvider', ValidationProvider)
 localVue.component('ValidationObserver', ValidationObserver)
 localVue.use(Vuex)
 
-describe('components/Account.vue', () => {
+describe('components/AccountDialog2.vue', () => {
   let store
   let vuetify
   let wrapper
@@ -20,23 +21,10 @@ describe('components/Account.vue', () => {
   let spyRegister
   let bankAccountMock
   let observer
-  let withdrawal
-  let deposit
   let amount
   let closeBtn
   let saveBtn
-  const transaction = {
-    deposit: {
-      id: 1,
-      name: 'Deposit',
-    },
-    withdrawal: {
-      id: 2,
-      name: 'Withdrawal',
-      balance: 10000,
-    },
-    amount: null,
-  }
+  const transaction = TransactionFixture
   beforeEach(() => {
     vuetify = new Vuetify()
     localVue.use(vuetify)
@@ -69,16 +57,14 @@ describe('components/Account.vue', () => {
       },
     })
     observer = wrapper.vm.$refs.observer
-    withdrawal = wrapper.find('[data-testid="withdrawal"]')
-    deposit = wrapper.find('[data-testid="deposit"]')
     amount = wrapper.find('[data-testid="amount"]')
     closeBtn = wrapper.find('[data-testid="closeBtn"]')
     saveBtn = wrapper.find('[data-testid="saveBtn"]')
   })
   describe('表示確認', () => {
     test('出金口座、送金口座の名前が存在する。', () => {
-      expect(withdrawal.text()).toBe(transaction.withdrawal.name)
-      expect(deposit.text()).toBe(transaction.deposit.name)
+      expect(wrapper.find('[data-testid="withdrawal"]').text()).toBe(transaction.withdrawal.name)
+      expect(wrapper.find('[data-testid="deposit"]').text()).toBe(transaction.deposit.name)
     })
     test('入力フォームが存在する', () => {
       expect(amount.exists()).toBeTruthy()

@@ -5,6 +5,7 @@
     max-width="400"
     min-height="300"
     elevation="8"
+    data-testid="accountCard"
     @click="selectAccount"
   >
     <v-card-text>
