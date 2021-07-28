@@ -1,14 +1,7 @@
 <template>
   <v-app>
-    <v-app-bar
-      fixed
-      flat
-      app
-      class="high"
-      color="#f7f7f7"
-      height="18px"
-    ></v-app-bar>
-    <v-main>
+    <app-header />
+    <v-main class="pt-0">
       <flash-message />
       <div id="main" class="d-flex">
         <side-nav />
@@ -16,20 +9,24 @@
       </div>
     </v-main>
     <page-footer />
-    <v-footer height="18px" class="high" color="#f7f7f7" app></v-footer>
+    <app-footer />
   </v-app>
 </template>
 
 <script>
-import FlashMessage from '~/components/FlashMessage'
-import SideNav from '~/components/SideNav'
-import PageFooter from '~/components/PageFooter'
+import FlashMessage from '~/components/layout/FlashMessage'
+import SideNav from '~/components/layout/SideNav'
+import PageFooter from '~/components/layout/PageFooter'
+import AppHeader from '~/components/layout/AppHeader'
+import AppFooter from '~/components/layout/AppFooter'
 
 export default {
   components: {
     FlashMessage,
     SideNav,
     PageFooter,
+    AppHeader,
+    AppFooter,
   },
 }
 </script>
@@ -40,8 +37,5 @@ export default {
 }
 .page-enter-active {
   transition: opacity 0.7s;
-}
-.high {
-  z-index: 10 !important;
 }
 </style>

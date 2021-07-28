@@ -1,13 +1,13 @@
 <template>
   <v-container>
     <main-title :title="title" />
-    <user-signup />
+    <user-signup data-testid="userSignup" />
   </v-container>
 </template>
 
 <script>
 import UserSignup from '~/components/user/UserSignup'
-import MainTitle from '~/components/MainTitle'
+import MainTitle from '~/components/layout/MainTitle'
 
 export default {
   auth: false,

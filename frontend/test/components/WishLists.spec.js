@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import Vuetify from 'vuetify'
 import { mount, createLocalVue } from '@vue/test-utils'
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
+import AccountFixture from '~/test/fixtures/account'
 import WishListFixture from '~/test/fixtures/wishList'
 import WishTagFixture from '~/test/fixtures/wishTag'
 import WishLists from '~/components/WishLists'
@@ -13,22 +14,23 @@ localVue.component('ValidationProvider', ValidationProvider)
 localVue.component('ValidationObserver', ValidationObserver)
 localVue.use(Vuex)
 
-describe('components/Account.vue', () => {
+const app = document.createElement('div')
+app.setAttribute('data-app', true)
+document.body.appendChild(app)
+
+describe('components/WishLists.vue', () => {
   let store
   let vuetify
   let wrapper
   let spy
   let wishListMock
   let registeringMock
+  let bankAccountMock
   let observer
   let wishListTable
   let firstWishList
-  let editBtn
   let deleteBtn
-  let checkbox
-  let name
-  let price
-  let saveBtn
+  let stubs
   beforeEach(() => {
     vuetify = new Vuetify()
     localVue.use(vuetify)
@@ -39,6 +41,15 @@ describe('components/Account.vue', () => {
       spyCreateWishList: jest.spyOn(WishLists.methods, 'createWishList'),
       spyEditWishList: jest.spyOn(WishLists.methods, 'editWishList'),
       spyDeleteItemConfirm: jest.spyOn(WishLists.methods, 'deleteItemConfirm'),
+    }
+    bankAccountMock = {
+      namespaced: true,
+      actions: {
+        getAccounts: jest.fn(),
+      },
+      getters: {
+        accounts: () => AccountFixture,
+      },
     }
     wishListMock = {
       namespaced: true,
@@ -58,8 +69,12 @@ describe('components/Account.vue', () => {
       modules: {
         wishList: wishListMock,
         registering: registeringMock,
+        bankAccount: bankAccountMock,
       },
     })
+    stubs = {
+      AccountSelect: true,
+    }
     wrapper = mount(WishLists, {
       store,
       localVue,
@@ -68,11 +83,10 @@ describe('components/Account.vue', () => {
         wishLists: WishListFixture,
         wishTags: WishTagFixture,
       },
+      stubs,
     })
-    wishListTable = wrapper.findAll('tbody > tr')
-    checkbox = wrapper.findAll('.v-input--selection-controls__ripple')
-    editBtn = wrapper.find('[data-testid="editBtn"]')
     deleteBtn = wrapper.find('[data-testid="deleteBtn"]')
+    wishListTable = wrapper.findAll('tbody > tr')
     firstWishList = wrapper.vm.wishLists[0]
   })
   describe('WishListTable', () => {
@@ -85,11 +99,12 @@ describe('components/Account.vue', () => {
         firstWishList.wish_tags.forEach((tag) => {
           expect(wishListTable.at(0).text()).toContain(tag.name)
         })
-        expect(editBtn.exists()).toBeTruthy()
+        expect(wrapper.find('[data-testid="editBtn"]').exists()).toBeTruthy()
         expect(deleteBtn.exists()).toBeTruthy()
       })
     })
     describe('動作確認', () => {
+      let checkbox
       test('newBtnを押すと新規登録フォームが出現する', async () => {
         expect(wrapper.find('[data-testid="form"]').exists()).toBeFalsy()
         wrapper.find('[data-testid="newBtn"]').trigger('click')
@@ -109,7 +124,7 @@ describe('components/Account.vue', () => {
       })
       test('editBtnを押すと編集フォームが出現する', async () => {
         expect(wrapper.find('[data-testid="form"]').exists()).toBeFalsy()
-        editBtn.trigger('click')
+        wrapper.find('[data-testid="editBtn"]').trigger('click')
         await wrapper.vm.$nextTick()
         expect(wrapper.find('[data-testid="form"]').exists()).toBeTruthy()
         expect(wrapper.find('[data-testid="form"]').text()).toContain(
@@ -120,6 +135,7 @@ describe('components/Account.vue', () => {
         expect(
           wrapper.find('[data-testid="accountSelect"]').exists()
         ).toBeFalsy()
+        checkbox = wrapper.findAll('.v-input--selection-controls__ripple')
         checkbox.at(1).trigger('click')
         checkbox.at(3).trigger('click')
         deleteBtn.trigger('click')
@@ -154,6 +170,9 @@ describe('components/Account.vue', () => {
     })
   })
   describe('New/Editフォーム', () => {
+    let name
+    let price
+    let saveBtn
     beforeEach(async () => {
       wrapper.setData({ dialog: true })
       await wrapper.vm.$nextTick()

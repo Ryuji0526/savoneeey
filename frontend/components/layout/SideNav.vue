@@ -2,22 +2,11 @@
   <v-navigation-drawer
     permanent
     color="#f7f7f7"
-    class="pt-10"
+    class="pt-10 d-none d-sm-block"
     width="100px"
     min-width="80px"
     fixed
   >
-    <v-list class="pa-0" shaped>
-      <v-list-item class="px-0" :to="home.to" two-line>
-        <v-list-item-content>
-          <v-icon>{{ home.icon }}</v-icon>
-          <v-list-item-title
-            class="text-center text-body-1 caption"
-            v-text="home.title"
-          />
-        </v-list-item-content>
-      </v-list-item>
-    </v-list>
     <v-list v-if="!$auth.loggedIn" class="pa-0" shaped>
       <v-list-item
         v-for="(item, i) in items"
@@ -25,6 +14,7 @@
         :to="item.to"
         class="px-0"
         two-line
+        data-testid="sideNav"
       >
         <v-list-item-content class="hover">
           <v-icon>{{ item.icon }}</v-icon>
@@ -42,6 +32,7 @@
         :to="item.to"
         class="px-0"
         two-line
+        data-testid="sideNav"
       >
         <v-list-item-content>
           <v-icon>{{ item.icon }}</v-icon>
@@ -52,7 +43,7 @@
         </v-list-item-content>
       </v-list-item>
       <v-divider></v-divider>
-      <v-list-item @click="logout">
+      <v-list-item data-testid="logoutBtn" @click="logoutUser">
         <v-list-item-content class="px-0" two-line>
           <v-icon>mdi-logout</v-icon>
           <v-list-item-title class="text-center text-body-1 caption">
@@ -72,12 +63,12 @@ export default {
     return {
       clipped: true,
       drawer: true,
-      home: {
-        icon: 'mdi-apps',
-        title: 'Home',
-        to: '/',
-      },
       items: [
+        {
+          icon: 'mdi-home-outline',
+          title: 'Home',
+          to: '/',
+        },
         {
           icon: 'mdi-login',
           title: 'LogIn',
@@ -90,6 +81,11 @@ export default {
         },
       ],
       loggedInItems: [
+        {
+          icon: 'mdi-home-outline',
+          title: 'Home',
+          to: '/',
+        },
         {
           icon: 'mdi-account-circle-outline',
           title: 'Profile',
@@ -110,15 +106,10 @@ export default {
   },
   methods: {
     ...mapActions({
-      showFlashMessage: 'flashMessage/showFlashMessage',
+      logout: 'user/logout',
     }),
-    logout() {
-      this.$auth.logout().then(() => {
-        this.showFlashMessage({
-          content: 'ログアウトしました。',
-          type: 'success',
-        })
-      })
+    logoutUser() {
+      this.logout()
     },
   },
 }
