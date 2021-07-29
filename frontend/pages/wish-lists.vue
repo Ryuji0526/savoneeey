@@ -11,7 +11,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import WishLists from '~/components/WishLists'
+import WishLists from '~/components/wishList/WishLists'
 import MainTitle from '~/components/layout/MainTitle'
 
 export default {

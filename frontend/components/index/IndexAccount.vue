@@ -1,7 +1,7 @@
 <template>
   <v-container class="parallax scrollbox px-sm-15 px-7">
     <h1 class="text-center mb-15 text-h3 caption">\ Account</h1>
-    <div class="width-1100">
+    <div class="mx-auto width-1100">
       <v-row align="center" justify="space-between">
         <v-col cols="12" md="6" order-md="last">
           <v-img
@@ -19,7 +19,7 @@
             </template>
           </v-img>
         </v-col>
-        <v-col cols="12" sm="5">
+        <v-col cols="12" md="5">
           <h3 class="text-h6 font-weight-bold">
             夢ごとに口座を分けて貯蓄をスタート
           </h3>
