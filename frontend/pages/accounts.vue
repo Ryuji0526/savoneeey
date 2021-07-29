@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <main-title :title="title" />
-    <div class="d-flex">
+    <div class="d-flex mb-7">
       <v-spacer></v-spacer>
       <v-btn text small to="/service/account">
         <v-icon left>mdi-help-circle-outline</v-icon>
