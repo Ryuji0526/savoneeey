@@ -80,7 +80,7 @@ export const actions = {
     await this.$auth
       .loginWith('local', {
         data: {
-          email: 'guest1234@guest.com',
+          email: 'guest@guest.com',
           password: 'password',
         },
       })

@@ -110,7 +110,7 @@ export default {
   data() {
     return {
       reveal: false,
-      guest: 'guest1234@guest.com',
+      guest: 'guest@guest.com',
       user: {
         name: this.$auth.user.name,
         email: this.$auth.user.email,

@@ -1,4 +1,4 @@
-user = User.order(:id).first
+user = User.order(:id).find_by(email: 'guest@guest.com')
 
 wish_lists = %w(
   model3:::3400000:::https://www.tesla.com/ja_jp/model3
