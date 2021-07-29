@@ -19,7 +19,7 @@
             </template>
           </v-img>
         </v-col>
-        <v-col cols="12" sm="5">
+        <v-col cols="12" md="5">
           <h3 class="text-h6 font-weight-bold">
             夢ごとに口座を分けて貯蓄をスタート
           </h3>
