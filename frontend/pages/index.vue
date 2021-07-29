@@ -1,24 +1,36 @@
 <template>
-  <v-container>
-    <div>
-      <p>loggedIn: {{ $auth.loggedIn }}</p>
-      <p v-if="loggedIn">name: {{ user.name }}</p>
-      <p v-if="loggedIn">email: {{ user.email }}</p>
-      <p v-if="loggedIn">id: {{ user.id }}</p>
-    </div>
-  </v-container>
+  <div class="index-wrapper">
+    <index-top data-testid="indexTop" />
+    <index-about data-testid="indexAbout" />
+    <index-account data-testid="indexAccount" />
+    <index-wish data-testid="indexWish" />
+  </div>
 </template>
 
 <script>
+import IndexTop from '~/components/index/IndexTop'
+import IndexAbout from '~/components/index/IndexAbout'
+import IndexAccount from '~/components/index/IndexAccount'
+import IndexWish from '~/components/index/IndexWish'
+
 export default {
   auth: false,
-  computed: {
-    user() {
-      return this.$auth.user
-    },
-    loggedIn() {
-      return this.$auth.loggedIn
-    },
+  components: {
+    IndexTop,
+    IndexAbout,
+    IndexAccount,
+    IndexWish,
   },
 }
 </script>
+
+<style scoped>
+.caption {
+  font-family: 'Caveat', cursive !important;
+}
+.index-wrapper {
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+}
+</style>

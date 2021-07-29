@@ -10,6 +10,15 @@ Rails.application.routes.draw do
       get :health_check, to: 'health_check#index'
       resources :accounts, except: [:edit]
       resources :trading_histories, only: [:index, :create]
+      resources :wish_lists, except: [:edit, :show]
+      resources :tags, only: [] do
+        get :wish_tags, on: :collection
+        get :account_tags, on: :collection
+      end
+      resources :registerings, only: [] do
+        post :register, on: :collection
+        delete :unregister, on: :collection
+      end
     end
   end
 end

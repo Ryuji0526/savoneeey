@@ -7,3 +7,8 @@ require:
 
 AllCops:
   TargetRubyVersion: 2.3
+
+Metrics/LineLength:
+  Exclude:
+    - 'app/models/account.rb'
+    - 'app/controllers/api/v1/accounts_controller.rb'

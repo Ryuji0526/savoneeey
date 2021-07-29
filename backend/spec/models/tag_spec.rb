@@ -1,0 +1,52 @@
+require 'rails_helper'
+
+RSpec.describe Tag, type: :model do
+  let(:wish_tag) { create(:wish_tag) }
+  let(:account_tag) { create(:account_tag) }
+
+  describe "wish_tag" do
+    describe "バリデーション" do
+      example "正しいタグ名、typeであれば有効" do
+        expect(wish_tag).to be_valid
+      end
+
+      context "name" do
+        example "がnilならば無効" do
+          wish_tag.name = nil
+          expect(wish_tag).to be_invalid
+        end
+        example "が11文字以上ならば無効" do
+          wish_tag.name = "a" * 11
+          expect(wish_tag).to be_invalid
+        end
+        example "が10文字ならば有効" do
+          wish_tag.name = "a" * 10
+          expect(wish_tag).to be_valid
+        end
+      end
+    end
+  end
+
+  describe "account_tag" do
+    describe "バリデーション" do
+      example "正しいタグ名、typeであれば有効" do
+        expect(account_tag).to be_valid
+      end
+
+      context "name" do
+        example "がnilならば無効" do
+          account_tag.name = nil
+          expect(account_tag).to be_invalid
+        end
+        example "が11文字以上ならば無効" do
+          account_tag.name = "a" * 11
+          expect(account_tag).to be_invalid
+        end
+        example "が10文字ならば有効" do
+          account_tag.name = "a" * 10
+          expect(account_tag).to be_valid
+        end
+      end
+    end
+  end
+end

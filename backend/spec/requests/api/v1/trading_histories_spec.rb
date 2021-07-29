@@ -14,7 +14,7 @@ RSpec.describe "Api::V1::TradingHistories", type: :request do
 
   describe "GET /api/v1/trading_histories" do
     example "userの全ての取引履歴を取得する" do
-      get api_v1_trading_histories_path, headers: headers
+      get "/api/v1/trading_histories", headers: headers
       res = JSON.parse(response.body)
       expect(res["status"]).to eq("success")
       expect(res["data"].length).to eq(10)
@@ -29,7 +29,6 @@ RSpec.describe "Api::V1::TradingHistories", type: :request do
         }.to change(TradingHistory, :count).by(1)
         res = JSON.parse(response.body)
         expect(res["data"]["id"]).to eq(TradingHistory.last.id)
-        expect(res["data"]["transaction_amount"]).to eq(TradingHistory.last.transaction_amount)
         expect(response.status).to eq 200
       end
 

@@ -1,8 +1,10 @@
 import colors from 'vuetify/es5/util/colors'
 
 export default {
+  mode: 'spa',
+
   head: {
-    titleTemplate: '%s - savoneeey',
+    titleTemplate: 'savoneeey',
     title: 'app',
     htmlAttrs: {
       lang: 'ja',
@@ -15,6 +17,19 @@ export default {
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
 
+  loading: {
+    color: '#ffeb58',
+    continuous: true,
+  },
+
+  loadingIndicator: {
+    name: 'cube-grid',
+    color: '#ffeb58',
+    background: '#e3dbd0',
+  },
+
+  css: ['~/assets/css/style.css'],
+
   devServer: {
     disableHostCheck: true,
   },
@@ -23,7 +38,7 @@ export default {
 
   buildModules: ['@nuxtjs/eslint-module', '@nuxtjs/vuetify'],
 
-  modules: ['@nuxtjs/axios', '@nuxtjs/auth'],
+  modules: ['@nuxtjs/axios', '@nuxtjs/auth', 'nuxt-webfontloader'],
 
   plugins: [
     { src: '~/plugins/axios.js', ssr: false },
@@ -39,10 +54,10 @@ export default {
 
   auth: {
     redirect: {
-      login: '/users/login',
+      login: '/user/login',
       logout: '/',
       callback: false,
-      home: '/users/account',
+      home: '/accounts',
     },
     strategies: {
       local: {
@@ -68,20 +83,32 @@ export default {
   },
 
   vuetify: {
+    treeShake: true,
+    defaultAssets: {
+      font: {
+        family: 'Noto Sans JP',
+      },
+    },
     customVariables: ['~/assets/variables.scss'],
     theme: {
       dark: false,
       themes: {
         light: {
-          primary: colors.blue.darken2,
-          accent: colors.grey.darken3,
-          secondary: colors.amber.darken3,
-          info: colors.teal.lighten1,
-          warning: colors.amber.base,
+          primary: '#ffeb58',
+          secondary: '#ffeb58',
+          info: '#ffeb58',
+          warning: colors.deepOrange.accent4,
           error: colors.deepOrange.accent4,
-          success: colors.green.accent3,
+          success: '#ffeb58',
+          background: '#e3dbd0',
         },
       },
+    },
+  },
+
+  webfontloader: {
+    google: {
+      families: ['Noto+Sans+JP', 'Caveat'],
     },
   },
 

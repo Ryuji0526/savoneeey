@@ -1,8 +1,16 @@
 class Api::V1::Auth::RegistrationsController < DeviseTokenAuth::RegistrationsController
   def create
-    super
-    account = Account.first_account(current_api_v1_user.id)
-    AccountHistory.first_account_history(account)
+    User.transaction do
+      Account.transaction do
+        AccountHistory.transaction do
+          super
+          account = Account.first_account(current_api_v1_user.id)
+          AccountHistory.first_account_history(account)
+        end
+      end
+    end
+  rescue => e
+    render json: { status: :error, data: e.message }, status: :unprocessable_entity
   end
 
   private

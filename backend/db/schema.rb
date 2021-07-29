@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_01_142426) do
+ActiveRecord::Schema.define(version: 2021_07_15_041125) do
 
   create_table "account_histories", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "account_id", null: false
@@ -22,6 +22,16 @@ ActiveRecord::Schema.define(version: 2021_07_01_142426) do
     t.index ["account_id"], name: "index_account_histories_on_account_id"
   end
 
+  create_table "account_tag_links", charset: "utf8mb4", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "account_tag_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id", "account_tag_id"], name: "index_account_tag_links_on_account_id_and_account_tag_id", unique: true
+    t.index ["account_id"], name: "index_account_tag_links_on_account_id"
+    t.index ["account_tag_id"], name: "index_account_tag_links_on_account_tag_id"
+  end
+
   create_table "accounts", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "name", default: "", null: false
@@ -30,6 +40,24 @@ ActiveRecord::Schema.define(version: 2021_07_01_142426) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_accounts_on_user_id"
+  end
+
+  create_table "registerings", charset: "utf8mb4", force: :cascade do |t|
+    t.bigint "wish_list_id", null: false
+    t.bigint "account_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_registerings_on_account_id"
+    t.index ["wish_list_id", "account_id"], name: "index_registerings_on_wish_list_id_and_account_id", unique: true
+    t.index ["wish_list_id"], name: "index_registerings_on_wish_list_id"
+  end
+
+  create_table "tags", charset: "utf8mb4", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "type", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["type"], name: "index_tags_on_type"
   end
 
   create_table "trading_histories", charset: "utf8mb4", force: :cascade do |t|
@@ -52,14 +80,7 @@ ActiveRecord::Schema.define(version: 2021_07_01_142426) do
     t.datetime "reset_password_sent_at"
     t.boolean "allow_password_change", default: false
     t.datetime "remember_created_at"
-    t.integer "sign_in_count", default: 0, null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.string "current_sign_in_ip"
-    t.string "last_sign_in_ip"
     t.string "name"
-    t.string "nickname"
-    t.string "image"
     t.string "email"
     t.text "tokens"
     t.datetime "created_at", precision: 6, null: false
@@ -69,9 +90,30 @@ ActiveRecord::Schema.define(version: 2021_07_01_142426) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  create_table "wish_lists", charset: "utf8mb4", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "name", null: false
+    t.integer "price", null: false
+    t.text "url"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_wish_lists_on_user_id"
+  end
+
+  create_table "wish_tag_links", charset: "utf8mb4", force: :cascade do |t|
+    t.bigint "wish_list_id", null: false
+    t.bigint "wish_tag_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["wish_list_id", "wish_tag_id"], name: "index_wish_tag_links_on_wish_list_id_and_wish_tag_id", unique: true
+    t.index ["wish_list_id"], name: "index_wish_tag_links_on_wish_list_id"
+    t.index ["wish_tag_id"], name: "index_wish_tag_links_on_wish_tag_id"
+  end
+
   add_foreign_key "account_histories", "accounts"
   add_foreign_key "accounts", "users"
   add_foreign_key "trading_histories", "accounts", column: "deposit_id"
   add_foreign_key "trading_histories", "accounts", column: "withdrawal_id"
   add_foreign_key "trading_histories", "users"
+  add_foreign_key "wish_lists", "users"
 end

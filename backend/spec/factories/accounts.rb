@@ -8,5 +8,8 @@ FactoryBot.define do
     trait :with_account_histories do
       after(:create) { |account| create(:account_history, account: account) }
     end
+
+    trait :with_accounts_tags do
+    end
   end
 end
