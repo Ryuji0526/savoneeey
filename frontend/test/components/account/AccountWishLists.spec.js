@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 import Vuetify from 'vuetify'
 import { mount, createLocalVue } from '@vue/test-utils'
 import AccountFixture from '~/test/fixtures/account'
-import AccountWishLists from '~/components/AccountWishLists'
+import AccountWishLists from '~/components/account/AccountWishLists'
 
 Vue.use(Vuetify)
 const localVue = createLocalVue()

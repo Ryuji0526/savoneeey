@@ -1,6 +1,13 @@
 <template>
   <v-container>
     <main-title :title="title" />
+    <div class="d-flex mb-7">
+      <v-spacer></v-spacer>
+      <v-btn text small to="/service/account">
+        <v-icon left>mdi-help-circle-outline</v-icon>
+        How to Use
+      </v-btn>
+    </div>
     <v-item-group>
       <v-row>
         <v-col
@@ -26,8 +33,8 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import Account from '~/components/Account'
-import AccountNew from '~/components/AccountNew'
+import Account from '~/components/account/Account'
+import AccountNew from '~/components/account/AccountNew'
 import MainTitle from '~/components/layout/MainTitle'
 
 export default {

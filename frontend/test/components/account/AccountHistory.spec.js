@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuetify from 'vuetify'
 import { shallowMount, createLocalVue } from '@vue/test-utils'
 import AccountFixture from '~/test/fixtures/account'
-import AccountHistory from '~/components/AccountHistory'
+import AccountHistory from '~/components/account/AccountHistory'
 
 Vue.use(Vuetify)
 const localVue = createLocalVue()

@@ -191,7 +191,7 @@ import {
   integer,
   min_value as minValue,
 } from 'vee-validate/dist/rules.umd'
-import AccountSelect from '~/components/AccountSelect'
+import AccountSelect from '~/components/wishList/AccountSelect'
 import DeleteAlert from '~/components/layout/DeleteAlert.vue'
 
 extend('required', required)

@@ -139,9 +139,9 @@
 import { mapActions, mapGetters } from 'vuex'
 import anime from 'animejs'
 import moment from 'moment'
-import AccountSparkline from '~/components/AccountSparkline'
-import AccountDialog1 from '~/components/AccountDialog1'
-import AccountDialog2 from '~/components/AccountDialog2'
+import AccountSparkline from '~/components/account/AccountSparkline'
+import AccountDialog1 from '~/components/account/AccountDialog1'
+import AccountDialog2 from '~/components/account/AccountDialog2'
 
 export default {
   components: {
