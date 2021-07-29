@@ -3,7 +3,7 @@
     <h1 class="text-center mb-15 text-h3 caption">\ About</h1>
     <div class="mx-auto width-1100">
       <v-row align="center" justify="space-between">
-        <v-col cols="112" md="6">
+        <v-col cols="12" md="6">
           <v-img
             :src="require('~/assets/image/savoneeey.png')"
             aspect-ratio="1"

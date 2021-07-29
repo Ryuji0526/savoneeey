@@ -26,8 +26,8 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import Account from '~/components/Account'
-import AccountNew from '~/components/AccountNew'
+import Account from '~/components/account/Account'
+import AccountNew from '~/components/account/AccountNew'
 import MainTitle from '~/components/layout/MainTitle'
 
 export default {

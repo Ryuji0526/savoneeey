@@ -6,7 +6,7 @@ import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import AccountFixture from '~/test/fixtures/account'
 import WishListFixture from '~/test/fixtures/wishList'
 import WishTagFixture from '~/test/fixtures/wishTag'
-import WishLists from '~/components/WishLists'
+import WishLists from '~/components/wishList/WishLists'
 
 Vue.use(Vuetify)
 const localVue = createLocalVue()

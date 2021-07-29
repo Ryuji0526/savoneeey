@@ -4,7 +4,7 @@ import Vuetify from 'vuetify'
 import { mount, createLocalVue } from '@vue/test-utils'
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import AccountFixture from '~/test/fixtures/account'
-import AccountDialog1 from '~/components/AccountDialog1'
+import AccountDialog1 from '~/components/account/AccountDialog1'
 
 Vue.use(Vuetify)
 const localVue = createLocalVue()

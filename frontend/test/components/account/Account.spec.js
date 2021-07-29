@@ -4,7 +4,7 @@ import Vuetify from 'vuetify'
 import { mount, createLocalVue } from '@vue/test-utils'
 import AccountFixture from '~/test/fixtures/account'
 import TransactionFixture from '~/test/fixtures/transaction'
-import Account from '~/components/Account'
+import Account from '~/components/account/Account'
 
 Vue.use(Vuetify)
 const localVue = createLocalVue()
