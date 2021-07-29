@@ -1,6 +1,12 @@
 <template>
   <v-container>
     <main-title :title="title" />
+    <div>
+      <v-btn text class="turn-black" @click="$router.back()">
+        <v-icon left>mdi-arrow-left</v-icon>
+        BACK
+      </v-btn>
+    </div>
     <div class="p">
       <service-container
         v-for="(container, i) in containers"
@@ -10,13 +16,14 @@
           containersLength: containers.length,
           containerNum: i,
         }"
+        data-testid="serviceContainer"
       />
     </div>
   </v-container>
 </template>
 
 <script>
-import MainTitle from '~/components/MainTitle'
+import MainTitle from '~/components/layout/MainTitle'
 import ServiceContainer from '~/components/ServiceContainer'
 
 export default {

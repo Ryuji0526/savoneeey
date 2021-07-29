@@ -1,0 +1,38 @@
+import Vue from 'vue'
+import Vuetify from 'vuetify'
+import { shallowMount, createLocalVue } from '@vue/test-utils'
+import AccountFixture from '~/test/fixtures/account'
+import AccountHistory from '~/components/account/AccountHistory'
+
+Vue.use(Vuetify)
+const localVue = createLocalVue()
+
+describe('components/AccountHistory.vue', () => {
+  let vuetify
+  let wrapper
+  let tab
+  beforeEach(() => {
+    vuetify = new Vuetify()
+    localVue.use(vuetify)
+    wrapper = shallowMount(AccountHistory, {
+      localVue,
+      vuetify,
+      propsData: {
+        account: AccountFixture,
+      },
+    })
+    tab = wrapper.findAll('[data-testid="tab"]')
+  })
+  describe('表示確認', () => {
+    test('タブが存在する', () => {
+      expect(tab.length).toBe(wrapper.vm.tabs.length)
+    })
+  })
+  describe('操作確認', () => {
+    test('タブを押すとTabNameが切り替わる', () => {
+      expect(wrapper.vm.tabName).toBe(wrapper.vm.tabs[0])
+      tab.at(2).vm.$emit('click')
+      expect(wrapper.vm.tabName).toBe(wrapper.vm.tabs[2])
+    })
+  })
+})

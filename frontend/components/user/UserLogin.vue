@@ -35,6 +35,16 @@
             />
           </validation-provider>
           <v-card-actions>
+            <v-btn
+              color="primary"
+              text
+              class="font-weight-bold text-body-2 turn-black"
+              rounded
+              data-testid="guestLogin"
+              @click="guest"
+            >
+              ゲストとしてログイン
+            </v-btn>
             <v-spacer></v-spacer>
             <v-btn
               color="primary"
@@ -86,9 +96,13 @@ export default {
   methods: {
     ...mapActions({
       login: 'user/login',
+      loginAsGuest: 'user/loginAsGuest',
     }),
     loginUser() {
       this.login(this.user)
+    },
+    guest() {
+      this.loginAsGuest()
     },
   },
 }

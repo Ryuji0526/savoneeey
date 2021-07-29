@@ -1,14 +1,14 @@
 <template>
-  <v-container class="parallax scrollbox px-sm-15">
+  <v-container class="parallax scrollbox px-sm-15 px-7">
     <h1 class="text-center mb-15 text-h3 caption">\ About</h1>
     <div class="mx-auto width-1100">
       <v-row align="center" justify="space-between">
-        <v-col cols="112" md="6">
+        <v-col cols="12" md="6">
           <v-img
             :src="require('~/assets/image/savoneeey.png')"
             aspect-ratio="1"
             class="mx-auto rounded-circle"
-            max-width="350"
+            max-width="350px"
           >
             <template #placeholder>
               <v-row class="fill-height ma-0" align="center" justify="center">

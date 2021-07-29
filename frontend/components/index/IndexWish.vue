@@ -1,12 +1,12 @@
 <template>
-  <v-container class="parallax scrollbox px-sm-15">
+  <v-container class="parallax scrollbox px-sm-15 px-7">
     <h1 class="text-center mb-15 text-h3 caption">\ WishList</h1>
     <div class="mx-auto width-1100">
       <v-row align="center" justify="space-between">
         <v-col cols="12" md="6">
           <v-img
             :src="require('~/assets/image/top-wish-list.jpeg')"
-            aspect-ratio="0.9"
+            aspect-ratio="1"
             class="mx-auto"
           >
             <template #placeholder>
