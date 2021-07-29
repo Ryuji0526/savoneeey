@@ -1,6 +1,12 @@
 <template>
   <v-container>
     <main-title :title="title" />
+    <div>
+      <v-btn text class="turn-black" @click="$router.back()">
+        <v-icon left>mdi-arrow-left</v-icon>
+        BACK
+      </v-btn>
+    </div>
     <div class="p">
       <service-container
         v-for="(container, i) in containers"

@@ -1,6 +1,13 @@
 <template>
   <v-container>
     <main-title :title="title" />
+    <div class="d-flex">
+      <v-spacer></v-spacer>
+      <v-btn text small to="/service/account">
+        <v-icon left>mdi-help-circle-outline</v-icon>
+        How to Use
+      </v-btn>
+    </div>
     <v-item-group>
       <v-row>
         <v-col

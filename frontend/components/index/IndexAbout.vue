@@ -8,7 +8,7 @@
             :src="require('~/assets/image/savoneeey.png')"
             aspect-ratio="1"
             class="mx-auto rounded-circle"
-            max-width="350"
+            max-width="350px"
           >
             <template #placeholder>
               <v-row class="fill-height ma-0" align="center" justify="center">
