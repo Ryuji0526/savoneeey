@@ -1,4 +1,4 @@
-user = User.order(:id).first
+user = User.order(:id).find_by(email: 'guest1234@guest.com')
 
 first_account = user.accounts.create!(
   name: 'メイン',
