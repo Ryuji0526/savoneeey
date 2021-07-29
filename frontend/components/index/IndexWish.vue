@@ -6,7 +6,7 @@
         <v-col cols="12" md="6">
           <v-img
             :src="require('~/assets/image/top-wish-list.jpeg')"
-            aspect-ratio="0.9"
+            aspect-ratio="1"
             class="mx-auto"
           >
             <template #placeholder>

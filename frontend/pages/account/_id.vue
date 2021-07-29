@@ -54,9 +54,9 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import anime from 'animejs'
-import AccountDetail from '~/components/AccountDetail'
-import AccountHistory from '~/components/AccountHistory'
-import AccountWishLists from '~/components/AccountWishLists'
+import AccountDetail from '~/components/account/AccountDetail'
+import AccountHistory from '~/components/account/AccountHistory'
+import AccountWishLists from '~/components/account/AccountWishLists'
 import MainTitle from '~/components/layout/MainTitle'
 import DeleteAlert from '~/components/layout/DeleteAlert'
 

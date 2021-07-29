@@ -19,7 +19,7 @@
 
 <script>
 import moment from 'moment'
-import Chart from '~/components/Chart'
+import Chart from '~/components/account/Chart'
 
 export default {
   components: {
