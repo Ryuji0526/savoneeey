@@ -10,7 +10,7 @@ ADD Gemfile /app/Gemfile
 ADD Gemfile.lock /app/Gemfile.lock
 
 RUN apt-get update -qq && \
-  apt-get install -y build-essential \
+  apt-get install -y build-essential graphviz \
   libpq-dev \
   sudo \
   nginx
