@@ -55,8 +55,6 @@ Rails.application.configure do
   # config.active_job.queue_adapter     = :resque
   # config.active_job.queue_name_prefix = "app_production"
 
-  config.action_mailer.raise_delivery_errors = false
-
   config.action_mailer.perform_caching = false
 
   config.action_mailer.default_options = { from: ENV['EMAIL_ADDRESS'] }
@@ -69,6 +67,7 @@ Rails.application.configure do
     user_name: ENV['EMAIL_ADDRESS'],
     password: ENV['EMAIL_PASSWORD'],
     authentication: 'plain',
+    openssl_verify_mode: 'none',
     enable_starttls_auto: true
   }
 
