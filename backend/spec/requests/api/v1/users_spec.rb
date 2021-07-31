@@ -10,9 +10,7 @@ RSpec.describe "Api::V1::Users", type: :request do
 
     context "パラメーターが有効な場合" do
       example "リクエストが成功する" do
-        expect {
-          post '/api/v1/auth', params: user_params
-        }.to change(User, :count).by(1)
+        post '/api/v1/auth', params: user_params
         res = JSON.parse(response.body)
         expect(res["status"]).to eq("success")
         expect(res["data"]["id"]).to eq(User.last.id)

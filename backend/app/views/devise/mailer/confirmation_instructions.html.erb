@@ -4,6 +4,6 @@
 
 <p>この度は「SAVONEEEY」にご登録いただきありがとうございます。</p>
 
-<p>下記のリンクからアカウントメールの確認をお願いいたします。</p>
+<p>下記のリンクからアカウントメールの認証をお願いします。</p>
 
-<p><%= link_to 'アカウントメールの確認はこちら', confirmation_url(@resource, {confirmation_token: @token, config: message['client-config'].to_s, redirect_url: message['redirect-url']}).html_safe %></p>
+<p><%= link_to '認証する', confirmation_url(@resource, {confirmation_token: @token, config: message['client-config'].to_s, redirect_url: message['redirect-url']}).html_safe %></p>
