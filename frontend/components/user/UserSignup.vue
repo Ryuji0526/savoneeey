@@ -127,6 +127,7 @@ export default {
         email: '',
         password: '',
         password_confirmation: '',
+        confirm_success_url: 'https://savoneeey.com',
       },
       show: false,
     }

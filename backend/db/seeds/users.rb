@@ -1,5 +1,6 @@
 User.create!(
   name: "ゲストユーザー",
-  email: "guest1234@guest.com",
+  email: "guest-user@guest.com",
   password: "password",
+  confirmed_at: Time.now,
 )
