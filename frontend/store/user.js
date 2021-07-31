@@ -1,31 +1,21 @@
 export const actions = {
   async signUp({ dispatch }, user) {
+    console.log(user)
     await this.$axios
       .post('/api/v1/auth', user)
       .then(() => {
-        this.$auth
-          .loginWith('local', {
-            data: {
-              email: user.email,
-              password: user.password,
-            },
-          })
-          .then(() => {
-            dispatch(
-              'flashMessage/showFlashMessage',
-              {
-                content: '新規登録しました。ようこそsavoneeyへ！',
-                type: 'success',
-              },
-              {
-                root: true,
-              }
-            )
-            this.$router.push('/')
-          })
-          .catch((error) => {
-            console.log(error)
-          })
+        dispatch(
+          'flashMessage/showFlashMessage',
+          {
+            content:
+              '登録されたアドレスに確認メールを送信しました。認証をしてから、ログインをお願いします。',
+            type: 'success',
+          },
+          {
+            root: true,
+          }
+        )
+        this.$router.push('/')
       })
       .catch((error) => {
         dispatch(
@@ -80,7 +70,7 @@ export const actions = {
     await this.$auth
       .loginWith('local', {
         data: {
-          email: 'guest@guest.com',
+          email: 'guest-user@guest.com',
           password: 'password',
         },
       })
