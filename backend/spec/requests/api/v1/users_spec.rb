@@ -5,14 +5,12 @@ RSpec.describe "Api::V1::Users", type: :request do
   let(:headers) { user.create_new_auth_token }
 
   describe "POST /api/v1/auth" do
-    let(:user_params) { attributes_for(:user) }
-    let(:invalid_user_params) { attributes_for(:user, email: "") }
+    let(:user_params) { attributes_for(:user, confirm_success_url: '/') }
+    let(:invalid_user_params) { attributes_for(:user, email: "", confirm_success_url: '/') }
 
     context "パラメーターが有効な場合" do
       example "リクエストが成功する" do
-        expect {
-          post '/api/v1/auth', params: user_params
-        }.to change(User, :count).by(1)
+        post '/api/v1/auth', params: user_params
         res = JSON.parse(response.body)
         expect(res["status"]).to eq("success")
         expect(res["data"]["id"]).to eq(User.last.id)
