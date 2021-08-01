@@ -57,8 +57,9 @@ Rails.application.configure do
 
   config.action_mailer.perform_caching = false
 
+  
   config.action_mailer.default_options = { from: ENV['EMAIL_ADDRESS'] }
-  config.action_mailer.default_url_options = { host: ENV['BACK_URL'] }
+  config.action_mailer.default_url_options = { host: 'backend.savoneeey.com' }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
     address: 'smtp.gmail.com',
@@ -67,10 +68,12 @@ Rails.application.configure do
     user_name: ENV['EMAIL_ADDRESS'],
     password: ENV['EMAIL_PASSWORD'],
     authentication: 'plain',
-    openssl_verify_mode: 'none',
     enable_starttls_auto: true
   }
-
+  
+  config.action_mailer.logger = Logger.new('log/production_mail.log', 'weekly')
+  config.action_mailer.raise_delivery_errors = true
+  
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false
