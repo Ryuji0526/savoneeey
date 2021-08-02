@@ -10,7 +10,6 @@
 ##  本アプリの特徴
 - インフラ
   - AWS Fargateにデプロイ
-  - Backend For Frontend のアーキテクチャを採用
   - SSL 対応
   - CircleCIを使い、CD/CDパイプラインを構築
   - Docker による開発環境のコンテナ化
