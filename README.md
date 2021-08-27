@@ -4,7 +4,8 @@
 本アプリを利用することで、好きな時に何度でも、仮想口座内でのお金の移動ができ、簡単にお金を分け整理・整頓することができます。
 ゲストログイン機能も用意してあるので、お気軽にご覧ください。
 
-### URL: https://savoneeey.com/
+### URL: ~~https://savoneeey.com/~~ (8月27日に閉じました)
+
 ![SAVONEEEY トップページ](https://user-images.githubusercontent.com/80745545/127300289-8b33f179-437c-420a-9ba5-468475351dcc.png)
 
 ## 作成した経緯
